@@ -4,19 +4,41 @@
  */
 package Views;
 
+import Service.KhuyenMaiService;
+import Services.ImplKhuyenmaiService;
+import entity.KhuyenmaiViewmodel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author FPTSHOP
  */
 public class KhuyenMai extends javax.swing.JFrame {
-
-    /**
-     * Creates new form KhuyenMai
-     */
+ DefaultTableModel defaultTableModel;
+    DefaultTableModel defaultTableModel1;
+    private ImplKhuyenmaiService khuyenmaiService;
+    
     public KhuyenMai() {
         initComponents();
+        khuyenmaiService = new KhuyenMaiService(); // Khởi tạo khuyenmaiService
+        defaultTableModel = (DefaultTableModel) tb_khuyenmai.getModel();
+        LoadData();
     }
-
+void LoadData() {
+        defaultTableModel.setRowCount(0);
+        int stt = 1;
+        for (KhuyenmaiViewmodel x : khuyenmaiService.getall()) {
+            defaultTableModel.addRow(new Object[]{
+                stt,
+                x.getTenKM(),
+                x.getNgayBatDau(),
+                x.getNgayKetThuc(),
+                String.format("%.0f", x.getGiaTriGiam()) + " " + x.getHinhThucKM(),
+                x.getTrangthai() == 0 ? "Còn hạn" : "Hết hạn"
+            });
+            stt++;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

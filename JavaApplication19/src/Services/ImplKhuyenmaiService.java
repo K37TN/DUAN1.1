@@ -4,10 +4,23 @@
  */
 package Services;
 
+import Model.KhuyenMai;
+import entity.KhuyenmaiViewmodel;
+import java.util.List;
+
 /**
  *
  * @author FPTSHOP
  */
 public interface ImplKhuyenmaiService {
+    public List<KhuyenmaiViewmodel> getall();
+    public List<KhuyenMai> GetALL();
     
+    public boolean add(KhuyenmaiViewmodel km);
+    
+    public boolean update(KhuyenmaiViewmodel km,String id);
+    
+    public boolean delete(String id);
+    
+    public List<KhuyenMai> getlist();
 }
