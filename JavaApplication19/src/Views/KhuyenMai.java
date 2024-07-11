@@ -4,8 +4,11 @@
  */
 package Views;
 
+import Service.ChiTietSPServices;
 import Service.KhuyenMaiService;
+import Services.ImplChiTietSPService;
 import Services.ImplKhuyenmaiService;
+import entity.ChiTietSPViewModel;
 import entity.KhuyenmaiViewmodel;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,12 +20,17 @@ public class KhuyenMai extends javax.swing.JFrame {
  DefaultTableModel defaultTableModel;
     DefaultTableModel defaultTableModel1;
     private ImplKhuyenmaiService khuyenmaiService;
+    ImplChiTietSPService chiTietSPServices;
     
     public KhuyenMai() {
         initComponents();
+        setTitle("Khuyến mãi");
         khuyenmaiService = new KhuyenMaiService(); // Khởi tạo khuyenmaiService
         defaultTableModel = (DefaultTableModel) tb_khuyenmai.getModel();
+        defaultTableModel1 = (DefaultTableModel) tb_sp.getModel();
+        chiTietSPServices = new ChiTietSPServices();
         LoadData();
+        LoadDataSP();
     }
 void LoadData() {
         defaultTableModel.setRowCount(0);
@@ -39,6 +47,15 @@ void LoadData() {
             stt++;
         }
     }
+  void LoadDataSP() {
+        defaultTableModel1.setRowCount(0);
+        for (ChiTietSPViewModel x : chiTietSPServices.GetAll()) {
+            defaultTableModel1.addRow(new Object[]{
+                false,
+                x.getMa(),
+                x.getTen()
+            });
+        }}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
