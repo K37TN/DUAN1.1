@@ -2,27 +2,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entity;
-import java.math.BigDecimal;
+package Model;
+
 /**
  *
  * @author FPTSHOP
  */
-public class KhuyenmaiViewmodel {
-       private String TenKM,HinhThucKM,NgayBatDau,NgayKetThuc;
+public class KhuyenMai {
+     private String ID,TenKM,HinhThucKM,NgayBatDau,NgayKetThuc;
     private Double GiaTriGiam;
     private int Trangthai;
 
-    public KhuyenmaiViewmodel() {
+    public KhuyenMai() {
     }
 
-    public KhuyenmaiViewmodel(String TenKM, String HinhThucKM, String NgayBatDau, String NgayKetThuc, Double GiaTriGiam, int Trangthai) {
+    public KhuyenMai(String ID, String TenKM, String HinhThucKM, String NgayBatDau, String NgayKetThuc, Double GiaTriGiam, int Trangthai) {
+        this.ID = ID;
         this.TenKM = TenKM;
         this.HinhThucKM = HinhThucKM;
         this.NgayBatDau = NgayBatDau;
         this.NgayKetThuc = NgayKetThuc;
         this.GiaTriGiam = GiaTriGiam;
         this.Trangthai = Trangthai;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public String getTenKM() {
@@ -72,10 +81,8 @@ public class KhuyenmaiViewmodel {
     public void setTrangthai(int Trangthai) {
         this.Trangthai = Trangthai;
     }
-
-    @Override
+        @Override
     public String toString() {
         return TenKM;
     }
-    
 }
