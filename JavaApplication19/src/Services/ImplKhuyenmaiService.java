@@ -23,4 +23,5 @@ public interface ImplKhuyenmaiService {
     public boolean delete(String id);
     
     public List<KhuyenMai> getlist();
+    public String checktrung(String ten);
 }

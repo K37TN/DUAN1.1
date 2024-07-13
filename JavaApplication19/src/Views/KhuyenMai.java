@@ -4,12 +4,16 @@
  */
 package Views;
 
+import Repositorys.ImplKhuyenmaiRepository;
 import Service.ChiTietSPServices;
 import Service.KhuyenMaiService;
 import Services.ImplChiTietSPService;
 import Services.ImplKhuyenmaiService;
 import entity.ChiTietSPViewModel;
 import entity.KhuyenmaiViewmodel;
+import java.util.List;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -79,7 +83,7 @@ void LoadData() {
         tb_sp = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_khuyenmai = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btn_them = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         rd_phantram = new javax.swing.JRadioButton();
@@ -141,7 +145,12 @@ void LoadData() {
         });
         jScrollPane1.setViewportView(tb_khuyenmai);
 
-        jButton1.setText("Thêm");
+        btn_them.setText("Thêm");
+        btn_them.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_themActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cập Nhật");
 
@@ -199,7 +208,7 @@ void LoadData() {
                                     .addComponent(date_BD, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))
                                 .addGap(103, 103, 103)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1)
+                                    .addComponent(btn_them)
                                     .addComponent(jButton2)
                                     .addComponent(jButton3)))
                             .addGroup(layout.createSequentialGroup()
@@ -220,7 +229,7 @@ void LoadData() {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txt_tenkm, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                         .addComponent(date_BD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton1))
+                    .addComponent(btn_them))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -285,6 +294,75 @@ void LoadData() {
         LoadData();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
+       Pattern p = Pattern.compile("^[0-9]+$");
+        try {
+            if (txt_tenkm.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên khuyến mãi");
+                return;
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (date_BD.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn ngày bắt đầu");
+                return;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (date_KT.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn ngày kết thúc");
+                return;
+            }
+        } catch (Exception e) {
+        }
+        try {
+            if (!rd_VND.isSelected() && !rd_phantram.isSelected()) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn hình thức giảm giá");
+                return;
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            if (txt_giatrgiam.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa nhập giá trị giảm");
+                return;
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            Integer.valueOf(txt_giatrgiam.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Giá trị giảm phải là số!");
+            return;
+        }
+        
+        try {
+            if (date_KT.getDate().before(date_BD.getDate())) {
+                JOptionPane.showMessageDialog(this, "Ngày kết thúc phải lớn hơn ngày bắt đầu");
+                return;
+            }
+        } catch (Exception e) {
+        }
+        if (p.matcher(txt_tenkm.getText()).find() == true) {
+            JOptionPane.showMessageDialog(this, "Tên không được nhập số");
+            return;
+        }
+        if (txt_tenkm.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Tên không được quá 50 kí tự");
+            return;
+        }
+        if (khuyenmaiService.checktrung(txt_tenkm.getText()) != null) {
+            JOptionPane.showMessageDialog(this, "Tên khuyến mãi đã tồn tại");
+            return;
+        }
+       
+    }//GEN-LAST:event_btn_themActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -321,11 +399,11 @@ void LoadData() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_them;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cb_selectAll;
     private com.toedter.calendar.JDateChooser date_BD;
     private com.toedter.calendar.JDateChooser date_KT;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
