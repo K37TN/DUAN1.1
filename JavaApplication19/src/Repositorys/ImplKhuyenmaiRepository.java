@@ -23,4 +23,5 @@ public interface ImplKhuyenmaiRepository {
     public boolean UpdateTT();
 
     public boolean UpdateTT2();
+
 }

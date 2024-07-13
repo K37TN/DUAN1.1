@@ -41,7 +41,8 @@ public class KhuyenMaiService implements ImplKhuyenmaiService{
 
     @Override
     public boolean add(KhuyenmaiViewmodel km) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    boolean isadd = repository.add(new KhuyenMai(km.getTenKM(), km.getHinhThucKM(), km.getNgayBatDau(), km.getNgayKetThuc(), km.getGiaTriGiam(), km.getTrangthai()));
+   return isadd;
     }
 
     @Override

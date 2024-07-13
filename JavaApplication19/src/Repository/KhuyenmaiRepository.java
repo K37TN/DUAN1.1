@@ -43,11 +43,26 @@ List<KhuyenMai> lstKm;
               System.out.println("SQLException: " + ex.getMessage());
         }
         return lstKm;
+
                 }
 
     @Override
     public boolean add(KhuyenMai km) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            String sql = "INSERT INTO KHUYENMAI(TEN,HINHTHUCKM,NGAYBATDAU,NGAYKETTHUC,GIATRIGIAM,TRANGTHAI) VALUES(?,?,?,?,?,?)";
+        try {
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, km.getTenKM());
+            pstm.setString(2, km.getHinhThucKM());
+            pstm.setString(3, km.getNgayBatDau());
+            pstm.setString(4, km.getNgayKetThuc());
+            pstm.setDouble(5, km.getGiaTriGiam());
+            pstm.setDouble(6, 0);
+            pstm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }    
     }
 
     @Override
@@ -90,5 +105,6 @@ List<KhuyenMai> lstKm;
             return false;
         }   
     }
-    
+
+  
 }

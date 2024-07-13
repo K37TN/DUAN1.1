@@ -13,7 +13,7 @@ public class KhuyenMai {
     private Double GiaTriGiam;
     private int Trangthai;
 
-    public KhuyenMai() {
+    public KhuyenMai(String tenKM, String hinhThucKM, String ngayBatDau, String ngayKetThuc, Double giaTriGiam, int trangthai) {
     }
 
     public KhuyenMai(String ID, String TenKM, String HinhThucKM, String NgayBatDau, String NgayKetThuc, Double GiaTriGiam, int Trangthai) {
@@ -24,6 +24,10 @@ public class KhuyenMai {
         this.NgayKetThuc = NgayKetThuc;
         this.GiaTriGiam = GiaTriGiam;
         this.Trangthai = Trangthai;
+    }
+
+    public KhuyenMai() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public String getID() {

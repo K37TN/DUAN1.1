@@ -11,6 +11,7 @@ import Services.ImplChiTietSPService;
 import Services.ImplKhuyenmaiService;
 import entity.ChiTietSPViewModel;
 import entity.KhuyenmaiViewmodel;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -57,7 +58,6 @@ void LoadData() {
         defaultTableModel1.setRowCount(0);
         for (ChiTietSPViewModel x : chiTietSPServices.GetAll()) {
             defaultTableModel1.addRow(new Object[]{
-                false,
                 x.getMa(),
                 x.getTen()
             });
@@ -362,7 +362,31 @@ void LoadData() {
             JOptionPane.showMessageDialog(this, "Tên khuyến mãi đã tồn tại");
             return;
         }
-       
+        if (JOptionPane.showConfirmDialog(this, "Bạn có muốn thêm không","add",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+            
+        }
+        KhuyenmaiViewmodel km = new KhuyenmaiViewmodel();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date1 = sdf.format(date_BD.getDate());
+        String date2 = sdf.format(date_KT.getDate());
+        km.setNgayBatDau(date1);
+        km.setNgayKetThuc(date2);
+        km.setTenKM(txt_tenkm.getText());
+        if (rd_VND.isSelected()) {
+            km.setHinhThucKM("VND");
+        }else if(rd_phantram.isSelected()){
+            km.setHinhThucKM("%");
+        }
+        km.setGiaTriGiam(Double.parseDouble(txt_giatrgiam.getText()));
+        khuyenmaiService.add(km);
+        LoadData();
+        for (int i =0;i<tb_sp.getRowCount();i++) {
+            boolean ischeckbox = (boolean) tb_sp.getValueAt(i,0 );
+            if (ischeckbox) {
+                System.out.println(tb_sp.getValueAt(i, 1));
+           
+            }
+        }
     }//GEN-LAST:event_btn_themActionPerformed
 
     /**

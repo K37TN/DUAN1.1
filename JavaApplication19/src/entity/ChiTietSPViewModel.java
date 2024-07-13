@@ -4,11 +4,14 @@
  */
 package entity;
 
+
+
 /**
  *
  * @author FPTSHOP
  */
 public class ChiTietSPViewModel {
+
     private String ma;
     private String ten;
 
@@ -37,6 +40,7 @@ public class ChiTietSPViewModel {
         this.ten = ten;
     }
 
+   
     
     
 }

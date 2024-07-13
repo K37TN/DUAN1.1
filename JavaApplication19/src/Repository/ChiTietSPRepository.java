@@ -22,6 +22,7 @@ import java.util.logging.Logger;
  * @author FPTSHOP
  */
 public class ChiTietSPRepository implements ImplChiTietSPRepository{
+    final String SQL_UPDATE = "UPDATE dbo.ChitietSP SET Ma = ?, Ten = ?, IdNsx = ?, IdMauSac = ?, IdDMuc = ?, IdKC = ?, IdCL = ?, IdTH = ?, MoTa = ?, SoLuongTon = ?, GiaNhap = ?, GiaBan = ? WHERE Ma = ?";
      List<ChiTietSP> lstsp;
 
     public ChiTietSPRepository() {
@@ -45,4 +46,6 @@ public class ChiTietSPRepository implements ImplChiTietSPRepository{
         }
         return lstsp;
     }
+
+
 }
