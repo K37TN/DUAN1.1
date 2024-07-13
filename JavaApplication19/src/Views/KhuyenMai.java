@@ -32,6 +32,8 @@ public class KhuyenMai extends javax.swing.JFrame {
         khuyenmaiService = new KhuyenMaiService(); // Khởi tạo khuyenmaiService
         defaultTableModel = (DefaultTableModel) tb_khuyenmai.getModel();
         defaultTableModel1 = (DefaultTableModel) tb_sp.getModel();
+        khuyenmaiService.updateTT();
+        khuyenmaiService.updateTT2();
         chiTietSPServices = new ChiTietSPServices();
         LoadData();
         LoadDataSP();

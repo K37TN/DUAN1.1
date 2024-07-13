@@ -63,5 +63,17 @@ public class KhuyenMaiService implements ImplKhuyenmaiService{
     public String checktrung(String ten) {
     return repository.checktrung(ten);    
     }
+
+    @Override
+    public boolean updateTT() {
+    boolean iscapnhat = repository.UpdateTT();
+    return iscapnhat;
+    }
+
+    @Override
+    public boolean updateTT2() {
+    boolean iscapnhat = repository.UpdateTT2();
+    return iscapnhat;    
+    }
     
 }

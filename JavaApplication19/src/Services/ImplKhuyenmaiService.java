@@ -24,4 +24,7 @@ public interface ImplKhuyenmaiService {
     
     public List<KhuyenMai> getlist();
     public String checktrung(String ten);
+    
+    public boolean updateTT();
+    public boolean updateTT2();
 }

@@ -8,6 +8,7 @@ import Connection.DBcontext;
 import Model.KhuyenMai;
 import Repositorys.ImplKhuyenmaiRepository;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -62,6 +63,32 @@ List<KhuyenMai> lstKm;
     @Override
     public String checktrung(String ten) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean UpdateTT() {
+        
+          String sql = "UPDATE KHUYENMAI SET TrangThai = 1,GIATRIGIAM =0 WHERE NGAYKETTHUC < GETDATE()";
+        try {
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }}
+
+    @Override
+    public boolean UpdateTT2() {
+          String sql = "UPDATE KHUYENMAI SET TrangThai = 0 WHERE NGAYKETTHUC > GETDATE()";
+        try {
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }   
     }
     
 }
