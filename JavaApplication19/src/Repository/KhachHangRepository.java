@@ -8,6 +8,7 @@ import Connection.DBcontext;
 import Model.KhachHang;
 import Repositorys.ImplKhachHangRepository;
 import entity.DanhSachKHViewModel;
+import entity.KhachHangViewModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,6 +49,43 @@ public class KhachHangRepository implements ImplKhachHangRepository{
             e.printStackTrace(System.out);
         }
         return null;
+    }
+
+    @Override
+    public List<KhachHang> getall() {
+    String sql = "SELECT [Id]\n"
+                + "      ,[Ten]\n"
+                + "      ,[TenDem]\n"
+                + "      ,[Ho]\n"
+                + "      ,[Gioitinh]\n"
+                + "      ,[NgaySinh]\n"
+                + "      ,[Email]\n"
+                + "      ,[Sdt]\n"
+               
+                + "  FROM [dbo].[KhachHang]";;
+          try ( Connection con = DBcontext.getConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
+          ResultSet rs = ps.executeQuery();
+            List<KhachHang> listSP = new ArrayList<>();
+            while (rs.next()) {
+                KhachHang khachhang = new KhachHang();
+                khachhang.setId(rs.getInt(1));
+                khachhang.setTen(rs.getString(2));
+                khachhang.setTendem(rs.getString(3));
+                khachhang.setHo(rs.getString(4));
+                khachhang.setGioitinh(rs.getInt(5));
+                khachhang.setNgaysinh(rs.getDate(6));
+                khachhang.setEmail(rs.getString(7));
+                khachhang.setSdt(rs.getString(8));
+              
+
+                listSP.add(khachhang);
+     
+            }
+            return listSP;
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return null;   
     }
 }
 
