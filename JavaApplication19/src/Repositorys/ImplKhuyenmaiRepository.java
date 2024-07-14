@@ -4,7 +4,7 @@
  */
 package Repositorys;
 
-import Model.KhuyenMai;
+import Model.Khuyenmai;
 import java.util.List;
 
 /**
@@ -12,11 +12,11 @@ import java.util.List;
  * @author FPTSHOP
  */
 public interface ImplKhuyenmaiRepository {
-    public List<KhuyenMai> getAll();
+    public List<Khuyenmai> getAll();
     
-    public boolean add(KhuyenMai km);
+    public Integer add(Khuyenmai km);
     
-    public boolean update(KhuyenMai km,String id);
+    public boolean update(Khuyenmai km,String id);
     
     public boolean delete(String id);
     public String checktrung(String ten);   

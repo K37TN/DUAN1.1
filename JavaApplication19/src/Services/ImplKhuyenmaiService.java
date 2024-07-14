@@ -4,7 +4,7 @@
  */
 package Services;
 
-import Model.KhuyenMai;
+import Model.Khuyenmai;
 import entity.KhuyenmaiViewmodel;
 import java.util.List;
 
@@ -14,15 +14,15 @@ import java.util.List;
  */
 public interface ImplKhuyenmaiService {
     public List<KhuyenmaiViewmodel> getall();
-    public List<KhuyenMai> GetALL();
+    public List<Khuyenmai> GetALL();
     
-    public boolean add(KhuyenmaiViewmodel km);
+    public Integer add(KhuyenmaiViewmodel km);
     
     public boolean update(KhuyenmaiViewmodel km,String id);
     
     public boolean delete(String id);
     
-    public List<KhuyenMai> getlist();
+    public List<Khuyenmai> getlist();
     public String checktrung(String ten);
     
     public boolean updateTT();

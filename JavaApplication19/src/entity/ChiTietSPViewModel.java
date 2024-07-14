@@ -40,6 +40,7 @@ public class ChiTietSPViewModel {
         this.ten = ten;
     }
 
+
    
     
     

@@ -8,15 +8,14 @@ package Model;
  *
  * @author FPTSHOP
  */
-public class KhuyenMai {
+public class Khuyenmai {
      private String ID,TenKM,HinhThucKM,NgayBatDau,NgayKetThuc;
     private Double GiaTriGiam;
     private int Trangthai;
 
-    public KhuyenMai(String tenKM, String hinhThucKM, String ngayBatDau, String ngayKetThuc, Double giaTriGiam, int trangthai) {
-    }
 
-    public KhuyenMai(String ID, String TenKM, String HinhThucKM, String NgayBatDau, String NgayKetThuc, Double GiaTriGiam, int Trangthai) {
+
+    public Khuyenmai(String ID, String TenKM, String HinhThucKM, String NgayBatDau, String NgayKetThuc, Double GiaTriGiam, int Trangthai) {
         this.ID = ID;
         this.TenKM = TenKM;
         this.HinhThucKM = HinhThucKM;
@@ -26,9 +25,8 @@ public class KhuyenMai {
         this.Trangthai = Trangthai;
     }
 
-    public KhuyenMai() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public Khuyenmai() {
+            }
 
     public String getID() {
         return ID;
@@ -85,8 +83,11 @@ public class KhuyenMai {
     public void setTrangthai(int Trangthai) {
         this.Trangthai = Trangthai;
     }
-        @Override
+
+    @Override
     public String toString() {
-        return TenKM;
+        return "KhuyenMai{" + "ID=" + ID + ", TenKM=" + TenKM + ", HinhThucKM=" + HinhThucKM + ", NgayBatDau=" + NgayBatDau + ", NgayKetThuc=" + NgayKetThuc + ", GiaTriGiam=" + GiaTriGiam + ", Trangthai=" + Trangthai + '}';
     }
+
+    
 }

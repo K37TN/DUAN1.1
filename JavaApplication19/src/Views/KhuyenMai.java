@@ -4,15 +4,22 @@
  */
 package Views;
 
+import Model.Khuyenmai;
+import Repository.KhuyenmaiRepository;
 import Repositorys.ImplKhuyenmaiRepository;
 import Service.ChiTietSPServices;
 import Service.KhuyenMaiService;
 import Services.ImplChiTietSPService;
 import Services.ImplKhuyenmaiService;
+import com.toedter.calendar.JDateChooser;
 import entity.ChiTietSPViewModel;
 import entity.KhuyenmaiViewmodel;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,15 +29,21 @@ import javax.swing.table.DefaultTableModel;
  * @author FPTSHOP
  */
 public class KhuyenMai extends javax.swing.JFrame {
+     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
  DefaultTableModel defaultTableModel;
     DefaultTableModel defaultTableModel1;
     private ImplKhuyenmaiService khuyenmaiService;
+
     ImplChiTietSPService chiTietSPServices;
+    private ImplKhuyenmaiRepository repository;
+    
     
     public KhuyenMai() {
         initComponents();
         setTitle("Khuyến mãi");
         khuyenmaiService = new KhuyenMaiService(); // Khởi tạo khuyenmaiService
+       repository = new KhuyenmaiRepository();
         defaultTableModel = (DefaultTableModel) tb_khuyenmai.getModel();
         defaultTableModel1 = (DefaultTableModel) tb_sp.getModel();
         khuyenmaiService.updateTT();
@@ -48,8 +61,10 @@ void LoadData() {
                 x.getTenKM(),
                 x.getNgayBatDau(),
                 x.getNgayKetThuc(),
-                String.format("%.0f", x.getGiaTriGiam()) + " " + x.getHinhThucKM(),
-                x.getTrangthai() == 0 ? "Còn hạn" : "Hết hạn"
+                x.getGiaTriGiam(),
+               
+                x.getTrangthai() == 0 ? "Còn hạn" : "Hết hạn",
+                    x.getHinhThucKM()
             });
             stt++;
         }
@@ -58,6 +73,7 @@ void LoadData() {
         defaultTableModel1.setRowCount(0);
         for (ChiTietSPViewModel x : chiTietSPServices.GetAll()) {
             defaultTableModel1.addRow(new Object[]{
+                false,
                 x.getMa(),
                 x.getTen()
             });
@@ -102,9 +118,9 @@ void LoadData() {
 
         jLabel4.setText("Giá Trị Giảm");
 
-        date_BD.setDateFormatString("dd/MM/yyyy");
+        date_BD.setDateFormatString("yyyy-MM-dd");
 
-        date_KT.setDateFormatString("dd/MM/yyyy");
+        date_KT.setDateFormatString("yyyy-MM-dd");
 
         cb_selectAll.setText("Select All");
         cb_selectAll.addActionListener(new java.awt.event.ActionListener() {
@@ -136,7 +152,7 @@ void LoadData() {
 
             },
             new String [] {
-                "STT", "Tên khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Giá trị giảm", "Trạng thái"
+                "STT", "Tên khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Giá trị giảm", "Trạng thái", "Hình thức giảm"
             }
         ));
         tb_khuyenmai.setRowHeight(25);
@@ -199,24 +215,31 @@ void LoadData() {
                             .addComponent(txt_tenkm)
                             .addComponent(jLabel3)
                             .addComponent(date_KT, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
-                        .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
-                                    .addComponent(txt_giatrgiam)
-                                    .addComponent(date_BD, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))
+                                .addGap(60, 60, 60)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(rd_VND, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(30, 30, 30)
+                                        .addComponent(rd_phantram, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(60, 60, 60)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel4)
+                                            .addComponent(date_BD, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(52, 52, 52)
+                                        .addComponent(txt_giatrgiam, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(103, 103, 103)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btn_them)
                                     .addComponent(jButton2)
-                                    .addComponent(jButton3)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(rd_VND, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addComponent(rd_phantram, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jButton3))))))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -276,7 +299,12 @@ void LoadData() {
     }//GEN-LAST:event_cb_selectAllActionPerformed
 
     private void tb_khuyenmaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_khuyenmaiMouseClicked
-    
+        try {
+            this.Clicktable();
+        } catch (ParseException ex) {
+            Logger.getLogger(KhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_tb_khuyenmaiMouseClicked
 
     private void rd_VNDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rd_VNDActionPerformed
@@ -297,98 +325,104 @@ void LoadData() {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
-       Pattern p = Pattern.compile("^[0-9]+$");
-        try {
-            if (txt_tenkm.getText().equals("")) {
-                JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên khuyến mãi");
-                return;
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (date_BD.getDate() == null) {
-                JOptionPane.showMessageDialog(this, "Bạn chưa chọn ngày bắt đầu");
-                return;
-            }
-        } catch (Exception e) {
-        }
-        try {
-            if (date_KT.getDate() == null) {
-                JOptionPane.showMessageDialog(this, "Bạn chưa chọn ngày kết thúc");
-                return;
-            }
-        } catch (Exception e) {
-        }
-        try {
-            if (!rd_VND.isSelected() && !rd_phantram.isSelected()) {
-                JOptionPane.showMessageDialog(this, "Bạn chưa chọn hình thức giảm giá");
-                return;
-            }
-        } catch (Exception e) {
+      Pattern p = Pattern.compile("^[0-9]+$");
+    try {
+        // Kiểm tra tên khuyến mãi
+        if (txt_tenkm.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên khuyến mãi");
+            return;
         }
 
-        try {
-            if (txt_giatrgiam.getText().equals("")) {
-                JOptionPane.showMessageDialog(this, "Bạn chưa nhập giá trị giảm");
-                return;
-            }
-        } catch (Exception e) {
+        // Kiểm tra ngày bắt đầu
+        if (date_BD.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn ngày bắt đầu");
+            return;
         }
 
+        // Kiểm tra ngày kết thúc
+        if (date_KT.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn ngày kết thúc");
+            return;
+        }
+
+        // Kiểm tra hình thức giảm giá
+        if (!rd_VND.isSelected() && !rd_phantram.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn hình thức giảm giá");
+            return;
+        }
+
+        // Kiểm tra giá trị giảm
+        if (txt_giatrgiam.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập giá trị giảm");
+            return;
+        }
+
+        // Kiểm tra giá trị giảm là số
         try {
-            Integer.valueOf(txt_giatrgiam.getText());
+            Double.parseDouble(txt_giatrgiam.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Giá trị giảm phải là số!");
             return;
         }
-        
-        try {
-            if (date_KT.getDate().before(date_BD.getDate())) {
-                JOptionPane.showMessageDialog(this, "Ngày kết thúc phải lớn hơn ngày bắt đầu");
-                return;
-            }
-        } catch (Exception e) {
+
+        // Kiểm tra ngày kết thúc phải lớn hơn ngày bắt đầu
+        if (date_KT.getDate().before(date_BD.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải lớn hơn ngày bắt đầu");
+            return;
         }
-        if (p.matcher(txt_tenkm.getText()).find() == true) {
+
+        // Kiểm tra tên không được nhập số
+        if (p.matcher(txt_tenkm.getText()).find()) {
             JOptionPane.showMessageDialog(this, "Tên không được nhập số");
             return;
         }
+
+        // Kiểm tra độ dài tên khuyến mãi
         if (txt_tenkm.getText().length() > 50) {
             JOptionPane.showMessageDialog(this, "Tên không được quá 50 kí tự");
             return;
         }
-        if (khuyenmaiService.checktrung(txt_tenkm.getText()) != null) {
-            JOptionPane.showMessageDialog(this, "Tên khuyến mãi đã tồn tại");
+
+        // Xác nhận thêm mới
+        if (JOptionPane.showConfirmDialog(this, "Bạn có muốn thêm không", "Thêm mới", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
             return;
         }
-        if (JOptionPane.showConfirmDialog(this, "Bạn có muốn thêm không","add",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
-            
-        }
-        KhuyenmaiViewmodel km = new KhuyenmaiViewmodel();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date1 = sdf.format(date_BD.getDate());
-        String date2 = sdf.format(date_KT.getDate());
-        km.setNgayBatDau(date1);
-        km.setNgayKetThuc(date2);
-        km.setTenKM(txt_tenkm.getText());
-        if (rd_VND.isSelected()) {
-            km.setHinhThucKM("VND");
-        }else if(rd_phantram.isSelected()){
-            km.setHinhThucKM("%");
-        }
-        km.setGiaTriGiam(Double.parseDouble(txt_giatrgiam.getText()));
-        khuyenmaiService.add(km);
-        LoadData();
-        for (int i =0;i<tb_sp.getRowCount();i++) {
-            boolean ischeckbox = (boolean) tb_sp.getValueAt(i,0 );
-            if (ischeckbox) {
-                System.out.println(tb_sp.getValueAt(i, 1));
-           
-            }
-        }
-    }//GEN-LAST:event_btn_themActionPerformed
 
+        // Lấy thông tin từ form
+        Khuyenmai km = getFrom();
+
+        // Thêm khuyến mãi
+        if (repository.add(km) != null) {
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+            LoadData();
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thêm được");
+        }
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + ex.getMessage());
+    }
+
+    
+    }//GEN-LAST:event_btn_themActionPerformed
+     private Khuyenmai getFrom(){
+   Khuyenmai sv = new Khuyenmai();
+ sv.setTenKM(txt_tenkm.getText());
+ Date ngayBatdau = date_BD.getDate();
+         if (ngayBatdau!=null) {
+          sv.setNgayBatDau(new SimpleDateFormat("yyyy-MM-dd").format(ngayBatdau));   
+         }
+ Date ngayKetthuc = date_KT.getDate();
+ if (ngayKetthuc!=null) {
+          sv.setNgayKetThuc(new SimpleDateFormat("yyyy-MM-dd").format(ngayKetthuc));   
+         }
+         if (!txt_giatrgiam.getText().isEmpty()) {
+             sv.setGiaTriGiam(Double.parseDouble(txt_giatrgiam.getText()));
+         }
+   sv.setHinhThucKM(rd_VND.isSelected()?"VND":"%");
+   return sv;
+   }
     /**
      * @param args the command line arguments
      */
@@ -422,6 +456,23 @@ void LoadData() {
                 new KhuyenMai().setVisible(true);
             }
         });
+    }
+    
+private void Clicktable() throws ParseException {
+ int index = tb_khuyenmai.getSelectedRow();
+        txt_tenkm.setText(tb_khuyenmai.getValueAt(index, 1).toString());
+        txt_giatrgiam.setText(tb_khuyenmai.getValueAt(index, 4).toString());
+
+        boolean tt = tb_khuyenmai.getValueAt(index, 6).toString().equalsIgnoreCase("%") ? true : false;
+        rd_phantram.setSelected(tt);
+        rd_VND.setSelected(!tt);
+
+ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = sdf.parse((String) tb_khuyenmai.getValueAt(index, 2));
+            Date date2 = sdf.parse((String) tb_khuyenmai.getValueAt(index, 3));
+            date_BD.setDate(date1);
+            date_KT.setDate(date2);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

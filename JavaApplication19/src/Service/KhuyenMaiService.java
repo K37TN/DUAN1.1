@@ -4,7 +4,7 @@
  */
 package Service;
 
-import Model.KhuyenMai;
+import Model.Khuyenmai;
 import Repository.KhuyenmaiRepository;
 import Repositorys.ImplKhuyenmaiRepository;
 import Services.ImplKhuyenmaiService;
@@ -26,23 +26,23 @@ public class KhuyenMaiService implements ImplKhuyenmaiService{
 
     @Override
     public List<KhuyenmaiViewmodel> getall() {
-        List<KhuyenMai> lst = repository.getAll();
+        List<Khuyenmai> lst = repository.getAll();
         listKM = new ArrayList<>();
-        for (KhuyenMai x : lst) {
+        for (Khuyenmai x : lst) {
             listKM.add(new KhuyenmaiViewmodel(x.getTenKM(), x.getHinhThucKM(), x.getNgayBatDau(), x.getNgayKetThuc(), x.getGiaTriGiam(), x.getTrangthai()));
         }
         return listKM;
     }
 
     @Override
-    public List<KhuyenMai> GetALL() {
+    public List<Khuyenmai> GetALL() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean add(KhuyenmaiViewmodel km) {
-    boolean isadd = repository.add(new KhuyenMai(km.getTenKM(), km.getHinhThucKM(), km.getNgayBatDau(), km.getNgayKetThuc(), km.getGiaTriGiam(), km.getTrangthai()));
-   return isadd;
+    public Integer add(KhuyenmaiViewmodel km) {
+     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
     }
 
     @Override
@@ -56,7 +56,7 @@ public class KhuyenMaiService implements ImplKhuyenmaiService{
     }
 
     @Override
-    public List<KhuyenMai> getlist() {
+    public List<Khuyenmai> getlist() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

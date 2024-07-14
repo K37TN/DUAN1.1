@@ -9,7 +9,6 @@ package Model;
  * @author FPTSHOP
  */
 public class ChiTietSP {
-    
     private String ma;
     private String ten;
 
@@ -36,6 +35,11 @@ public class ChiTietSP {
 
     public void setTen(String ten) {
         this.ten = ten;
+    }
+
+  @Override
+    public String toString() {
+        return   ten ;
     }
 
    

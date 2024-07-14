@@ -6,7 +6,7 @@ package Repository;
 
 import Connection.DBcontext;
 import Model.ChiTietSP;
-import Model.KhuyenMai;
+import Model.Khuyenmai;
 import Repositorys.ImplChiTietSPRepository;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author FPTSHOP
  */
 public class ChiTietSPRepository implements ImplChiTietSPRepository{
-    final String SQL_UPDATE = "UPDATE dbo.ChitietSP SET Ma = ?, Ten = ?, IdNsx = ?, IdMauSac = ?, IdDMuc = ?, IdKC = ?, IdCL = ?, IdTH = ?, MoTa = ?, SoLuongTon = ?, GiaNhap = ?, GiaBan = ? WHERE Ma = ?";
+  
      List<ChiTietSP> lstsp;
 
     public ChiTietSPRepository() {
@@ -39,7 +39,7 @@ public class ChiTietSPRepository implements ImplChiTietSPRepository{
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                lstsp.add(new ChiTietSP(rs.getString(2), rs.getString(3)));
+                lstsp.add(new ChiTietSP(rs.getNString(2), rs.getNString(3)));
             }
         } catch (SQLException ex) {
               System.out.println("SQLException: " + ex.getMessage());
