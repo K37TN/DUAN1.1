@@ -102,7 +102,7 @@ void LoadData() {
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_khuyenmai = new javax.swing.JTable();
         btn_them = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_update = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         rd_phantram = new javax.swing.JRadioButton();
         rd_VND = new javax.swing.JRadioButton();
@@ -170,7 +170,12 @@ void LoadData() {
             }
         });
 
-        jButton2.setText("Cập Nhật");
+        btn_update.setText("Cập Nhật");
+        btn_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_updateActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Làm Mới");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -238,7 +243,7 @@ void LoadData() {
                                 .addGap(103, 103, 103)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btn_them)
-                                    .addComponent(jButton2)
+                                    .addComponent(btn_update)
                                     .addComponent(jButton3))))))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
@@ -259,7 +264,7 @@ void LoadData() {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jButton2))
+                    .addComponent(btn_update))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
@@ -406,6 +411,23 @@ void LoadData() {
 
     
     }//GEN-LAST:event_btn_themActionPerformed
+
+    private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
+ try {
+            //Tự check rỗng 
+            Khuyenmai km = getFrom();
+            if (repository.update(km) != null) {
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                LoadData();
+            } else {
+                JOptionPane.showMessageDialog(this, "Không cập nhật được");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi nút cập nhật");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_updateActionPerformed
      private Khuyenmai getFrom(){
    Khuyenmai sv = new Khuyenmai();
  sv.setTenKM(txt_tenkm.getText());
@@ -477,11 +499,11 @@ private void Clicktable() throws ParseException {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_them;
+    private javax.swing.JButton btn_update;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cb_selectAll;
     private com.toedter.calendar.JDateChooser date_BD;
     private com.toedter.calendar.JDateChooser date_KT;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

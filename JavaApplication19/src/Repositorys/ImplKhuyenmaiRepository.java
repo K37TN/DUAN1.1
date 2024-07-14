@@ -16,7 +16,7 @@ public interface ImplKhuyenmaiRepository {
     
     public Integer add(Khuyenmai km);
     
-    public boolean update(Khuyenmai km,String id);
+    public Integer update(Khuyenmai km);
     
     public boolean delete(String id);
     public String checktrung(String ten);   

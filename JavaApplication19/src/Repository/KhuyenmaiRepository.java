@@ -37,7 +37,7 @@ List<Khuyenmai> lstKm;
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                lstKm.add(new Khuyenmai(rs.getString(1), rs.getString(2), rs.getString(5), rs.getString(3), rs.getString(4), rs.getDouble(6), rs.getInt(7)));
+                lstKm.add(new Khuyenmai(rs.getInt(1), rs.getString(2), rs.getString(5), rs.getString(3), rs.getString(4), rs.getDouble(6), rs.getInt(7)));
             }
         } catch (SQLException ex) {
               System.out.println("SQLException: " + ex.getMessage());
@@ -69,8 +69,31 @@ List<Khuyenmai> lstKm;
     }
 
     @Override
-    public boolean update(Khuyenmai km, String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Integer update(Khuyenmai km) {
+    Integer rowsAffected = null;
+    String sql = "UPDATE KhuyenMai SET Ten=?, Ngaybatdau=?, Ngayketthuc=?, HinhthucKM=?, Giatrigiam=? WHERE ID=?";
+    
+    try (Connection conn = DBcontext.getConnection();
+         PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+        // Thiết lập các tham số cho câu lệnh SQL
+        pstm.setString(1, km.getTenKM());
+        pstm.setDate(2, java.sql.Date.valueOf(km.getNgayBatDau())); // Chuyển đổi từ LocalDate sang java.sql.Date
+        pstm.setDate(3, java.sql.Date.valueOf(km.getNgayKetThuc())); // Chuyển đổi từ LocalDate sang java.sql.Date
+        pstm.setString(4, km.getHinhThucKM());
+        pstm.setDouble(5, km.getGiaTriGiam());
+        pstm.setInt(6, km.getID()); // ID được set ở cuối để điều chỉnh câu lệnh WHERE
+        
+        // Thực thi câu lệnh SQL và lấy số dòng bị ảnh hưởng
+        rowsAffected = pstm.executeUpdate();
+        System.out.println("Đã cập nhật thành công " + rowsAffected + " dòng trong bảng KHUYENMAI");
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Xử lý ngoại lệ nếu có lỗi
+    }
+
+    return rowsAffected;
     }
 
     @Override

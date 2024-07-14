@@ -9,13 +9,15 @@ package Model;
  * @author FPTSHOP
  */
 public class Khuyenmai {
-     private String ID,TenKM,HinhThucKM,NgayBatDau,NgayKetThuc;
+    private int ID;
+     private String TenKM,HinhThucKM,NgayBatDau,NgayKetThuc;
     private Double GiaTriGiam;
     private int Trangthai;
 
+    public Khuyenmai() {
+    }
 
-
-    public Khuyenmai(String ID, String TenKM, String HinhThucKM, String NgayBatDau, String NgayKetThuc, Double GiaTriGiam, int Trangthai) {
+    public Khuyenmai(int ID, String TenKM, String HinhThucKM, String NgayBatDau, String NgayKetThuc, Double GiaTriGiam, int Trangthai) {
         this.ID = ID;
         this.TenKM = TenKM;
         this.HinhThucKM = HinhThucKM;
@@ -25,14 +27,11 @@ public class Khuyenmai {
         this.Trangthai = Trangthai;
     }
 
-    public Khuyenmai() {
-            }
-
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -86,8 +85,10 @@ public class Khuyenmai {
 
     @Override
     public String toString() {
-        return "KhuyenMai{" + "ID=" + ID + ", TenKM=" + TenKM + ", HinhThucKM=" + HinhThucKM + ", NgayBatDau=" + NgayBatDau + ", NgayKetThuc=" + NgayKetThuc + ", GiaTriGiam=" + GiaTriGiam + ", Trangthai=" + Trangthai + '}';
+        return "Khuyenmai{" + "ID=" + ID + ", TenKM=" + TenKM + ", HinhThucKM=" + HinhThucKM + ", NgayBatDau=" + NgayBatDau + ", NgayKetThuc=" + NgayKetThuc + ", GiaTriGiam=" + GiaTriGiam + ", Trangthai=" + Trangthai + '}';
     }
+
+
 
     
 }
