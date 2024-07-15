@@ -87,5 +87,39 @@ public class KhachHangRepository implements ImplKhachHangRepository{
         }
         return null;   
     }
+
+    @Override
+    public Integer add(KhachHang kh) {
+ Integer row = null;
+        
+        Connection cn = DBcontext.getConnection();
+        String sql = "INSERT INTO [dbo].[KhachHang]\n"
+                + "           ([Ten]\n"
+                + "           ,[TenDem]\n"
+                + "           ,[Ho]\n"
+                + "           ,[Gioitinh]\n"
+                + "           ,[NgaySinh]\n"
+                + "           ,[Email]\n"
+                + "           ,[Sdt]\n)"
+                + "     VALUES\n"
+                + "           (?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement ps = cn.prepareStatement(sql);
+       
+          ps.setObject(1, kh.getTen());
+            ps.setObject(2, kh.getTendem());
+            ps.setObject(3, kh.getHo());
+            ps.setObject(4, kh.getGioitinh());
+            ps.setObject(5, kh.getNgaysinh());
+            ps.setObject(6, kh.getEmail());
+            ps.setObject(7, kh.getSdt());
+
+   
+            row = ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return row;        
+    }
 }
 

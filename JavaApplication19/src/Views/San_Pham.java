@@ -15,6 +15,7 @@ public class San_Pham extends javax.swing.JFrame {
      */
     public San_Pham() {
         initComponents();
+        setTitle("San Pham");
     }
 
     /**
@@ -119,11 +120,11 @@ public class San_Pham extends javax.swing.JFrame {
 
         jButton8.setBackground(new java.awt.Color(153, 255, 153));
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton8.setText("Hoạt động");
+        jButton8.setText("Còn hàng");
 
         jButton9.setBackground(new java.awt.Color(255, 102, 102));
         jButton9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton9.setText("Không hoạt động");
+        jButton9.setText("Hết hàng");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

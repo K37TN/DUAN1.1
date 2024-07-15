@@ -16,4 +16,5 @@ import java.util.List;
 public interface ImplKhachHangRepository {
     List<DanhSachKHViewModel> getallLS();
     List<KhachHang> getall();
+    public Integer add(KhachHang kh);
 }
