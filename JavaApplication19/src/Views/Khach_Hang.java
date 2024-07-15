@@ -54,6 +54,7 @@ public class Khach_Hang extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -82,6 +83,8 @@ public class Khach_Hang extends javax.swing.JFrame {
         btn_them = new javax.swing.JButton();
         btn_capnhat = new javax.swing.JButton();
         btn_lammoi = new javax.swing.JButton();
+        LBL_id = new javax.swing.JLabel();
+        TXT_ID = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -209,8 +212,10 @@ public class Khach_Hang extends javax.swing.JFrame {
 
         jLabel7.setText("Gớii tính");
 
+        buttonGroup1.add(rdo_nam);
         rdo_nam.setText("Nam");
 
+        buttonGroup1.add(rdo_nu);
         rdo_nu.setText("Nữ");
 
         btn_them.setText("Thêm");
@@ -228,6 +233,13 @@ public class Khach_Hang extends javax.swing.JFrame {
         });
 
         btn_lammoi.setText("Làm mới");
+        btn_lammoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lammoiActionPerformed(evt);
+            }
+        });
+
+        LBL_id.setText("ID");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -248,18 +260,24 @@ public class Khach_Hang extends javax.swing.JFrame {
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7))
                                 .addGap(114, 114, 114)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_email)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_sdt)
-                                    .addComponent(date_ngaysinh1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
-                                .addGap(88, 88, 88)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btn_capnhat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_lammoi)
-                                    .addComponent(btn_them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_email)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_sdt)
+                                            .addComponent(date_ngaysinh1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
+                                        .addGap(88, 88, 88)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(btn_capnhat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btn_lammoi)
+                                            .addComponent(btn_them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(LBL_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(TXT_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(rdo_nam, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -319,7 +337,10 @@ public class Khach_Hang extends javax.swing.JFrame {
                             .addComponent(txt_email)
                             .addComponent(btn_lammoi))))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(LBL_id)
+                    .addComponent(TXT_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdo_nam)
@@ -333,25 +354,21 @@ public class Khach_Hang extends javax.swing.JFrame {
 
     private void TB_bang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TB_bang1MouseClicked
 
-//        int id = layid();
-//        showTable3(listKhachHang01);
-//        listKhachHang01 = KH.GetTKTheoIDKH(id);
-//        LBL_SOLUONG.setText("Tổng số hoá đơn là : " + KH.GetTKTheoIDKH(id).size());
-//
-//        int row = TB_bang1.getSelectedRow();
-//        KhachHangViewMD kh = listKhachHang.get(row);
-//        txt_Ten.setText(kh.getTen());
-//        txt_tenDem.setText(kh.getTendem());
-//        txt_Ho.setText(kh.getHo());
-//        String gt = (TB_bang1.getValueAt(row, 2).toString());
-//        if (gt == "Nam") {
-//            rd_Nam.setSelected(true);
-//        } else {
-//            rd_nu.setSelected(true);
-//        }
-//        date_ngaysinh1.setDate((Date) TB_bang1.getValueAt(row, 3));
-//        txt_sdt.setText(kh.getSdt());
-//        txt_email.setText(kh.getEmail());
+        int row = TB_bang1.getSelectedRow();
+        KhachHang kh = list.get(row);
+        txt_Ten.setText(kh.getTen());
+        txt_tenDem.setText(kh.getTendem());
+        txt_Ho.setText(kh.getHo());
+    String gt = TB_bang1.getValueAt(row, 2).toString();
+if ("Nam".equals(gt)) {
+    rdo_nam.setSelected(true);
+} else if ("Nữ".equals(gt)) {
+    rdo_nu.setSelected(true);
+}
+        date_ngaysinh1.setDate((Date) TB_bang1.getValueAt(row, 3));
+        txt_sdt.setText(kh.getSdt());
+        txt_email.setText(kh.getEmail());
+        
     }//GEN-LAST:event_TB_bang1MouseClicked
 
     private void btn_hienthiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hienthiActionPerformed
@@ -377,8 +394,27 @@ if (validateKhachHang()) {
     }//GEN-LAST:event_btn_themActionPerformed
 
     private void btn_capnhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_capnhatActionPerformed
-        // TODO add your handling code here:
+KhachHang kh = getFrom(); // Replace with actual logic to get KhachHang object
+
+if (repository.UPDATE(kh) != null) {
+    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+    list = KHRP.getall();
+    showtable(list);
+    TXT_01.setText("Tổng số khách hàng là : " + list.size());
+} else {
+    JOptionPane.showMessageDialog(this, "Không cập nhật được");
+}
     }//GEN-LAST:event_btn_capnhatActionPerformed
+
+    private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
+       txt_Ho.setText("");
+        txt_Ten.setText("");
+         txt_email.setText("");
+          txt_sdt.setText("");
+           txt_tenDem.setText("");
+        date_ngaysinh1.setCalendar(null);
+         buttonGroup1.clearSelection();
+    }//GEN-LAST:event_btn_lammoiActionPerformed
 private boolean validateKhachHang() {
     String sdtPattern = "(0\\d{9})"; // Biểu thức chính quy cho số điện thoại
     Pattern pattern = Pattern.compile("^[0-9]+$"); // Biểu thức chính quy cho kiểm tra số
@@ -491,13 +527,16 @@ private boolean validateKhachHang() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LBL_SOLUONG;
+    private javax.swing.JLabel LBL_id;
     private javax.swing.JTable TB_bang02;
     private javax.swing.JTable TB_bang1;
     private javax.swing.JLabel TXT_01;
+    private javax.swing.JLabel TXT_ID;
     private javax.swing.JButton btn_capnhat;
     private javax.swing.JButton btn_hienthi;
     private javax.swing.JButton btn_lammoi;
     private javax.swing.JButton btn_them;
+    private javax.swing.ButtonGroup buttonGroup1;
     private com.toedter.calendar.JDateChooser date_ngaysinh1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

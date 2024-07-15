@@ -17,4 +17,5 @@ public interface ImplKhachHangRepository {
     List<DanhSachKHViewModel> getallLS();
     List<KhachHang> getall();
     public Integer add(KhachHang kh);
+    public Integer UPDATE(KhachHang kh);
 }

@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import junit.runner.Version;
 
 /**
  *
@@ -121,5 +122,38 @@ public class KhachHangRepository implements ImplKhachHangRepository{
         }
         return row;        
     }
+
+    @Override
+    public Integer UPDATE(KhachHang kh) {
+        Integer rowsUpdated = null;
+    String sql = "UPDATE [dbo].[KhachHang]\n"
+               + "SET [Ten] = ?,\n"
+               + "    [TenDem] = ?,\n"
+               + "    [Ho] = ?,\n"
+               + "    [Gioitinh] = ?,\n"
+               + "    [NgaySinh] = ?,\n"
+               + "    [Email] = ?,\n"
+               + "    [Sdt] = ?\n"
+               + "WHERE [Id] = ?";
+    
+    try (Connection cn = DBcontext.getConnection();
+         PreparedStatement ps = cn.prepareStatement(sql)) {
+        
+        ps.setString(1, kh.getTen());
+        ps.setString(2, kh.getTendem());
+        ps.setString(3, kh.getHo());
+        ps.setInt(4, kh.getGioitinh()); // Assuming gioitinh is a boolean field
+       ps.setDate(5, new java.sql.Date(kh.getNgaysinh().getTime()));
+        ps.setString(6, kh.getEmail());
+        ps.setString(7, kh.getSdt());
+        ps.setInt(8,kh.getId());
+
+        rowsUpdated = ps.executeUpdate();
+    } catch (SQLException e) {
+        System.out.println("Error while executing updateKhachHang: " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    return rowsUpdated;}
 }
 
