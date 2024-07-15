@@ -14,6 +14,7 @@ import entity.KhachHangViewModel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.title.Title;
@@ -220,6 +221,11 @@ public class Khach_Hang extends javax.swing.JFrame {
         });
 
         btn_capnhat.setText("Cập nhật");
+        btn_capnhat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_capnhatActionPerformed(evt);
+            }
+        });
 
         btn_lammoi.setText("Làm mới");
 
@@ -355,19 +361,62 @@ public class Khach_Hang extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_hienthiActionPerformed
 
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
-  KhachHang kh = getFrom();
-        if (repository.add(kh) != null) {
-            JOptionPane.showMessageDialog(this, "Thêm thành công");
-                  list = KHRP.getall();
-            showtable(list);
-            TXT_01.setText("Tổng số khách hàng là : " + list.size());
-        } else {
-            JOptionPane.showMessageDialog(this, "Không thêm được");
-        }
-      
-      
+if (validateKhachHang()) {
+    KhachHang kh = getFrom();
+    if (repository.add(kh) != null) {
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
+        list = KHRP.getall();
+        showtable(list);
+        TXT_01.setText("Tổng số khách hàng là : " + list.size());
+    } else {
+        JOptionPane.showMessageDialog(this, "Không thêm được");
+    }
+} else {
+    JOptionPane.showMessageDialog(this, "Thông tin khách hàng không hợp lệ");
+}
     }//GEN-LAST:event_btn_themActionPerformed
 
+    private void btn_capnhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_capnhatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_capnhatActionPerformed
+private boolean validateKhachHang() {
+    String sdtPattern = "(0\\d{9})"; // Biểu thức chính quy cho số điện thoại
+    Pattern pattern = Pattern.compile("^[0-9]+$"); // Biểu thức chính quy cho kiểm tra số
+
+    // Kiểm tra thông tin khách hàng
+    if (txt_Ten.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên khách hàng!");
+        return false;
+    }
+
+    if (pattern.matcher(txt_Ten.getText()).find()) {
+        JOptionPane.showMessageDialog(this, "Tên khách hàng không được nhập số!");
+        return false;
+    }
+
+    if (txt_Ten.getText().length() > 30) {
+        JOptionPane.showMessageDialog(this, "Tên khách hàng không được quá 30 kí tự!");
+        return false;
+    }
+
+    if (txt_sdt.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại!");
+        return false;
+    }
+
+    try {
+        if (!txt_sdt.getText().matches(sdtPattern)) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng định dạng!");
+            return false;
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi kiểm tra số điện thoại: " + e.getMessage());
+        return false;
+    }
+
+    // Nếu không có lỗi xảy ra trong quá trình kiểm tra
+    return true;
+}
     private KhachHang getFrom(){
    KhachHang kh = new KhachHang();
    kh.setHo(txt_Ho.getText());
