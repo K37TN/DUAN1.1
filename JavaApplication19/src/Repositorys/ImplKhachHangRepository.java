@@ -18,4 +18,5 @@ public interface ImplKhachHangRepository {
     List<KhachHang> getall();
     public Integer add(KhachHang kh);
     public boolean UPDATE(int id,KhachHang kh);
+    public List<KhachHang> getSDT(String sdt);
 }

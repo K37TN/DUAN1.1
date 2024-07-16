@@ -11,6 +11,7 @@ import Service.DanhSachKHServices;
 import Services.ImplDSKHService;
 import entity.DanhSachKHViewModel;
 import entity.KhachHangViewModel;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -428,7 +429,28 @@ if (KH.Update(id, kh) != null) {
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void txt_timkiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_timkiemKeyReleased
-        // TODO add your handling code here:
+            defaultTableModel = (DefaultTableModel) TB_bang1.getModel();
+    defaultTableModel.setRowCount(0);
+    
+    String searchText = txt_timkiem.getText().toLowerCase();
+    for (KhachHang kh : list) {
+        if (kh.getHo().toLowerCase().contains(searchText) ||
+            kh.getTendem().toLowerCase().contains(searchText) ||
+            kh.getTen().toLowerCase().contains(searchText) ||
+            kh.getSdt().contains(searchText) ||
+            kh.getEmail().toLowerCase().contains(searchText)) {
+            
+            Object[] rowData = new Object[6];
+            rowData[0] = kh.getId();
+            rowData[1] = kh.getHo() + " " + kh.getTendem() + " " + kh.getTen();
+            rowData[2] = kh.getGioitinh()==0?"Nam":"Nữ";
+            rowData[3] = (kh.getNgaysinh());
+            rowData[4] = kh.getSdt();
+            rowData[5] = kh.getEmail();
+ 
+            defaultTableModel.addRow(rowData);
+        }
+    }
     }//GEN-LAST:event_txt_timkiemKeyReleased
 private boolean validateKhachHang() {
     String sdtPattern = "(0\\d{9})"; // Biểu thức chính quy cho số điện thoại

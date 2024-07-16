@@ -155,5 +155,45 @@ ps.setObject(8, id);
 
     return check > 0;
     }
+
+    @Override
+    public List<KhachHang> getSDT(String sdt) {
+      List<KhachHang> listkh = new ArrayList<>();
+        try {
+            listkh.removeAll(listkh);
+            String sql = "SELECT [Id]\n"
+                    + "      ,[Ten]\n"
+                    + "      ,[TenDem]\n"
+                    + "      ,[Ho]\n"
+                    + "      ,[Gioitinh]\n"
+                    + "      ,[NgaySinh]\n"
+                    + "      ,[Email]\n"
+                    + "      ,[Sdt]\n"
+                   
+                    + "  FROM [dbo].[KhachHang]\n"
+                    + "  where sdt like ? ";
+            Connection conn = DBcontext.openDbConnection();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, "%" + sdt + "%");
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                KhachHang khachhang = new KhachHang();
+                khachhang.setId(rs.getInt(1));
+                khachhang.setTen(rs.getString(2));
+                khachhang.setTendem(rs.getString(3));
+                khachhang.setHo(rs.getString(4));
+                khachhang.setGioitinh(rs.getInt(5));
+                khachhang.setNgaysinh(rs.getDate(6));
+                khachhang.setEmail(rs.getString(7));
+                khachhang.setSdt(rs.getString(8));
+                
+
+                listkh.add(khachhang);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error while executing TimKiem: " + ex.getMessage());
+        ex.printStackTrace();
+        }
+        return listkh;}
 }
 
