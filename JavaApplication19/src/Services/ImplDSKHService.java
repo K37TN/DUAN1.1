@@ -4,6 +4,7 @@
  */
 package Services;
 
+import Model.KhachHang;
 import entity.DanhSachKHViewModel;
 import java.util.List;
 
@@ -13,4 +14,5 @@ import java.util.List;
  */
 public interface ImplDSKHService {
     List<DanhSachKHViewModel> getAllDS();
+    public String Update(int id,KhachHang kh);
 }

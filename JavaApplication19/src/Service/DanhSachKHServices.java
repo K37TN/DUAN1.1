@@ -4,6 +4,7 @@
  */
 package Service;
 
+import Model.KhachHang;
 import Repository.KhachHangRepository;
 import Repositorys.ImplKhachHangRepository;
 import Services.ImplDSKHService;
@@ -20,5 +21,14 @@ private ImplKhachHangRepository dskh = new KhachHangRepository();
     public List<DanhSachKHViewModel> getAllDS() {
         return dskh.getallLS();
           }
-    
+
+    @Override
+    public String Update(int id, KhachHang kh) {
+  
+  boolean updatehoadon = dskh.UPDATE(id, kh);
+        if (updatehoadon) {
+            return "Sửa thành công id = " + id;
+        }
+        return "Sửa thất bại";  
+    }
 }
