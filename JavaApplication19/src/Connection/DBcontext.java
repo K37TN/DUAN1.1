@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class DBcontext {
    public static String USER = "sa";
     public static String PASS = "123456";
-    public static String URL = "jdbc:sqlserver://localhost:1433;databaseName= Nhom7_SQLFUL;encrypt=true;trustServerCertificate=true";
+    public static String URL = "jdbc:sqlserver://localhost:1433;databaseName= Nhom7;encrypt=true;trustServerCertificate=true";
 
       private static String CONNECT_STRING;
     // Chạy và được gọi đầu tiên
