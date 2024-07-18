@@ -34,6 +34,7 @@ public class KhachHangRepository implements ImplKhachHangRepository{
             while (rs.next()) {
                 DanhSachKHViewModel khachhang = new DanhSachKHViewModel();
                 khachhang.setId(rs.getInt(1));
+            
                 khachhang.setTen(rs.getString(2));
                 khachhang.setTendem(rs.getString(3));
                 khachhang.setHo(rs.getString(4));
@@ -55,6 +56,7 @@ public class KhachHangRepository implements ImplKhachHangRepository{
     @Override
     public List<KhachHang> getall() {
     String sql = "SELECT [Id]\n"
+             + "           ,[Ma]\n"
                 + "      ,[Ten]\n"
                 + "      ,[TenDem]\n"
                 + "      ,[Ho]\n"
@@ -70,13 +72,14 @@ public class KhachHangRepository implements ImplKhachHangRepository{
             while (rs.next()) {
                 KhachHang khachhang = new KhachHang();
                 khachhang.setId(rs.getInt(1));
-                khachhang.setTen(rs.getString(2));
-                khachhang.setTendem(rs.getString(3));
-                khachhang.setHo(rs.getString(4));
-                khachhang.setGioitinh(rs.getInt(5));
-                khachhang.setNgaysinh(rs.getDate(6));
-                khachhang.setEmail(rs.getString(7));
-                khachhang.setSdt(rs.getString(8));
+                khachhang.setMa(rs.getString(2));
+                khachhang.setTen(rs.getString(3));
+                khachhang.setTendem(rs.getString(4));
+                khachhang.setHo(rs.getString(5));
+                khachhang.setGioitinh(rs.getInt(6));
+                khachhang.setNgaysinh(rs.getDate(7));
+                khachhang.setEmail(rs.getString(8));
+                khachhang.setSdt(rs.getString(9));
               
 
                 listSP.add(khachhang);
@@ -94,26 +97,19 @@ public class KhachHangRepository implements ImplKhachHangRepository{
  Integer row = null;
         
         Connection cn = DBcontext.getConnection();
-        String sql = "INSERT INTO [dbo].[KhachHang]\n"
-                + "           ([Ten]\n"
-                + "           ,[TenDem]\n"
-                + "           ,[Ho]\n"
-                + "           ,[Gioitinh]\n"
-                + "           ,[NgaySinh]\n"
-                + "           ,[Email]\n"
-                + "           ,[Sdt]\n)"
-                + "     VALUES\n"
-                + "           (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO [dbo].[KhachHang] "
+           + "([Ma], [Ten], [TenDem], [Ho], [Gioitinh], [NgaySinh], [Email], [Sdt]) "
+           + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = cn.prepareStatement(sql);
-       
-          ps.setObject(1, kh.getTen());
-            ps.setObject(2, kh.getTendem());
-            ps.setObject(3, kh.getHo());
-            ps.setObject(4, kh.getGioitinh());
-            ps.setObject(5, kh.getNgaysinh());
-            ps.setObject(6, kh.getEmail());
-            ps.setObject(7, kh.getSdt());
+       ps.setObject(1, kh.getMa());
+          ps.setObject(2, kh.getTen());
+            ps.setObject(3, kh.getTendem());
+            ps.setObject(4, kh.getHo());
+            ps.setObject(5, kh.getGioitinh());
+            ps.setObject(6, kh.getNgaysinh());
+            ps.setObject(7, kh.getEmail());
+            ps.setObject(8, kh.getSdt());
 
    
             row = ps.executeUpdate();
@@ -127,7 +123,8 @@ public class KhachHangRepository implements ImplKhachHangRepository{
     public boolean UPDATE(int id,KhachHang kh) {
        int check = 0;
     String sql = "UPDATE [dbo].[KhachHang]\n"
-                + "   SET [Ten] =?\n"
+                + "   SET [Ma] =?\n"
+             + " ,[Ten] =?\n"
                 + "      ,[TenDem] = ?\n"
                 + "      ,[Ho] =?\n"
                 + "      ,[Gioitinh] = ?\n"
@@ -139,14 +136,15 @@ public class KhachHangRepository implements ImplKhachHangRepository{
     
     try (Connection cn = DBcontext.getConnection();
          PreparedStatement ps = cn.prepareStatement(sql)) {
-        ps.setObject(1, kh.getTen());
-            ps.setObject(2, kh.getTendem());
-            ps.setObject(3, kh.getHo());
-            ps.setObject(4, kh.getGioitinh());
-            ps.setObject(5, kh.getNgaysinh());
-            ps.setObject(6, kh.getEmail());
-            ps.setObject(7, kh.getSdt());
-ps.setObject(8, id);
+       ps.setObject(1, kh.getMa());
+          ps.setObject(2, kh.getTen());
+            ps.setObject(3, kh.getTendem());
+            ps.setObject(4, kh.getHo());
+            ps.setObject(5, kh.getGioitinh());
+            ps.setObject(6, kh.getNgaysinh());
+            ps.setObject(7, kh.getEmail());
+            ps.setObject(8, kh.getSdt());
+ps.setObject(9, id);
         check = ps.executeUpdate();
     } catch (SQLException e) {
         System.out.println("Error while executing updateKhachHang: " + e.getMessage());
@@ -162,6 +160,7 @@ ps.setObject(8, id);
         try {
             listkh.removeAll(listkh);
             String sql = "SELECT [Id]\n"
+                     + "      ,[Ma]\n"
                     + "      ,[Ten]\n"
                     + "      ,[TenDem]\n"
                     + "      ,[Ho]\n"
@@ -179,13 +178,14 @@ ps.setObject(8, id);
             while (rs.next()) {
                 KhachHang khachhang = new KhachHang();
                 khachhang.setId(rs.getInt(1));
-                khachhang.setTen(rs.getString(2));
-                khachhang.setTendem(rs.getString(3));
-                khachhang.setHo(rs.getString(4));
-                khachhang.setGioitinh(rs.getInt(5));
-                khachhang.setNgaysinh(rs.getDate(6));
-                khachhang.setEmail(rs.getString(7));
-                khachhang.setSdt(rs.getString(8));
+                khachhang.setMa(rs.getString(2));
+                khachhang.setTen(rs.getString(3));
+                khachhang.setTendem(rs.getString(4));
+                khachhang.setHo(rs.getString(5));
+                khachhang.setGioitinh(rs.getInt(6));
+                khachhang.setNgaysinh(rs.getDate(7));
+                khachhang.setEmail(rs.getString(8));
+                khachhang.setSdt(rs.getString(9));
                 
 
                 listkh.add(khachhang);

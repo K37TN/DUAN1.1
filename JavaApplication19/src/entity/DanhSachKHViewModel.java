@@ -12,6 +12,7 @@ import java.util.Vector;
  */
 public class DanhSachKHViewModel {
         private int id;
+        private String ma;
     private String ten;
     private String tendem;
     private String ho;
@@ -20,13 +21,13 @@ public class DanhSachKHViewModel {
     private String ngayTao;
     private double dongia;
     private int trangthai;
-  
 
     public DanhSachKHViewModel() {
     }
 
-    public DanhSachKHViewModel(int id, String ten, String tendem, String ho, String SDT, String MaHD, String ngayTao, double dongia, int trangthai) {
+    public DanhSachKHViewModel(int id, String ma, String ten, String tendem, String ho, String SDT, String MaHD, String ngayTao, double dongia, int trangthai) {
         this.id = id;
+        this.ma = ma;
         this.ten = ten;
         this.tendem = tendem;
         this.ho = ho;
@@ -43,6 +44,14 @@ public class DanhSachKHViewModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getMa() {
+        return ma;
+    }
+
+    public void setMa(String ma) {
+        this.ma = ma;
     }
 
     public String getTen() {
@@ -108,6 +117,9 @@ public class DanhSachKHViewModel {
     public void setTrangthai(int trangthai) {
         this.trangthai = trangthai;
     }
+  
+
+   
 
    public Object[] toDataRow() {
         return new Object[]{id, ho + " " + tendem + " " + ten, SDT, MaHD, ngayTao, dongia, trangthai == 0 ? "chờ thanh toán" : "Đã Thanh Toán"};
