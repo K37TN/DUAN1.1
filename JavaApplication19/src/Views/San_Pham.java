@@ -3,10 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Views;
-
+import Model.MauSac; 
+import Model.Hang;
 import Model.sanPham;
+import Model.ChatLieu;
+import Model.KichThuoc;
 import Repository.SanPhamRepository;
 import Repositorys.ImplSanPham;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,12 +22,27 @@ import javax.swing.table.DefaultTableModel;
 public class San_Pham extends javax.swing.JFrame {
  DefaultTableModel defaultTableModel;
     DefaultTableModel defaultTableModel1;
+     DefaultComboBoxModel<ChatLieu> comboChatLieu = new DefaultComboBoxModel<>();
+
+    DefaultComboBoxModel<MauSac> comboMauSac = new DefaultComboBoxModel<>();
+
+    DefaultComboBoxModel<Hang> comboHang = new DefaultComboBoxModel<>();
+
+    DefaultComboBoxModel<KichThuoc> combokichco = new DefaultComboBoxModel<>();
      private ImplSanPham repository;
     public San_Pham() {
         initComponents();
         setTitle("San Pham");
         defaultTableModel = (DefaultTableModel) tb_sanpham.getModel();
         repository = new SanPhamRepository();
+         cbo_mausac.setModel((DefaultComboBoxModel) comboMauSac);
+        loadComboMauSac();
+          cbo_hang.setModel((DefaultComboBoxModel) comboHang);
+        loadComboHang();
+         cbo_loai.setModel((DefaultComboBoxModel) comboChatLieu);
+        loadComboChatLieu();
+         cbo_size.setModel((DefaultComboBoxModel) combokichco);
+        loadComboKichThuoc();
         LoadData();
     }
 void LoadData() {
@@ -70,7 +91,7 @@ void LoadData() {
         cbo_loai = new javax.swing.JComboBox<>();
         cbo_hang = new javax.swing.JComboBox<>();
         txt_soluong = new javax.swing.JTextField();
-        cbo_trangthai = new javax.swing.JComboBox<>();
+        cbo_mausac = new javax.swing.JComboBox<>();
         btn_size = new javax.swing.JButton();
         btn_loai = new javax.swing.JButton();
         btn_hang = new javax.swing.JButton();
@@ -94,7 +115,7 @@ void LoadData() {
 
         jLabel2.setText("Giá");
 
-        jLabel3.setText("Loại");
+        jLabel3.setText("Chất Liệu");
 
         jLabel4.setText("Hãng");
 
@@ -112,7 +133,7 @@ void LoadData() {
 
         cbo_hang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        cbo_trangthai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbo_mausac.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btn_size.setText("Thêm");
         btn_size.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +168,7 @@ void LoadData() {
                 {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã SP", "Tên SP", "Mô tả", "Đơn giá", "Số lượng", "Loại", "Size", "Hãng", "Màu Sắc", "Trạng thái"
+                "STT", "Mã SP", "Tên SP", "Mô tả", "Đơn giá", "Số lượng", "Chất liệu", "Size", "Hãng", "Màu Sắc", "Trạng thái"
             }
         ));
         jScrollPane2.setViewportView(tb_sanpham);
@@ -183,30 +204,32 @@ void LoadData() {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(25, 25, 25)
+                        .addComponent(txt_tensp))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_gia)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txt_gia, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(cbo_trangthai, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbo_hang, javax.swing.GroupLayout.Alignment.LEADING, 0, 188, Short.MAX_VALUE)
-                                    .addComponent(cbo_loai, javax.swing.GroupLayout.Alignment.LEADING, 0, 188, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cbo_mausac, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbo_hang, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbo_loai, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_loai, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btn_hang, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btn_mausac, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(25, 25, 25)
-                        .addComponent(txt_tensp, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btn_mausac, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(btn_loai, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btn_hang, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -288,7 +311,7 @@ void LoadData() {
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(cbo_trangthai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbo_mausac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btn_mausac))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,7 +330,7 @@ void LoadData() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_loaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loaiActionPerformed
-         new ChatLieu().setVisible(true);
+         new Chat_Lieu().setVisible(true);
     }//GEN-LAST:event_btn_loaiActionPerformed
 
     private void btn_hangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hangActionPerformed
@@ -315,7 +338,7 @@ void LoadData() {
     }//GEN-LAST:event_btn_hangActionPerformed
 
     private void btn_mausacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mausacActionPerformed
-         new MauSac().setVisible(true);
+         new MauSacView().setVisible(true);
     }//GEN-LAST:event_btn_mausacActionPerformed
 
     private void btn_sizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sizeActionPerformed
@@ -356,7 +379,42 @@ void LoadData() {
             }
         });
     }
-
+private void loadComboMauSac() {
+      comboMauSac.removeAllElements();
+        List<Model.MauSac> mauSacs = repository.getMausac();
+        if (mauSacs != null) {
+            for (Model.MauSac ms : mauSacs) {
+                comboMauSac.addElement(ms);
+            }
+        }
+    }
+private void loadComboHang() {
+      comboHang.removeAllElements();
+        List<Model.Hang> hang = repository.getHang();
+        if (hang != null) {
+            for (Model.Hang h : hang) {
+                comboHang.addElement(h);
+            }
+        }
+    }
+private void loadComboChatLieu() {
+      comboChatLieu.removeAllElements();
+        List<Model.ChatLieu> hang = repository.getChatLieu();
+        if (hang != null) {
+            for (Model.ChatLieu cl : hang) {
+                comboChatLieu.addElement(cl);
+            }
+        }
+    }
+private void loadComboKichThuoc() {
+      combokichco.removeAllElements();
+        List<Model.KichThuoc> hang = repository.getKichThuoc();
+        if (hang != null) {
+            for (Model.KichThuoc kt : hang) {
+                combokichco.addElement(kt);
+            }
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_hang;
     private javax.swing.JButton btn_loai;
@@ -364,8 +422,8 @@ void LoadData() {
     private javax.swing.JButton btn_size;
     private javax.swing.JComboBox<String> cbo_hang;
     private javax.swing.JComboBox<String> cbo_loai;
+    private javax.swing.JComboBox<String> cbo_mausac;
     private javax.swing.JComboBox<String> cbo_size;
-    private javax.swing.JComboBox<String> cbo_trangthai;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;

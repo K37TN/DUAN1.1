@@ -8,12 +8,12 @@ package Views;
  *
  * @author FPTSHOP
  */
-public class MauSac extends javax.swing.JFrame {
+public class Chat_Lieu extends javax.swing.JFrame {
 
     /**
      * Creates new form ChatLieu
      */
-    public MauSac() {
+    public Chat_Lieu() {
         initComponents();
     }
 
@@ -39,7 +39,7 @@ public class MauSac extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Màu Sắc");
+        jLabel1.setText("Chất Liệu");
 
         jLabel2.setText("Tên");
 
@@ -134,13 +134,13 @@ public class MauSac extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MauSac.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Chat_Lieu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MauSac.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Chat_Lieu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MauSac.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Chat_Lieu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MauSac.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Chat_Lieu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -148,7 +148,7 @@ public class MauSac extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MauSac().setVisible(true);
+                new Chat_Lieu().setVisible(true);
             }
         });
     }

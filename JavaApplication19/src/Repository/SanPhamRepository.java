@@ -5,6 +5,10 @@
 package Repository;
 
 import Connection.DBcontext;
+import Model.ChatLieu;
+import Model.Hang;
+import Model.KichThuoc;
+import Model.MauSac;
 import Model.sanPham;
 import Repositorys.ImplSanPham;
 import entity.DanhSachKHViewModel;
@@ -65,6 +69,82 @@ public class SanPhamRepository implements ImplSanPham{
             e.printStackTrace(System.out);
         }
         return null;        
+    }
+
+    @Override
+    public List<MauSac> getMausac() {
+        String sql = "SELECT * FROM MauSac";
+          try ( Connection con = DBcontext.getConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
+         ResultSet rs = ps.executeQuery();
+            List<MauSac> listms = new ArrayList<>();
+            while (rs.next()) {
+                MauSac p = new MauSac();
+               p.setID(rs.getInt(1));
+        p.setTen(rs.getString(2));
+                listms.add(p);
+            }
+            return listms;
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return null;        
+    }
+
+    @Override
+    public List<Hang> getHang() {
+     String sql = "SELECT * FROM ThuongHieu";
+          try ( Connection con = DBcontext.getConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
+         ResultSet rs = ps.executeQuery();
+            List<Hang> listh = new ArrayList<>();
+            while (rs.next()) {
+                Hang p = new Hang();
+               p.setID(rs.getInt(1));
+        p.setTen(rs.getString(2));
+                listh.add(p);
+            }
+            return listh;
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return null;           
+    }
+
+    @Override
+    public List<ChatLieu> getChatLieu() {
+     String sql = "SELECT * FROM ChatLieu";
+          try ( Connection con = DBcontext.getConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
+         ResultSet rs = ps.executeQuery();
+            List<ChatLieu> listh = new ArrayList<>();
+            while (rs.next()) {
+                ChatLieu p = new ChatLieu();
+               p.setID(rs.getInt(1));
+        p.setTen(rs.getString(2));
+                listh.add(p);
+            }
+            return listh;
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return null;        
+    }
+
+    @Override
+    public List<KichThuoc> getKichThuoc() {
+    String sql = "SELECT * FROM KichCo";
+          try ( Connection con = DBcontext.getConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
+         ResultSet rs = ps.executeQuery();
+            List<KichThuoc> listh = new ArrayList<>();
+            while (rs.next()) {
+                KichThuoc p = new KichThuoc();
+               p.setID(rs.getInt(1));
+        p.setTen(rs.getString(2));
+                listh.add(p);
+            }
+            return listh;
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return null;         
     }
     
 }

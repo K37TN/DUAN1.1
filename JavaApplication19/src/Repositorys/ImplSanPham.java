@@ -4,6 +4,10 @@
  */
 package Repositorys;
 
+import Model.ChatLieu;
+import Model.Hang;
+import Model.KichThuoc;
+import Model.MauSac;
 import Model.sanPham;
 import java.util.List;
 
@@ -13,4 +17,8 @@ import java.util.List;
  */
 public interface ImplSanPham {
       public List<sanPham> getAll();
+       public List<MauSac> getMausac();
+        public List<Hang> getHang();
+         public List<ChatLieu> getChatLieu();
+         public List<KichThuoc> getKichThuoc();
 }
