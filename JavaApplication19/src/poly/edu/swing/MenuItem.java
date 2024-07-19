@@ -15,7 +15,7 @@ import javax.swing.Icon;
 
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
 public class MenuItem extends javax.swing.JPanel {
 

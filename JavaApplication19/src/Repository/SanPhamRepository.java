@@ -28,6 +28,7 @@ public class SanPhamRepository implements ImplSanPham{
     @Override
     public List<sanPham> getAll() {
  String sql = "SELECT \n" +
+"    ctsp.Id,\n" +
 "    ctsp.Ma,\n" +
 "    ctsp.Ten,\n" +
 "    ctsp.GiaBan,\n" +
@@ -38,7 +39,7 @@ public class SanPhamRepository implements ImplSanPham{
 "    ms.Ten AS TenMauSac,\n" +
 "    th.Ten AS TenThuongHieu\n" +
 "FROM \n" +
-"    ChiTietSP ctsp\n" +
+"    ChitietSP ctsp\n" +
 "INNER JOIN \n" +
 "    ChatLieu cl ON ctsp.IdCL = cl.Id\n" +
 "INNER JOIN \n" +
@@ -46,21 +47,22 @@ public class SanPhamRepository implements ImplSanPham{
 "INNER JOIN \n" +
 "    MauSac ms ON ctsp.IdMauSac = ms.Id\n" +
 "INNER JOIN \n" +
-"    ThuongHieu th ON ctsp.IdTH = th.Id;";
+"    ThuongHieu th ON ctsp.IdTH = th.Id";
           try ( Connection con = DBcontext.getConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
          ResultSet rs = ps.executeQuery();
             List<sanPham> listSP = new ArrayList<>();
             while (rs.next()) {
                 sanPham p = new sanPham();
-                p.setMa(rs.getString(1));
-                p.setTen(rs.getString(2));
-                p.setMoTa(rs.getString(4));
-                p.setGiaBan(rs.getDouble(3));
-                p.setSoLuongTon(rs.getInt(5));
-                p.setChatLieu(rs.getString(6));
-                p.setKichCo(rs.getString(7));
-               p.setThuongHieu(rs.getString(9));
-            p.setMauSac(rs.getString(8));
+          p.setID(rs.getInt("Id")); // Chỉnh sửa chỉ số cột
+        p.setMa(rs.getString("Ma")); // Chỉnh sửa chỉ số cột
+        p.setTen(rs.getString("Ten")); // Chỉnh sửa chỉ số cột
+        p.setGiaBan(rs.getBigDecimal("GiaBan")); // Chỉnh sửa chỉ số cột
+        p.setMoTa(rs.getString("MoTa")); // Chỉnh sửa chỉ số cột
+        p.setSoLuongTon(rs.getInt("SoLuongTon")); // Chỉnh sửa chỉ số cột
+        p.setChatLieu(rs.getString("TenChatLieu")); // Chỉnh sửa chỉ số cột
+        p.setKichCo(rs.getString("TenKichCo")); // Chỉnh sửa chỉ số cột
+        p.setThuongHieu(rs.getString("TenThuongHieu")); // Chỉnh sửa chỉ số cột
+        p.setMauSac(rs.getString("TenMauSac")); // Chỉnh sửa chỉ số cột
 
                 listSP.add(p);
             }
@@ -146,5 +148,95 @@ public class SanPhamRepository implements ImplSanPham{
         }
         return null;         
     }
+
+    @Override
+    public Integer add(sanPham p) {
+          Integer row = null;
+    String sql = "INSERT INTO ChitietSP (Ma, Ten, IdNsx, IdMauSac, IdKC, IdCL, IdTH, MoTa, SoLuongTon, GiaBan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    try (Connection cn = DBcontext.getConnection(); 
+         PreparedStatement ps = cn.prepareStatement(sql)) {
+
+        // Lấy ID từ tên
+        Integer nsxId = getIdByName("NSX", "Ten", p.getNsx());
+        Integer mauSacId = getIdByName("MauSac", "Ten", p.getMauSac());
+        Integer kichCoId = getIdByName("KichCo", "Ten", p.getKichCo());
+        Integer chatLieuId = getIdByName("ChatLieu", "Ten", p.getChatLieu());
+        Integer thuongHieuId = getIdByName("ThuongHieu", "Ten", p.getThuongHieu());
+
+        // In giá trị ID để kiểm tra
+        System.out.println("NSX ID: " + nsxId);
+        System.out.println("Mau Sac ID: " + mauSacId);
+        System.out.println("Kich Co ID: " + kichCoId);
+        System.out.println("Chat Lieu ID: " + chatLieuId);
+        System.out.println("Thuong Hieu ID: " + thuongHieuId);
+
+        // Kiểm tra các ID có phải là null không
+        if (nsxId == null || mauSacId == null || kichCoId == null || chatLieuId == null || thuongHieuId == null) {
+            throw new IllegalArgumentException("Một hoặc nhiều ID không hợp lệ.");
+        }
+
+        ps.setString(1, p.getMa()); // Ma phải là nvarchar
+        ps.setString(2, p.getTen()); // Ten phải là nvarchar
+        ps.setInt(3, nsxId); // IdNsx phải là int
+        ps.setInt(4, mauSacId); // IdMauSac phải là int
+        ps.setInt(5, kichCoId); // IdKC phải là int
+        ps.setInt(6, chatLieuId); // IdCL phải là int
+        ps.setInt(7, thuongHieuId); // IdTH phải là int
+        ps.setString(8, p.getMoTa()); // MoTa phải là nvarchar
+        ps.setInt(9, p.getSoLuongTon()); // SoLuongTon phải là int
+        ps.setBigDecimal(10, p.getGiaBan()); // GiaBan phải là decimal
+
+        row = ps.executeUpdate();
+    } catch (IllegalArgumentException e) {
+        System.out.println("Lỗi: " + e.getMessage());
+    } catch (SQLException e) {
+        System.out.println("SQL Lỗi: " + e.getMessage());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return row;
+    }     
     
+public Integer getIdByName(String tableName, String columnName, String name) {
+    Integer id = null;
+    String sql = "SELECT Id FROM " + tableName + " WHERE " + columnName + " = ?";
+    try (Connection cn = DBcontext.getConnection(); 
+         PreparedStatement ps = cn.prepareStatement(sql)) {
+        ps.setString(1, name);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                id = rs.getInt("Id");
+            } else {
+                System.out.println("Không tìm thấy ID cho " + name + " trong bảng " + tableName);
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("SQL Lỗi: " + e.getMessage());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return id;
+}
+    @Override
+    public boolean UPDATE(int id, sanPham kh) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Integer delete(Integer id) {
+         Integer row = null;
+        String sql = "DELETE FROM ChitietSP WHERE Id LIKE ?";
+        Connection con = DBcontext.getConnection();
+
+        try {
+            PreparedStatement pr = con.prepareStatement(sql);
+            pr.setInt(1, id);
+            row = pr.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return row;
+    }
+
 }

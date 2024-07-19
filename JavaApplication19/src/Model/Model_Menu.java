@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
 public class Model_Menu {
 

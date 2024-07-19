@@ -1,6 +1,8 @@
 package poly.edu.main;
 
+import ViewFrame.Ban_Hang;
 import ViewFrame.KhachHang;
+import ViewFrame.San_Pham;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +12,11 @@ import poly.edu.component.Home_Panel;
 import poly.edu.event.EventMenuSelected;
 import poly.edu.swing.MenuItem;
 
-
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
+
 public class main extends javax.swing.JFrame {
 
     public main() {
@@ -29,11 +31,11 @@ public class main extends javax.swing.JFrame {
                 } else if (index == 1) {
                     setForm(new Home_Panel());
                 } else if (index == 2) {
-//                    setForm(new Products_Panel());
+                   setForm(new San_Pham());
                 } else if (index == 3) {
-//                    setForm(new PhieuGIAMGIA());
+
                 } else if (index == 4) {
-//                    setForm(new PhieuGH_Panel());
+                    setForm(new Ban_Hang());
                 } else if (index == 5) {
                     // Đợt giảm giá
                 } else if (index == 6) {
@@ -41,7 +43,7 @@ public class main extends javax.swing.JFrame {
                 } else if (index == 7) {
                     // Hóa Đơn
                 } else if (index == 8) {
-//                    setForm(new NhanVienTong_View());
+//NhanVien
                 } else if (index == 9) {
                     System.exit(0);
                 }

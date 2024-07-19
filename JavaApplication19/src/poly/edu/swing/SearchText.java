@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
 public class SearchText extends JTextField{
 

@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
 public class Header extends javax.swing.JPanel {
 

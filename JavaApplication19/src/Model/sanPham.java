@@ -4,6 +4,8 @@
  */
 package Model;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author FPTSHOP
@@ -14,7 +16,7 @@ public class sanPham {
     private String ten;
     private String moTa;
     private int soLuongTon;
-    private double giaBan;
+    private BigDecimal giaBan;
 private String chatLieu;
 private String nsx;
 private String kichCo;
@@ -24,7 +26,7 @@ private String kichCo;
     public sanPham() {
     }
 
-    public sanPham(int ID, String ma, String ten, String moTa, int soLuongTon, double giaBan, String chatLieu, String nsx, String kichCo, String mauSac, String thuongHieu) {
+    public sanPham(int ID, String ma, String ten, String moTa, int soLuongTon, BigDecimal giaBan, String chatLieu, String nsx, String kichCo, String mauSac, String thuongHieu) {
         this.ID = ID;
         this.ma = ma;
         this.ten = ten;
@@ -78,11 +80,11 @@ private String kichCo;
         this.soLuongTon = soLuongTon;
     }
 
-    public double getGiaBan() {
+    public BigDecimal getGiaBan() {
         return giaBan;
     }
 
-    public void setGiaBan(double giaBan) {
+    public void setGiaBan(BigDecimal giaBan) {
         this.giaBan = giaBan;
     }
 
@@ -130,5 +132,7 @@ private String kichCo;
     public String toString() {
         return "sanPham{" + "ID=" + ID + ", ma=" + ma + ", ten=" + ten + ", moTa=" + moTa + ", soLuongTon=" + soLuongTon + ", giaBan=" + giaBan + ", chatLieu=" + chatLieu + ", nsx=" + nsx + ", kichCo=" + kichCo + ", mauSac=" + mauSac + ", thuongHieu=" + thuongHieu + '}';
     }
+
+   
    
 }

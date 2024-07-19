@@ -15,7 +15,7 @@ import poly.edu.event.EventMenuSelected;
 
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
 public class Menu extends javax.swing.JPanel {
 

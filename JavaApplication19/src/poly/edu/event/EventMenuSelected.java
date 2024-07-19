@@ -3,7 +3,7 @@ package poly.edu.event;
 
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
 public interface EventMenuSelected {
     public void selected(int index);

@@ -12,7 +12,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
 public class Home_Panel extends javax.swing.JPanel {
 

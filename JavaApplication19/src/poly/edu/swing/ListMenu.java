@@ -14,7 +14,7 @@ import poly.edu.event.EventMenuSelected;
 
 /**
  *
- * @author Yen Nhi
+ * @author FPTSHOP
  */
 public class ListMenu<E extends Object> extends JList<E> {
 
