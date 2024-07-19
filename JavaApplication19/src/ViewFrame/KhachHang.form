@@ -51,7 +51,7 @@
                               </Group>
                               <Component id="txt_makh" alignment="0" max="32767" attributes="0"/>
                               <Component id="txt_sdt" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jLabel9" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
+                              <Component id="jLabel9" alignment="0" min="-2" pref="81" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel4" min="-2" pref="99" max="-2" attributes="0"/>
                       </Group>
