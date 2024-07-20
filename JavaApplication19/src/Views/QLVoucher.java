@@ -10,7 +10,9 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 import Model.Voucher;
 import Repository.VoucherRepository;
+import java.time.LocalDate;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -43,56 +45,47 @@ DefaultTableModel model = new DefaultTableModel();
         model.setRowCount(0);
       List<Voucher> gg = repo.getAll();
         for (Voucher p : gg) {
-            model.addRow(new Object[]{p.getId(), p.getMavc(), p.getSoLuongGiam(), p.getDkGiam(),p.getTrangThai()==1?"Đang hoạt động":"Đã ngừng",
+            model.addRow(new Object[]{p.getId(), p.getMavc(), p.getSoLuongGiam(), p.getDkGiam(),p.getTrangThai()==0?"Đang hoạt động":"Đã ngừng",
                  p.getNgaybd(), p.getNgaykt()});
         }
 
 }
-    private void fillTable() {
-   Model.Voucher kh = new Model.Voucher();
-   kh.setMavc(txtMaVoucher.getText());
-   kh.setSoLuongGiam(Integer.parseInt(txtSLGiam.getText()));
-   kh.setDkGiam(Integer.parseInt(txtDKGiam.getText()));
-
-   Date ngaybtd = txtd_ngaybatdau.getDate();
-     Date ngayktt = txt_ngayketthuc.getDate();
-        
-        if (ngaybtd!=null) {
-          kh.setNgaybd(ngaybtd);   
-         }else if(ngayktt!=null){
-             kh.setNgaykt(ngayktt);
-         }
-        
-        int trangThai;
-        if (rdoHoatDong.isSelected()) {
-            trangThai = 1;
-        } else {
-            trangThai = 0;
-        }
-
-    
-    }
-    int index;
+   
 
     private void showDetail() {
-        Voucher vc = new Voucher();
-//        txtID.setText(tblVoucher.getValueAt(index, 0).toString());
-        txtMaVoucher.setText(tblVoucher.getValueAt(index, 1).toString());
-        txtSLGiam.setText(tblVoucher.getValueAt(index, 2).toString());
-        txtDKGiam.setText(tblVoucher.getValueAt(index, 3).toString());
-        rdoHoatDong.setSelected(tblVoucher.getValueAt(index, 4).equals(vc));
-//        txtNgayBatDau.setText(tblVoucher.getValueAt(index, 5).toString());
-//        txtNgayKetThuc.setText(tblVoucher.getValueAt(index, 6).toString());
+         int index = tblVoucher.getSelectedRow();
+        if (index != -1) {
+             txt_id.setText(tblVoucher.getValueAt(index, 0).toString());
+            txtMaVoucher.setText(tblVoucher.getValueAt(index, 1).toString());
+            txtSLGiam.setText(tblVoucher.getValueAt(index, 2).toString());
+            txtDKGiam.setText(tblVoucher.getValueAt(index, 3).toString());
+            
+            String trangThai = tblVoucher.getValueAt(index, 4).toString();
+            rdoHoatDong.setSelected(trangThai.equals("Đang hoạt động"));
+            rdoNgung.setSelected(trangThai.equals("Đã ngừng"));
+            
+            try {
+                Date ngaybd = sdf.parse(tblVoucher.getValueAt(index, 5).toString());
+                txtd_ngaybatdau.setDate(ngaybd);
+                
+                Date ngaykt = sdf.parse(tblVoucher.getValueAt(index, 6).toString());
+                txt_ngayketthuc.setDate(ngaykt);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
     public void reset() {
-//        txtID.setText("");
-//        txtMaVoucher.setText("");
-//        txtDKGiam.setText("");
-//        txtSLGiam.setText("");
-//        rdoHoatDong.isSelected();
-
+     
+        txtMaVoucher.setText("");
+        txtDKGiam.setText("");
+        txtSLGiam.setText("");
+        rdoHoatDong.isSelected();
+       txtd_ngaybatdau.setCalendar(null);
+       txt_ngayketthuc.setCalendar(null);
+         buttonGroup1.clearSelection();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -120,6 +113,7 @@ DefaultTableModel model = new DefaultTableModel();
         txt_ngayketthuc = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVoucher = new javax.swing.JTable();
+        txt_id = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -306,7 +300,9 @@ DefaultTableModel model = new DefaultTableModel();
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(337, 337, 337)
+                .addGap(46, 46, 46)
+                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(254, 254, 254)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -314,39 +310,99 @@ DefaultTableModel model = new DefaultTableModel();
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-//        // TODO add your handling code here:
-//        repo.Addb(getModel());
-//        list = new VoucherRepository().getAll();
-//        fillTable();
+   // Lấy dữ liệu từ các trường nhập liệu
+    String maVoucher = txtMaVoucher.getText();
+    int soLuongGiam = Integer.parseInt(txtSLGiam.getText());
+    int dieuKienGiam = Integer.parseInt(txtDKGiam.getText());
+    Date ngayBatDau = txtd_ngaybatdau.getDate();
+    Date ngayKetThuc = txt_ngayketthuc.getDate();
+    int trangThai = rdoHoatDong.isSelected() ? 0 : 1;
+
+    // Tạo đối tượng Voucher mới
+    Voucher newVoucher = new Voucher();
+    newVoucher.setMavc(maVoucher);
+    newVoucher.setSoLuongGiam(soLuongGiam);
+    newVoucher.setDkGiam(dieuKienGiam);
+    newVoucher.setTrangThai(trangThai);
+    newVoucher.setNgaybd(ngayBatDau);
+    newVoucher.setNgaykt(ngayKetThuc);
+
+    try {
+        // Thêm Voucher mới vào cơ sở dữ liệu
+        if (repo.add(newVoucher) > 0) { // Nếu thêm thành công
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+            list = repo.getAll(); // Lấy lại danh sách Voucher
+            showtable(list); // Hiển thị lại bảng
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thêm được sản phẩm");
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi thêm sản phẩm");
+        e.printStackTrace();
+    }
         
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
-//        repo.Update(getModel());
-//        list = new VoucherRepository().getAll();
-//        fillTable();
+    Integer id = Integer.valueOf(txt_id.getText()); // Giả sử bạn có một ô text để nhập ID
+    String mavc = txtMaVoucher.getText(); // Lấy mã voucher từ ô text
+    Integer soLuongGiam = Integer.valueOf(txtSLGiam.getText()); // Lấy số lượng giảm
+    Integer dkGiam = Integer.valueOf(txtDKGiam.getText()); // Lấy giá trị giảm
+    int trangThai = rdoHoatDong.isSelected() ? 1 : 0; // Lấy trạng thái từ radio button
+    Date ngaybd = txtd_ngaybatdau.getDate(); // Lấy ngày bắt đầu từ calendar picker
+    Date ngaykt = txt_ngayketthuc.getDate(); // Lấy ngày kết thúc từ calendar picker
+
+    // Tạo đối tượng Voucher
+    Voucher voucher = new Voucher(id, mavc, soLuongGiam, dkGiam, trangThai, ngaybd, ngaykt);
+    
+    // Tạo đối tượng repository và gọi phương thức update
+    VoucherRepository repo = new VoucherRepository();
+    Integer result = repo.update(voucher);
+        showtable(list);
+    // Hiển thị thông báo dựa trên kết quả
+    if (result != null && result > 0) {
+        JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+    } else {
+        JOptionPane.showMessageDialog(this, "Không cập nhật được thông tin.");
+    }
+
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-//        repo.Delete(getModel());
-//        list = new VoucherRepository().getAll();
-//        fillTable();
+int selected = tblVoucher.getSelectedRow();
+if (selected >= 0) {
+    int id = (Integer) tblVoucher.getValueAt(selected, 0); // Giả sử ID ở cột đầu tiên
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sản phẩm này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            if (repo.delete(id) > 0) { // Nếu có hàng bị xóa
+                JOptionPane.showMessageDialog(this, "Xóa thành công");
+                showtable(list); // Tải lại dữ liệu
+            } else {
+                JOptionPane.showMessageDialog(this, "Không xóa được sản phẩm");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm");
+            e.printStackTrace();
+        }
+    }}
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void tblVoucherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVoucherMouseClicked
-        // TODO add your handling code here:
+   showDetail();
  
     }//GEN-LAST:event_tblVoucherMouseClicked
 
@@ -416,6 +472,7 @@ DefaultTableModel model = new DefaultTableModel();
     private javax.swing.JTextField txtDKGiam;
     private javax.swing.JTextField txtMaVoucher;
     private javax.swing.JTextField txtSLGiam;
+    private javax.swing.JLabel txt_id;
     private com.toedter.calendar.JDateChooser txt_ngayketthuc;
     private com.toedter.calendar.JDateChooser txtd_ngaybatdau;
     // End of variables declaration//GEN-END:variables

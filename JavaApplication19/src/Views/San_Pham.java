@@ -397,21 +397,24 @@ void LoadData() {
     }//GEN-LAST:event_btn_luuActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-      int selected = tb_sanpham.getSelectedRow();
+     int selected = tb_sanpham.getSelectedRow();
 if (selected >= 0) {
     int id = (Integer) tb_sanpham.getValueAt(selected, 0); // Giả sử ID ở cột đầu tiên
-    try {
-        if (repository.delete(id) > 0) { // Nếu có hàng bị xóa
-            JOptionPane.showMessageDialog(this, "Xóa thành công");
-            LoadData(); // Tải lại dữ liệu
-        } else {
-            JOptionPane.showMessageDialog(this, "Không xóa được sản phẩm");
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sản phẩm này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            if (repository.delete(id) > 0) { // Nếu có hàng bị xóa
+                JOptionPane.showMessageDialog(this, "Xóa thành công");
+                LoadData(); // Tải lại dữ liệu
+            } else {
+                JOptionPane.showMessageDialog(this, "Không xóa được sản phẩm");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm");
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm");
-        e.printStackTrace();
-    }
-}
+    }}
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jScrollPane4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane4MouseClicked
