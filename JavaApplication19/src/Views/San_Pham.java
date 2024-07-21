@@ -7,6 +7,7 @@ import Model.MauSac;
 import Model.Hang;
 import Model.sanPham;
 import Model.ChatLieu;
+import Model.ComboSanPham;
 import Model.KichThuoc;
 import Repository.SanPhamRepository;
 import Repositorys.ImplSanPham;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,6 +30,7 @@ public class San_Pham extends javax.swing.JFrame {
      DefaultComboBoxModel<ChatLieu> comboChatLieu = new DefaultComboBoxModel<>();
 
     DefaultComboBoxModel<MauSac> comboMauSac = new DefaultComboBoxModel<>();
+
 
     DefaultComboBoxModel<Hang> comboHang = new DefaultComboBoxModel<>();
 
@@ -388,7 +391,7 @@ void LoadData() {
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void btn_luuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_luuActionPerformed
-     sanPham p = getFrom();
+      ComboSanPham p = getFrom();
     if (repository.add(p) != null) {
         JOptionPane.showMessageDialog(this, "Thêm thành công");
     } else {
@@ -479,7 +482,7 @@ private void loadComboMauSac() {
             }
         }
     }
-private void loadComboHang() {
+public void loadComboHang() {
       comboHang.removeAllElements();
         List<Model.Hang> hang = repository.getHang();
         if (hang != null) {
@@ -506,13 +509,42 @@ private void loadComboKichThuoc() {
             }
         }
     }
- private sanPham getFrom(){
-  sanPham sp = new sanPham();
-    sp.setMa(txt_masp.getText());
+ private  ComboSanPham getFrom(){
+   ComboSanPham sp = new  ComboSanPham();
+   sp.setMa(txt_masp.getText());
     sp.setTen(txt_tensp.getText());
     sp.setMoTa(txt_mota.getText());
     sp.setGiaBan(new BigDecimal(txt_gia.getText()));
     sp.setSoLuongTon(Integer.parseInt(txt_soluong.getText()));
+    
+    // Lấy giá trị từ các JComboBox
+    // Giả sử cbo_mausac, cbo_loai, cbo_hang, cbo_size chứa các đối tượng tương ứng
+    // và bạn cần lấy đối tượng đã chọn
+
+    // Lấy đối tượng từ JComboBox
+   MauSac mauSac = (MauSac) cbo_mausac.getSelectedItem();
+    ChatLieu chatLieu = (ChatLieu) cbo_loai.getSelectedItem();
+    Hang hang = (Hang) cbo_hang.getSelectedItem();
+    KichThuoc kichThuoc = (KichThuoc) cbo_size.getSelectedItem();
+
+    // Kiểm tra giá trị null để tránh lỗi NullPointerException
+    if (mauSac != null) {
+        sp.setID(mauSac.getID()); // Sử dụng id của MauSac
+    }
+    if (chatLieu != null) {
+        sp.setID(chatLieu.getID()); // Sử dụng id của ChatLieu
+    }
+    if (hang != null) {
+        sp.setID(hang.getID()); // Sử dụng id của Hang
+    }
+    if (kichThuoc != null) {
+        sp.setID(kichThuoc.getID()); // Sử dụng id của KichThuoc
+    }
+
+    // Đặt giá trị cho sanPham
+
+    
+
     return sp;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -551,4 +583,6 @@ private void loadComboKichThuoc() {
     private javax.swing.JTextField txt_soluong;
     private javax.swing.JTextField txt_tensp;
     // End of variables declaration//GEN-END:variables
+
+ 
 }

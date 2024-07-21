@@ -5,6 +5,7 @@
 package Repositorys;
 
 import Model.ChatLieu;
+import Model.ComboSanPham;
 import Model.Hang;
 import Model.KichThuoc;
 import Model.MauSac;
@@ -21,7 +22,7 @@ public interface ImplSanPham {
         public List<Hang> getHang();
          public List<ChatLieu> getChatLieu();
          public List<KichThuoc> getKichThuoc();
-             public Integer add(sanPham p);
+             public Integer add(ComboSanPham p);
              public Integer delete(Integer id);
     public boolean UPDATE(int id,sanPham kh);
 }

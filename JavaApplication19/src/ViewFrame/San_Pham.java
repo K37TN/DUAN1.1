@@ -367,12 +367,12 @@ void LoadData() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_luuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_luuActionPerformed
-        sanPham p = getFrom();
-        if (repository.add(p) != null) {
-            JOptionPane.showMessageDialog(this, "Thêm thành công");
-        } else {
-            JOptionPane.showMessageDialog(this, "Không thêm được");
-        }
+//        sanPham p = getFrom();
+//        if (repository.add(p) != null) {
+//            JOptionPane.showMessageDialog(this, "Thêm thành công");
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Không thêm được");
+//        }
     }//GEN-LAST:event_btn_luuActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

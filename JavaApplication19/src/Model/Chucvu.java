@@ -8,16 +8,27 @@ package Model;
  *
  * @author FPTSHOP
  */
-public class KichThuoc {
-  private int ID;
-    private String ten;
+public class Chucvu {
+     String id, ten;
 
-    public int getID() {
-        return ID;
+    public Chucvu() {
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public Chucvu(String id, String ten) {
+        this.id = id;
+        this.ten = ten;
+    }
+
+    public Chucvu(String id) {
+        this.id = id;
+    }
+    
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTen() {
@@ -30,10 +41,6 @@ public class KichThuoc {
 
     @Override
     public String toString() {
-        return "KichThuoc{" + "ID=" + ID + '}';
+        return ten;
     }
-
-   
-
- 
 }

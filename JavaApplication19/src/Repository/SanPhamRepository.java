@@ -6,6 +6,7 @@ package Repository;
 
 import Connection.DBcontext;
 import Model.ChatLieu;
+import Model.ComboSanPham;
 import Model.Hang;
 import Model.KichThuoc;
 import Model.MauSac;
@@ -75,21 +76,21 @@ public class SanPhamRepository implements ImplSanPham{
 
     @Override
     public List<MauSac> getMausac() {
-        String sql = "SELECT * FROM MauSac";
+   String sql = "SELECT * FROM MauSac";
           try ( Connection con = DBcontext.getConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
          ResultSet rs = ps.executeQuery();
-            List<MauSac> listms = new ArrayList<>();
+            List<MauSac> listh = new ArrayList<>();
             while (rs.next()) {
                 MauSac p = new MauSac();
                p.setID(rs.getInt(1));
         p.setTen(rs.getString(2));
-                listms.add(p);
+                listh.add(p);
             }
-            return listms;
+            return listh;
         } catch (SQLException e) {
             e.printStackTrace(System.out);
         }
-        return null;        
+        return null;                  
     }
 
     @Override
@@ -150,49 +151,50 @@ public class SanPhamRepository implements ImplSanPham{
     }
 
     @Override
-    public Integer add(sanPham p) {
-          Integer row = null;
-    String sql = "INSERT INTO ChitietSP (Ma, Ten, IdNsx, IdMauSac, IdKC, IdCL, IdTH, MoTa, SoLuongTon, GiaBan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public Integer add(ComboSanPham p) {
+    Integer row = null;
+    String sql = "INSERT INTO ChitietSP (Ma, Ten, IdMauSac, IdKC, IdCL, IdTH, MoTa, SoLuongTon, GiaBan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     try (Connection cn = DBcontext.getConnection(); 
          PreparedStatement ps = cn.prepareStatement(sql)) {
 
-        // Lấy ID từ tên
-        Integer nsxId = getIdByName("NSX", "Ten", p.getNsx());
-        Integer mauSacId = getIdByName("MauSac", "Ten", p.getMauSac());
-        Integer kichCoId = getIdByName("KichCo", "Ten", p.getKichCo());
-        Integer chatLieuId = getIdByName("ChatLieu", "Ten", p.getChatLieu());
-        Integer thuongHieuId = getIdByName("ThuongHieu", "Ten", p.getThuongHieu());
-
-        // In giá trị ID để kiểm tra
-        System.out.println("NSX ID: " + nsxId);
-        System.out.println("Mau Sac ID: " + mauSacId);
-        System.out.println("Kich Co ID: " + kichCoId);
-        System.out.println("Chat Lieu ID: " + chatLieuId);
-        System.out.println("Thuong Hieu ID: " + thuongHieuId);
-
-        // Kiểm tra các ID có phải là null không
-        if (nsxId == null || mauSacId == null || kichCoId == null || chatLieuId == null || thuongHieuId == null) {
-            throw new IllegalArgumentException("Một hoặc nhiều ID không hợp lệ.");
-        }
-
+        // Set giá trị cho các tham số của câu lệnh SQL
         ps.setString(1, p.getMa()); // Ma phải là nvarchar
         ps.setString(2, p.getTen()); // Ten phải là nvarchar
-        ps.setInt(3, nsxId); // IdNsx phải là int
-        ps.setInt(4, mauSacId); // IdMauSac phải là int
-        ps.setInt(5, kichCoId); // IdKC phải là int
-        ps.setInt(6, chatLieuId); // IdCL phải là int
-        ps.setInt(7, thuongHieuId); // IdTH phải là int
-        ps.setString(8, p.getMoTa()); // MoTa phải là nvarchar
-        ps.setInt(9, p.getSoLuongTon()); // SoLuongTon phải là int
-        ps.setBigDecimal(10, p.getGiaBan()); // GiaBan phải là decimal
 
+        // Kiểm tra và set giá trị cho các tham số int với null
+        if (p.getMauSac() > 0) {
+            ps.setInt(3, p.getMauSac()); // IdMauSac phải là int
+        } else {
+            ps.setNull(3, java.sql.Types.INTEGER);
+        }
+
+        if (p.getKichCo() > 0) {
+            ps.setInt(4, p.getKichCo()); // IdKC phải là int
+        } else {
+            ps.setNull(4, java.sql.Types.INTEGER);
+        }
+
+        if (p.getChatLieu() > 0) {
+            ps.setInt(5, p.getChatLieu()); // IdCL phải là int
+        } else {
+            ps.setNull(5, java.sql.Types.INTEGER);
+        }
+
+        if (p.getThuongHieu() > 0) {
+            ps.setInt(6, p.getThuongHieu()); // IdTH phải là int
+        } else {
+            ps.setNull(6, java.sql.Types.INTEGER);
+        }
+
+        ps.setString(7, p.getMoTa()); // MoTa phải là nvarchar
+        ps.setInt(8, p.getSoLuongTon()); // SoLuongTon phải là int
+        ps.setBigDecimal(9, p.getGiaBan()); // GiaBan phải là decimal
+
+        // Thực thi câu lệnh SQL và nhận số lượng dòng ảnh hưởng
         row = ps.executeUpdate();
-    } catch (IllegalArgumentException e) {
-        System.out.println("Lỗi: " + e.getMessage());
     } catch (SQLException e) {
-        System.out.println("SQL Lỗi: " + e.getMessage());
-    } catch (Exception e) {
+        // In lỗi để kiểm tra
         e.printStackTrace();
     }
     return row;

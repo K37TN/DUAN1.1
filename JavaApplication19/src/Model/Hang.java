@@ -30,6 +30,9 @@ public class Hang {
 
     @Override
     public String toString() {
-        return ten;
+        return "Hang{" + "ID=" + ID + '}';
     }
+
+
+  
 }

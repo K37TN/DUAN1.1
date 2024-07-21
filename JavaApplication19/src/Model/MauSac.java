@@ -30,7 +30,10 @@ public class MauSac {
 
     @Override
     public String toString() {
-        return ten;
+        return "MauSac{" + "ID=" + ID + '}';
     }
+
+
+   
     
 }

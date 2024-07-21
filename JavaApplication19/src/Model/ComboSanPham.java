@@ -10,23 +10,23 @@ import java.math.BigDecimal;
  *
  * @author FPTSHOP
  */
-public class sanPham {
-    private int ID;
+public class ComboSanPham {
+        private int ID;
     private String ma;
     private String ten;
     private String moTa;
     private int soLuongTon;
     private BigDecimal giaBan;
-private String chatLieu;
-private String nsx;
-private String kichCo;
-   private String mauSac;
-   private String thuongHieu;
+private int chatLieu;
+private int nsx;
+private int kichCo;
+   private int mauSac;
+   private int thuongHieu;
 
-    public sanPham() {
+    public ComboSanPham() {
     }
 
-    public sanPham(int ID, String ma, String ten, String moTa, int soLuongTon, BigDecimal giaBan, String chatLieu, String nsx, String kichCo, String mauSac, String thuongHieu) {
+    public ComboSanPham(int ID, String ma, String ten, String moTa, int soLuongTon, BigDecimal giaBan, int chatLieu, int nsx, int kichCo, int mauSac, int thuongHieu) {
         this.ID = ID;
         this.ma = ma;
         this.ten = ten;
@@ -88,53 +88,49 @@ private String kichCo;
         this.giaBan = giaBan;
     }
 
-    public String getChatLieu() {
+    public int getChatLieu() {
         return chatLieu;
     }
 
-    public void setChatLieu(String chatLieu) {
+    public void setChatLieu(int chatLieu) {
         this.chatLieu = chatLieu;
     }
 
-    public String getNsx() {
+    public int getNsx() {
         return nsx;
     }
 
-    public void setNsx(String nsx) {
+    public void setNsx(int nsx) {
         this.nsx = nsx;
     }
 
-    public String getKichCo() {
+    public int getKichCo() {
         return kichCo;
     }
 
-    public void setKichCo(String kichCo) {
+    public void setKichCo(int kichCo) {
         this.kichCo = kichCo;
     }
 
-    public String getMauSac() {
+    public int getMauSac() {
         return mauSac;
     }
 
-    public void setMauSac(String mauSac) {
+    public void setMauSac(int mauSac) {
         this.mauSac = mauSac;
     }
 
-    public String getThuongHieu() {
+    public int getThuongHieu() {
         return thuongHieu;
     }
 
-    public void setThuongHieu(String thuongHieu) {
+    public void setThuongHieu(int thuongHieu) {
         this.thuongHieu = thuongHieu;
     }
 
     @Override
     public String toString() {
-        return "sanPham{" + "ID=" + ID + ", ma=" + ma + ", ten=" + ten + ", moTa=" + moTa + ", soLuongTon=" + soLuongTon + ", giaBan=" + giaBan + ", chatLieu=" + chatLieu + ", nsx=" + nsx + ", kichCo=" + kichCo + ", mauSac=" + mauSac + ", thuongHieu=" + thuongHieu + '}';
+        return "ComboIteam{" + "ID=" + ID + ", ma=" + ma + ", ten=" + ten + ", moTa=" + moTa + ", soLuongTon=" + soLuongTon + ", giaBan=" + giaBan + ", chatLieu=" + chatLieu + ", nsx=" + nsx + ", kichCo=" + kichCo + ", mauSac=" + mauSac + ", thuongHieu=" + thuongHieu + '}';
     }
-
-   
-
-   
    
 }

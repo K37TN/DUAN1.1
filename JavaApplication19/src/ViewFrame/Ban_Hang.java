@@ -4,19 +4,65 @@
  */
 package ViewFrame;
 
+import Service.HoaDonServies;
+import Services.ImplHoaDonService;
+import entity.HoaDonViewModel;
+import java.sql.Date;
+import java.util.List;
+import java.util.Random;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author FPTSHOP
  */
 public class Ban_Hang extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Ban_Hang
-     */
+    private DefaultTableModel model;
+       private ImplHoaDonService hoaDonServiec;
+  
     public Ban_Hang() {
         initComponents();
+         hoaDonServiec = new HoaDonServies();
+      
+        getListHoaDon();
     }
+private HoaDonViewModel inputHD() {
+        HoaDonViewModel hd = new HoaDonViewModel();
+        String Ma = "HD";
+        Random random = new Random();
+        hd.setMa(Ma + random.nextInt());
 
+        long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+        hd.setNgayTao(date);
+
+        return hd;
+    }
+private String getTrangThaiHD(int TrangThai) {
+        if (TrangThai == 0) {
+            return "chờ thanh Toán";
+        }
+        if (TrangThai == 1) {
+            return "Đã thanh Toán";
+        }
+
+        return null;
+    }
+private void getListHoaDon() {
+        model = (DefaultTableModel) tbl_HoaDon.getModel();
+        model.setRowCount(0);
+        List<HoaDonViewModel> getList = hoaDonServiec.getListHD(0);
+        for (HoaDonViewModel x : getList) {
+            model.addRow(new Object[]{
+                x.getMa(),
+                x.getNgayTao(),
+//                x.getUs().getTen(),
+                getTrangThaiHD(x.getTinhTrang())
+
+            });
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +79,7 @@ public class Ban_Hang extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbl_HoaDon = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -110,20 +156,25 @@ public class Ban_Hang extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_HoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Mã HD", "Ngày Tạo", "Nhân Viên", "Trạng Thái"
+                "Mã HD", "Ngày Tạo", "Trạng Thái"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tbl_HoaDon);
 
         jButton2.setText("Tạo HĐ");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Hóa đơn chờ");
 
@@ -314,6 +365,19 @@ public class Ban_Hang extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+      HoaDonViewModel hoaDon = inputHD();
+        Integer add = hoaDonServiec.saveHD(hoaDon);
+        if (add > 0) {
+            System.out.println("thêm thành công");
+            List<HoaDonViewModel> list = hoaDonServiec.getListHD(1);
+            list.clear();
+            getListHoaDon();
+        } else {
+            System.out.println("thêm thất bại");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -340,10 +404,10 @@ public class Ban_Hang extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tbl_HoaDon;
     // End of variables declaration//GEN-END:variables
 }

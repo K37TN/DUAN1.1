@@ -30,6 +30,9 @@ public class ChatLieu {
 
     @Override
     public String toString() {
-        return ten;
+        return "ChatLieu{" + "ID=" + ID + '}';
     }
+
+  
+  
 }
