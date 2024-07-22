@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import poly.edu.component.Home_Panel;
 import poly.edu.event.EventMenuSelected;
 import poly.edu.swing.MenuItem;
@@ -46,7 +47,17 @@ public class main extends javax.swing.JFrame {
                 } else if (index == 8) {
 //NhanVien
                 } else if (index == 9) {
+                      int confirm = JOptionPane.showOptionDialog(
+                    null,
+                    "Bạn có chắc chắn muốn Đăng Xuất không?",
+                    "Xác nhận đăng xuất",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null, null, null);
+                
+                if (confirm == JOptionPane.YES_OPTION) {
                     System.exit(0);
+                }
                 }
             }
 

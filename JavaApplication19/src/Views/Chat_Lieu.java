@@ -83,13 +83,13 @@ private void filltable() {
 
         tbl_bang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "STT", "Ten", "Trạng Thái"
+                "STT", "Ten"
             }
         ));
         tbl_bang.addMouseListener(new java.awt.event.MouseAdapter() {
