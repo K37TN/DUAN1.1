@@ -25,4 +25,6 @@ public interface ImplSanPham {
              public Integer add(ComboSanPham p);
              public Integer delete(Integer id);
     public boolean UPDATE(int id,sanPham kh);
+    public List<sanPham> getHetHang();
+    public List<sanPham> getConHang();
 }

@@ -75,6 +75,50 @@ void LoadData() {
           
         }
     }
+void LoadHetHang() {
+        defaultTableModel.setRowCount(0);
+        
+        for (sanPham x : repository.getHetHang()) {
+            defaultTableModel.addRow(new Object[]{
+                x.getID(),
+                x.getMa(),
+                x.getTen(),
+                 x.getMoTa(),
+                x.getGiaBan(),
+              
+                x.getSoLuongTon(),
+               x.getChatLieu(),
+               x.getKichCo(),
+               x.getThuongHieu(),
+               x.getMauSac(),
+      x.getSoLuongTon() > 0 ? "Còn hàng" : "Hết hàng",
+                  
+            });
+          
+        }
+    }
+void LoadConHang() {
+        defaultTableModel.setRowCount(0);
+        
+        for (sanPham x : repository.getConHang()) {
+            defaultTableModel.addRow(new Object[]{
+                x.getID(),
+                x.getMa(),
+                x.getTen(),
+                 x.getMoTa(),
+                x.getGiaBan(),
+              
+                x.getSoLuongTon(),
+               x.getChatLieu(),
+               x.getKichCo(),
+               x.getThuongHieu(),
+               x.getMauSac(),
+      x.getSoLuongTon() > 0 ? "Còn hàng" : "Hết hàng",
+                  
+            });
+          
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,9 +133,9 @@ void LoadData() {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         btn_lammoi = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        btn_conhang = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
+        btn_hethang = new javax.swing.JButton();
         txt_tensp = new javax.swing.JTextField();
         btn_mausac = new javax.swing.JButton();
         txt_masp = new javax.swing.JTextField();
@@ -142,15 +186,25 @@ void LoadData() {
             }
         });
 
-        jButton8.setBackground(new java.awt.Color(153, 255, 153));
-        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton8.setText("Còn hàng");
+        btn_conhang.setBackground(new java.awt.Color(153, 255, 153));
+        btn_conhang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_conhang.setText("Còn hàng");
+        btn_conhang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_conhangActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Màu Sắc");
 
-        jButton9.setBackground(new java.awt.Color(255, 102, 102));
-        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton9.setText("Hết hàng");
+        btn_hethang.setBackground(new java.awt.Color(255, 102, 102));
+        btn_hethang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_hethang.setText("Hết hàng");
+        btn_hethang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_hethangActionPerformed(evt);
+            }
+        });
 
         btn_mausac.setText("Thêm");
         btn_mausac.addActionListener(new java.awt.event.ActionListener() {
@@ -301,9 +355,9 @@ void LoadData() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_lammoi)
                 .addGap(361, 361, 361)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_conhang, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton9)
+                .addComponent(btn_hethang)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -361,8 +415,8 @@ void LoadData() {
                     .addComponent(jButton5)
                     .addComponent(jButton6)
                     .addComponent(btn_lammoi)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
+                    .addComponent(btn_conhang)
+                    .addComponent(btn_hethang))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -400,6 +454,7 @@ void LoadData() {
         txt_mota.setText("");
         txt_soluong.setText("");
         txt_tensp.setText("");
+        LoadData();
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void btn_mausacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mausacActionPerformed
@@ -425,6 +480,14 @@ void LoadData() {
     private void btn_hangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hangActionPerformed
         new ThuongHieu().setVisible(true);
     }//GEN-LAST:event_btn_hangActionPerformed
+
+    private void btn_conhangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_conhangActionPerformed
+       LoadConHang();
+    }//GEN-LAST:event_btn_conhangActionPerformed
+
+    private void btn_hethangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hethangActionPerformed
+      LoadHetHang();
+    }//GEN-LAST:event_btn_hethangActionPerformed
 public void click(){
         int index = tb_sanpham.getSelectedRow();
         txt_id.setText(tb_sanpham.getValueAt(index, 0).toString());
@@ -495,7 +558,9 @@ sp.setThuongHieu(selectedHang);
     return sp;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_conhang;
     private javax.swing.JButton btn_hang;
+    private javax.swing.JButton btn_hethang;
     private javax.swing.JButton btn_lammoi;
     private javax.swing.JButton btn_loai;
     private javax.swing.JButton btn_luu;
@@ -507,8 +572,6 @@ sp.setThuongHieu(selectedHang);
     private javax.swing.JComboBox<String> cbo_size;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

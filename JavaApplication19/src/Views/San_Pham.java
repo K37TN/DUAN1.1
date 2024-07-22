@@ -109,7 +109,7 @@ void LoadData() {
         jButton6 = new javax.swing.JButton();
         btn_lammoi = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        btn_hethang = new javax.swing.JButton();
         btn_mausac = new javax.swing.JButton();
         txt_id = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -192,10 +192,20 @@ void LoadData() {
         jButton8.setBackground(new java.awt.Color(153, 255, 153));
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton8.setText("Còn hàng");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
-        jButton9.setBackground(new java.awt.Color(255, 102, 102));
-        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton9.setText("Hết hàng");
+        btn_hethang.setBackground(new java.awt.Color(255, 102, 102));
+        btn_hethang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_hethang.setText("Hết hàng");
+        btn_hethang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_hethangActionPerformed(evt);
+            }
+        });
 
         btn_mausac.setText("Thêm");
         btn_mausac.addActionListener(new java.awt.event.ActionListener() {
@@ -247,7 +257,7 @@ void LoadData() {
                         .addGap(349, 349, 349)
                         .addComponent(jButton8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                        .addComponent(jButton9))
+                        .addComponent(btn_hethang))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -358,7 +368,7 @@ void LoadData() {
                     .addComponent(jButton6)
                     .addComponent(btn_lammoi)
                     .addComponent(jButton8)
-                    .addComponent(jButton9))
+                    .addComponent(btn_hethang))
                 .addContainerGap())
         );
 
@@ -387,12 +397,13 @@ void LoadData() {
     txt_mota.setText("");
     txt_soluong.setText("");
     txt_tensp.setText("");
-
+LoadData();
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void btn_luuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_luuActionPerformed
       ComboSanPham p = getFrom();
     if (repository.add(p) != null) {
+        LoadData();
         JOptionPane.showMessageDialog(this, "Thêm thành công");
     } else {
         JOptionPane.showMessageDialog(this, "Không thêm được");
@@ -427,6 +438,14 @@ if (selected >= 0) {
     private void tb_sanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_sanphamMouseClicked
        click();
     }//GEN-LAST:event_tb_sanphamMouseClicked
+
+    private void btn_hethangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hethangActionPerformed
+     LoadHetHang();
+    }//GEN-LAST:event_btn_hethangActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        LoadConHang();
+    }//GEN-LAST:event_jButton8ActionPerformed
 public void click(){
         int index = tb_sanpham.getSelectedRow();
         txt_id.setText(tb_sanpham.getValueAt(index, 0).toString());
@@ -482,6 +501,52 @@ private void loadComboMauSac() {
             }
         }
     }
+
+void LoadHetHang() {
+        defaultTableModel.setRowCount(0);
+        
+        for (sanPham x : repository.getHetHang()) {
+            defaultTableModel.addRow(new Object[]{
+                x.getID(),
+                x.getMa(),
+                x.getTen(),
+                 x.getMoTa(),
+                x.getGiaBan(),
+              
+                x.getSoLuongTon(),
+               x.getChatLieu(),
+               x.getKichCo(),
+               x.getThuongHieu(),
+               x.getMauSac(),
+      x.getSoLuongTon() > 0 ? "Còn hàng" : "Hết hàng",
+                  
+            });
+          
+        }
+    }
+void LoadConHang() {
+        defaultTableModel.setRowCount(0);
+        
+        for (sanPham x : repository.getConHang()) {
+            defaultTableModel.addRow(new Object[]{
+                x.getID(),
+                x.getMa(),
+                x.getTen(),
+                 x.getMoTa(),
+                x.getGiaBan(),
+              
+                x.getSoLuongTon(),
+               x.getChatLieu(),
+               x.getKichCo(),
+               x.getThuongHieu(),
+               x.getMauSac(),
+      x.getSoLuongTon() > 0 ? "Còn hàng" : "Hết hàng",
+                  
+            });
+          
+        }
+    }
+
 public void loadComboHang() {
       comboHang.removeAllElements();
         List<Model.Hang> hang = repository.getHang();
@@ -532,6 +597,7 @@ sp.setThuongHieu(selectedHang);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_hang;
+    private javax.swing.JButton btn_hethang;
     private javax.swing.JButton btn_lammoi;
     private javax.swing.JButton btn_loai;
     private javax.swing.JButton btn_luu;
@@ -544,7 +610,6 @@ sp.setThuongHieu(selectedHang);
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -555,8 +620,6 @@ sp.setThuongHieu(selectedHang);
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable tb_sanpham;
     private javax.swing.JTextField txt_gia;
