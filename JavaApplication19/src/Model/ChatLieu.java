@@ -28,11 +28,10 @@ public class ChatLieu {
         this.ten = ten;
     }
 
-    @Override
+  @Override
     public String toString() {
-        return "ChatLieu{" + "ID=" + ID + '}';
+        return String.valueOf(ID); // Trả về ID dưới dạng chuỗi
     }
-
   
   
 }

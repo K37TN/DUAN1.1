@@ -28,12 +28,9 @@ public class MauSac {
         this.ten = ten;
     }
 
-    @Override
+   @Override
     public String toString() {
-        return "MauSac{" + "ID=" + ID + '}';
+        return String.valueOf(ID); // Trả về ID dưới dạng chuỗi
     }
-
-
-   
     
 }

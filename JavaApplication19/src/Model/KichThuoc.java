@@ -28,9 +28,9 @@ public class KichThuoc {
         this.ten = ten;
     }
 
-    @Override
+  @Override
     public String toString() {
-        return "KichThuoc{" + "ID=" + ID + '}';
+        return String.valueOf(ID); // Trả về ID dưới dạng chuỗi
     }
 
    

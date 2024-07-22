@@ -520,31 +520,14 @@ private void loadComboKichThuoc() {
     // Lấy giá trị từ các JComboBox
     // Giả sử cbo_mausac, cbo_loai, cbo_hang, cbo_size chứa các đối tượng tương ứng
     // và bạn cần lấy đối tượng đã chọn
-
-    // Lấy đối tượng từ JComboBox
-   MauSac mauSac = (MauSac) cbo_mausac.getSelectedItem();
-    ChatLieu chatLieu = (ChatLieu) cbo_loai.getSelectedItem();
-    Hang hang = (Hang) cbo_hang.getSelectedItem();
-    KichThuoc kichThuoc = (KichThuoc) cbo_size.getSelectedItem();
-
-    // Kiểm tra giá trị null để tránh lỗi NullPointerException
-    if (mauSac != null) {
-        sp.setID(mauSac.getID()); // Sử dụng id của MauSac
-    }
-    if (chatLieu != null) {
-        sp.setID(chatLieu.getID()); // Sử dụng id của ChatLieu
-    }
-    if (hang != null) {
-        sp.setID(hang.getID()); // Sử dụng id của Hang
-    }
-    if (kichThuoc != null) {
-        sp.setID(kichThuoc.getID()); // Sử dụng id của KichThuoc
-    }
-
-    // Đặt giá trị cho sanPham
-
-    
-
+ Integer selectedHang = (Integer) cbo_hang.getSelectedIndex();
+     Integer selectedChatLieu = (Integer) cbo_loai.getSelectedIndex();
+      Integer selectedMauSa = (Integer) cbo_mausac.getSelectedIndex();
+       Integer selectedKichThuoc = (Integer) cbo_size.getSelectedIndex();
+sp.setChatLieu(selectedChatLieu);
+sp.setKichCo(selectedKichThuoc);
+sp.setMauSac(selectedMauSa);
+sp.setThuongHieu(selectedHang);
     return sp;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

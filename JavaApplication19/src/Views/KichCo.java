@@ -6,11 +6,13 @@ package Views;
 
 import Model.KichThuoc;
 import Model.sanPham;
+import Repository.KichCoRepository;
 import Repository.SanPhamRepository;
 import Repositorys.ImplSanPham;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,11 +24,12 @@ public class KichCo extends javax.swing.JFrame {
    DefaultTableModel defaultTableModel1;
     List<KichThuoc> list;
      private ImplSanPham repository;
+     private KichCoRepository repository1;
     public KichCo() {
         initComponents();
-             
+         this.repository1 = new KichCoRepository();
       repository = new SanPhamRepository();
-   model = (DefaultTableModel) jTable1.getModel();
+   model = (DefaultTableModel) tb_bang.getModel();
         this.filltable();
     }
    private void filltable() {
@@ -54,10 +57,11 @@ public class KichCo extends javax.swing.JFrame {
         txt_ten = new javax.swing.JTextField();
         btn_them = new javax.swing.JButton();
         tbl_bang = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tb_bang = new javax.swing.JTable();
         btn_sua = new javax.swing.JButton();
         btn_xoa = new javax.swing.JButton();
         btn_lammoi = new javax.swing.JButton();
+        txt_id = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -68,8 +72,13 @@ public class KichCo extends javax.swing.JFrame {
         jLabel2.setText("Tên");
 
         btn_them.setText("Thêm");
+        btn_them.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_themActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tb_bang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -80,13 +89,33 @@ public class KichCo extends javax.swing.JFrame {
                 "STT", "Ten"
             }
         ));
-        tbl_bang.setViewportView(jTable1);
+        tb_bang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_bangMouseClicked(evt);
+            }
+        });
+        tbl_bang.setViewportView(tb_bang);
 
         btn_sua.setText("Sửa");
+        btn_sua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_suaActionPerformed(evt);
+            }
+        });
 
         btn_xoa.setText("Xóa");
+        btn_xoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xoaActionPerformed(evt);
+            }
+        });
 
         btn_lammoi.setText("Mới");
+        btn_lammoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lammoiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,17 +133,17 @@ public class KichCo extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addComponent(tbl_bang, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(btn_sua, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(516, 516, 516)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btn_them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_lammoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_xoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btn_sua, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(452, 452, 452)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btn_them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_lammoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_xoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(tbl_bang, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -132,15 +161,114 @@ public class KichCo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_xoa)
                 .addGap(12, 12, 12)
-                .addComponent(btn_lammoi)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_lammoi)
+                    .addComponent(txt_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tbl_bang, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
+      // Lấy thông tin từ form
+        KichThuoc km = getFrom();
+
+        // Thêm khuyến mãi
+        if (repository1.add(km) != null) {
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+           filltable();
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thêm được");
+        }  
+                 
+    }//GEN-LAST:event_btn_themActionPerformed
+
+    private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
+ int selected = tb_bang.getSelectedRow();
+if (selected >= 0) {
+    int id = (Integer) tb_bang.getValueAt(selected, 0); // Giả sử ID ở cột đầu tiên
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sản phẩm này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            if (repository1.delete(id) > 0) { // Nếu có hàng bị xóa
+                JOptionPane.showMessageDialog(this, "Xóa thành công");
+                filltable(); // Tải lại dữ liệu
+            } else {
+                JOptionPane.showMessageDialog(this, "Không xóa được sản phẩm");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm");
+            e.printStackTrace();
+        }
+    }}
+    }//GEN-LAST:event_btn_xoaActionPerformed
+
+    private void tb_bangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_bangMouseClicked
+        int index = tb_bang.getSelectedRow();
+        if (index != -1) {
+             txt_id.setText(tb_bang.getValueAt(index, 0).toString());
+      
+            txt_ten.setText(tb_bang.getValueAt(index, 1).toString());
+         
+        }
+
+    }//GEN-LAST:event_tb_bangMouseClicked
+
+    private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
+        txt_ten.setText("");
+    }//GEN-LAST:event_btn_lammoiActionPerformed
+
+    private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
+ try {
+        // Lấy thông tin từ các ô nhập liệu
+        String ten = txt_ten.getText();
+        String idText = txt_id.getText();
+
+        // Kiểm tra thông tin có hợp lệ không (ví dụ kiểm tra null hoặc rỗng)
+        if (idText == null || idText.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID không được để trống.");
+            return;
+        }
+
+        if (ten == null || ten.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên không được để trống.");
+            return;
+        }
+
+        // Chuyển đổi ID từ String sang Integer
+        int id = Integer.parseInt(idText);
+
+        // Tạo đối tượng KichThuoc và thiết lập giá trị từ giao diện người dùng
+        KichThuoc kichThuoc = new KichThuoc();
+        kichThuoc.setID(id);
+        kichThuoc.setTen(ten);
+
+        // Gọi phương thức update từ repository1
+        Integer result = repository1.update(kichThuoc);
+            filltable();
+
+        // Hiển thị thông báo dựa trên kết quả
+        if (result != null && result > 0) {
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Không cập nhật được thông tin.");
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật thông tin: " + e.getMessage());
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btn_suaActionPerformed
+
+
+    private KichThuoc getFrom() {
+          KichThuoc sv = new KichThuoc();
+ sv.setTen(txt_ten.getText());
+    return sv;
+    }
     /**
      * @param args the command line arguments
      */
@@ -184,8 +312,9 @@ public class KichCo extends javax.swing.JFrame {
     private javax.swing.JButton btn_xoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tb_bang;
     private javax.swing.JScrollPane tbl_bang;
+    private javax.swing.JLabel txt_id;
     private javax.swing.JTextField txt_ten;
     // End of variables declaration//GEN-END:variables
 }
