@@ -167,6 +167,11 @@ private void getListHoaDon() {
                 "Mã HD", "Ngày Tạo", "Trạng Thái"
             }
         ));
+        tbl_HoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_HoaDonMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbl_HoaDon);
 
         jButton2.setText("Tạo HĐ");
@@ -377,6 +382,10 @@ private void getListHoaDon() {
             System.out.println("thêm thất bại");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tbl_HoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_HoaDonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbl_HoaDonMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
