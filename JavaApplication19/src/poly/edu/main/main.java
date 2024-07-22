@@ -3,6 +3,7 @@ package poly.edu.main;
 import ViewFrame.Ban_Hang;
 import ViewFrame.KhachHang;
 import ViewFrame.San_Pham;
+import ViewFrame.Voucher_form;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +36,7 @@ public class main extends javax.swing.JFrame {
                 } else if (index == 2) {
                    setForm(new San_Pham());
                 } else if (index == 3) {
-
+                  setForm(new Voucher_form());
                 } else if (index == 4) {
                     setForm(new Ban_Hang());
                 } else if (index == 5) {

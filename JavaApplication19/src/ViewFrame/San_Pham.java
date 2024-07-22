@@ -5,6 +5,7 @@
 package ViewFrame;
 
 import Model.ChatLieu;
+import Model.ComboSanPham;
 import Model.Hang;
 import Model.KichThuoc;
 import Model.MauSac;
@@ -367,12 +368,12 @@ void LoadData() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_luuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_luuActionPerformed
-//        sanPham p = getFrom();
-//        if (repository.add(p) != null) {
-//            JOptionPane.showMessageDialog(this, "Thêm thành công");
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Không thêm được");
-//        }
+    ComboSanPham p = getFrom();
+    if (repository.add(p) != null) {
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
+    } else {
+        JOptionPane.showMessageDialog(this, "Không thêm được");
+    }
     }//GEN-LAST:event_btn_luuActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -472,13 +473,25 @@ private void loadComboKichThuoc() {
             }
         }
     }
- private sanPham getFrom(){
-  sanPham sp = new sanPham();
-    sp.setMa(txt_masp.getText());
+ private  ComboSanPham getFrom(){
+   ComboSanPham sp = new  ComboSanPham();
+   sp.setMa(txt_masp.getText());
     sp.setTen(txt_tensp.getText());
     sp.setMoTa(txt_mota.getText());
     sp.setGiaBan(new BigDecimal(txt_gia.getText()));
     sp.setSoLuongTon(Integer.parseInt(txt_soluong.getText()));
+    
+    // Lấy giá trị từ các JComboBox
+    // Giả sử cbo_mausac, cbo_loai, cbo_hang, cbo_size chứa các đối tượng tương ứng
+    // và bạn cần lấy đối tượng đã chọn
+ Integer selectedHang = (Integer) cbo_hang.getSelectedIndex();
+     Integer selectedChatLieu = (Integer) cbo_loai.getSelectedIndex();
+      Integer selectedMauSa = (Integer) cbo_mausac.getSelectedIndex();
+       Integer selectedKichThuoc = (Integer) cbo_size.getSelectedIndex();
+sp.setChatLieu(selectedChatLieu);
+sp.setKichCo(selectedKichThuoc);
+sp.setMauSac(selectedMauSa);
+sp.setThuongHieu(selectedHang);
     return sp;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
