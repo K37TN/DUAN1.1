@@ -4,19 +4,49 @@
  */
 package Views;
 
+import Model.ChatLieu;
+import Model.MauSac;
+import Repository.ChatLieuRepository;
+import Repository.MauSacRepository;
+import Repository.SanPhamRepository;
+import Repositorys.ImplSanPham;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author FPTSHOP
  */
 public class Chat_Lieu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ChatLieu
-     */
+  DefaultTableModel model = new DefaultTableModel();
+   DefaultTableModel defaultTableModel1;
+    List<ChatLieu> list;
+     private ImplSanPham repository;
+     private ChatLieuRepository repository1;
     public Chat_Lieu() {
         initComponents();
+             this.repository1 = new ChatLieuRepository();
+      repository = new SanPhamRepository();
+   model = (DefaultTableModel) tbl_bang.getModel();
+        this.filltable();
     }
-
+private void filltable() {
+    model.setRowCount(0);
+        List<ChatLieu> list = repository.getChatLieu();
+        for (ChatLieu x : list) {
+            model.addRow(new Object[]{
+                x.getID(),
+                x.getTen()
+            });
+        }
+    }
+  private ChatLieu getFrom() {
+         ChatLieu sv = new ChatLieu();
+ sv.setTen(txt_ten.getText());
+    return sv;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,13 +58,14 @@ public class Chat_Lieu extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txt_ten = new javax.swing.JTextField();
+        btn_them = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tbl_bang = new javax.swing.JTable();
+        btn_sua = new javax.swing.JButton();
+        btn_xoa = new javax.swing.JButton();
+        btn_lammoi = new javax.swing.JButton();
+        txt_id = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -43,9 +74,14 @@ public class Chat_Lieu extends javax.swing.JFrame {
 
         jLabel2.setText("Tên");
 
-        jButton1.setText("Thêm");
+        btn_them.setText("Thêm");
+        btn_them.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_themActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_bang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -56,13 +92,33 @@ public class Chat_Lieu extends javax.swing.JFrame {
                 "STT", "Ten", "Trạng Thái"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tbl_bang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_bangMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_bang);
 
-        jButton2.setText("Sửa");
+        btn_sua.setText("Sửa");
+        btn_sua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_suaActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Xóa");
+        btn_xoa.setText("Xóa");
+        btn_xoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xoaActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Mới");
+        btn_lammoi.setText("Mới");
+        btn_lammoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lammoiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,26 +127,27 @@ public class Chat_Lieu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(263, 263, 263)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(516, 516, 516)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btn_sua, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(427, 427, 427)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btn_them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_lammoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_xoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txt_ten, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -101,14 +158,16 @@ public class Chat_Lieu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(txt_ten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_them))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(btn_sua)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(btn_xoa)
                 .addGap(12, 12, 12)
-                .addComponent(jButton4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_lammoi)
+                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -116,6 +175,95 @@ public class Chat_Lieu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
+    ChatLieu km = getFrom();
+
+        // Thêm khuyến mãi
+        if (repository1.add(km) != null) {
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+           filltable();
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thêm được");
+        }  
+    }//GEN-LAST:event_btn_themActionPerformed
+
+    private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
+       try {
+        // Lấy thông tin từ các ô nhập liệu
+        String ten = txt_ten.getText();
+        String idText = txt_id.getText();
+
+        // Kiểm tra thông tin có hợp lệ không (ví dụ kiểm tra null hoặc rỗng)
+        if (idText == null || idText.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID không được để trống.");
+            return;
+        }
+
+        if (ten == null || ten.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên không được để trống.");
+            return;
+        }
+
+        // Chuyển đổi ID từ String sang Integer
+        int id = Integer.parseInt(idText);
+
+        // Tạo đối tượng KichThuoc và thiết lập giá trị từ giao diện người dùng
+        ChatLieu kichThuoc = new ChatLieu();
+        kichThuoc.setID(id);
+        kichThuoc.setTen(ten);
+
+        // Gọi phương thức update từ repository1
+        Integer result = repository1.update(kichThuoc);
+            filltable();
+
+        // Hiển thị thông báo dựa trên kết quả
+        if (result != null && result > 0) {
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Không cập nhật được thông tin.");
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật thông tin: " + e.getMessage());
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btn_suaActionPerformed
+
+    private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
+   int selected = tbl_bang.getSelectedRow();
+if (selected >= 0) {
+    int id = (Integer) tbl_bang.getValueAt(selected, 0); // Giả sử ID ở cột đầu tiên
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sản phẩm này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            if (repository1.delete(id) > 0) { // Nếu có hàng bị xóa
+                JOptionPane.showMessageDialog(this, "Xóa thành công");
+                filltable(); // Tải lại dữ liệu
+            } else {
+                JOptionPane.showMessageDialog(this, "Không xóa được sản phẩm");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm");
+            e.printStackTrace();
+        }
+    }}
+
+    }//GEN-LAST:event_btn_xoaActionPerformed
+
+    private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
+           txt_ten.setText("");
+    }//GEN-LAST:event_btn_lammoiActionPerformed
+
+    private void tbl_bangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_bangMouseClicked
+         int index = tbl_bang.getSelectedRow();
+        if (index != -1) {
+             txt_id.setText(tbl_bang.getValueAt(index, 0).toString());
+      
+            txt_ten.setText(tbl_bang.getValueAt(index, 1).toString());
+         
+        }
+    }//GEN-LAST:event_tbl_bangMouseClicked
 
     /**
      * @param args the command line arguments
@@ -154,14 +302,15 @@ public class Chat_Lieu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btn_lammoi;
+    private javax.swing.JButton btn_sua;
+    private javax.swing.JButton btn_them;
+    private javax.swing.JButton btn_xoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tbl_bang;
+    private javax.swing.JLabel txt_id;
+    private javax.swing.JTextField txt_ten;
     // End of variables declaration//GEN-END:variables
 }
