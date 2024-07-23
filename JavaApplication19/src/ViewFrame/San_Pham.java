@@ -30,13 +30,13 @@ public class San_Pham extends javax.swing.JPanel {
  DefaultTableModel defaultTableModel;
     DefaultTableModel defaultTableModel1;
       List<sanPham> list;
-     DefaultComboBoxModel<ChatLieu> comboChatLieu = new DefaultComboBoxModel<>();
+  DefaultComboBoxModel<String> comboChatLieu = new DefaultComboBoxModel<>();
 
-    DefaultComboBoxModel<MauSac> comboMauSac = new DefaultComboBoxModel<>();
+    DefaultComboBoxModel<String> comboMauSac = new DefaultComboBoxModel<>();
 
-    DefaultComboBoxModel<Hang> comboHang = new DefaultComboBoxModel<>();
+    DefaultComboBoxModel<String> comboHang = new DefaultComboBoxModel<>();
 
-    DefaultComboBoxModel<KichThuoc> combokichco = new DefaultComboBoxModel<>();
+    DefaultComboBoxModel<String> combokichco = new DefaultComboBoxModel<>();
      private ImplSanPham repository;
     public San_Pham() {
         initComponents();
@@ -448,11 +448,17 @@ void LoadConHang() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_luuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_luuActionPerformed
-    ComboSanPham p = getFrom();
-    if (repository.add(p) != null) {
-        JOptionPane.showMessageDialog(this, "Thêm thành công");
-    } else {
-        JOptionPane.showMessageDialog(this, "Không thêm được");
+  int response = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thêm sản phẩm này không?", "Xác nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+    if (response == JOptionPane.YES_OPTION) {
+        ComboSanPham p = getFrom();
+        if (p != null) {
+            if (repository.add(p) != null) {
+                LoadData();
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+            } else {
+                JOptionPane.showMessageDialog(this, "Không thêm được");
+            }
+        }
     }
     }//GEN-LAST:event_btn_luuActionPerformed
 
@@ -526,61 +532,139 @@ public void click(){
 
         cbo_size.setSelectedItem(tb_sanpham.getValueAt(index,7));
 }
-private void loadComboMauSac() {
-      comboMauSac.removeAllElements();
-        List<Model.MauSac> mauSacs = repository.getMausac();
-        if (mauSacs != null) {
-            for (Model.MauSac ms : mauSacs) {
-                comboMauSac.addElement(ms);
-            }
-        }
-    }
-private void loadComboHang() {
-      comboHang.removeAllElements();
+    public void loadComboHang() {
+        comboHang.removeAllElements();
         List<Model.Hang> hang = repository.getHang();
         if (hang != null) {
             for (Model.Hang h : hang) {
-                comboHang.addElement(h);
+                comboHang.addElement(h.getTen());
             }
         }
     }
-private void loadComboChatLieu() {
-      comboChatLieu.removeAllElements();
+
+    private void loadComboChatLieu() {
+        comboChatLieu.removeAllElements();
         List<Model.ChatLieu> hang = repository.getChatLieu();
         if (hang != null) {
             for (Model.ChatLieu cl : hang) {
-                comboChatLieu.addElement(cl);
+                comboChatLieu.addElement(cl.getTen());
             }
         }
     }
-private void loadComboKichThuoc() {
-      combokichco.removeAllElements();
+  private void loadComboMauSac() {
+        comboMauSac.removeAllElements();
+        List<Model.MauSac> mauSacs = repository.getMausac();
+        if (mauSacs != null) {
+            for (Model.MauSac ms : mauSacs) {
+                System.out.println(ms.getTen());
+                comboMauSac.addElement(ms.getTen());
+            }
+        }
+    }
+    private void loadComboKichThuoc() {
+        combokichco.removeAllElements();
         List<Model.KichThuoc> hang = repository.getKichThuoc();
         if (hang != null) {
             for (Model.KichThuoc kt : hang) {
-                combokichco.addElement(kt);
+                combokichco.addElement(kt.getTen());
             }
         }
     }
  private  ComboSanPham getFrom(){
-   ComboSanPham sp = new  ComboSanPham();
-   sp.setMa(txt_masp.getText());
-    sp.setTen(txt_tensp.getText());
-    sp.setMoTa(txt_mota.getText());
-    sp.setGiaBan(new BigDecimal(txt_gia.getText()));
-    sp.setSoLuongTon(Integer.parseInt(txt_soluong.getText()));
+   ComboSanPham sp = new ComboSanPham();
     
-    // Lấy giá trị từ các JComboBox
-    // Giả sử cbo_mausac, cbo_loai, cbo_hang, cbo_size chứa các đối tượng tương ứng
-    // và bạn cần lấy đối tượng đã chọn
- Integer selectedHang = (Integer) cbo_hang.getSelectedIndex();
-     Integer selectedChatLieu = (Integer) cbo_loai.getSelectedIndex();
-      Integer selectedMauSa = (Integer) cbo_mausac.getSelectedIndex();
-       Integer selectedKichThuoc = (Integer) cbo_size.getSelectedIndex();
-sp.setChatLieu(selectedChatLieu);
-sp.setKichCo(selectedKichThuoc);
-sp.setMauSac(selectedMauSa);
-sp.setThuongHieu(selectedHang);
+    // Validate mã sản phẩm
+    if (txt_masp.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã sản phẩm không được để trống");
+        return null;
+    }
+    sp.setMa(txt_masp.getText());
+
+    // Validate tên sản phẩm
+    if (txt_tensp.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Tên sản phẩm không được để trống");
+        return null;
+    }
+    sp.setTen(txt_tensp.getText());
+
+    // Validate mô tả
+    if (txt_mota.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mô tả không được để trống");
+        return null;
+    }
+    sp.setMoTa(txt_mota.getText());
+
+    // Validate giá bán
+    try {
+        BigDecimal giaBan = new BigDecimal(txt_gia.getText().trim());
+        if (giaBan.compareTo(BigDecimal.ZERO) <= 0) {
+            JOptionPane.showMessageDialog(this, "Giá bán phải lớn hơn 0");
+            return null;
+        }
+        sp.setGiaBan(giaBan);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Giá bán phải là số hợp lệ");
+        return null;
+    }
+
+    // Validate số lượng tồn
+    try {
+        int soLuongTon = Integer.parseInt(txt_soluong.getText().trim());
+        if (soLuongTon < 0) {
+            JOptionPane.showMessageDialog(this, "Số lượng tồn phải lớn hơn hoặc bằng 0");
+            return null;
+        }
+        sp.setSoLuongTon(soLuongTon);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Số lượng tồn phải là số hợp lệ");
+        return null;
+    }
+
+    // Lấy giá trị từ các JComboBox và validate
+    // MauSac
+    MauSac selectedMauSa = repository.getMausac().stream()
+        .filter(ms -> ms.getTen().equalsIgnoreCase(cbo_mausac.getSelectedItem().toString()))
+        .findFirst()
+        .orElse(null);
+    if (selectedMauSa == null) {
+        JOptionPane.showMessageDialog(this, "Màu sắc không hợp lệ");
+        return null;
+    }
+    sp.setMauSac(selectedMauSa.getID());
+
+    // Hang
+    Hang selectedHang = repository.getHang().stream()
+        .filter(h -> h.getTen().equalsIgnoreCase(cbo_hang.getSelectedItem().toString()))
+        .findFirst()
+        .orElse(null);
+    if (selectedHang == null) {
+        JOptionPane.showMessageDialog(this, "Hãng không hợp lệ");
+        return null;
+    }
+    sp.setThuongHieu(selectedHang.getID());
+
+    // ChatLieu
+    ChatLieu selectedChatLieu = repository.getChatLieu().stream()
+        .filter(cl -> cl.getTen().equalsIgnoreCase(cbo_loai.getSelectedItem().toString()))
+        .findFirst()
+        .orElse(null);
+    if (selectedChatLieu == null) {
+        JOptionPane.showMessageDialog(this, "Chất liệu không hợp lệ");
+        return null;
+    }
+    sp.setChatLieu(selectedChatLieu.getID());
+
+    // KichThuoc
+    KichThuoc selectedKichThuoc = repository.getKichThuoc().stream()
+        .filter(kt -> kt.getTen().equalsIgnoreCase(cbo_size.getSelectedItem().toString()))
+        .findFirst()
+        .orElse(null);
+    if (selectedKichThuoc == null) {
+        JOptionPane.showMessageDialog(this, "Kích thước không hợp lệ");
+        return null;
+    }
+    sp.setKichCo(selectedKichThuoc.getID());
+
     return sp;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

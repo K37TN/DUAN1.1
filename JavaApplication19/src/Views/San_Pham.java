@@ -27,14 +27,13 @@ public class San_Pham extends javax.swing.JFrame {
  DefaultTableModel defaultTableModel;
     DefaultTableModel defaultTableModel1;
       List<sanPham> list;
-     DefaultComboBoxModel<ChatLieu> comboChatLieu = new DefaultComboBoxModel<>();
+   DefaultComboBoxModel<String> comboChatLieu = new DefaultComboBoxModel<>();
 
-    DefaultComboBoxModel<MauSac> comboMauSac = new DefaultComboBoxModel<>();
+    DefaultComboBoxModel<String> comboMauSac = new DefaultComboBoxModel<>();
 
+    DefaultComboBoxModel<String> comboHang = new DefaultComboBoxModel<>();
 
-    DefaultComboBoxModel<Hang> comboHang = new DefaultComboBoxModel<>();
-
-    DefaultComboBoxModel<KichThuoc> combokichco = new DefaultComboBoxModel<>();
+    DefaultComboBoxModel<String> combokichco = new DefaultComboBoxModel<>();
      private ImplSanPham repository;
     public San_Pham() {
         initComponents();
@@ -136,6 +135,11 @@ void LoadData() {
         jLabel9.setText("Màu Sắc");
 
         cbo_loai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbo_loai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbo_loaiActionPerformed(evt);
+            }
+        });
 
         cbo_hang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -360,8 +364,8 @@ void LoadData() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_luu)
                     .addComponent(jButton5)
@@ -401,12 +405,15 @@ LoadData();
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void btn_luuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_luuActionPerformed
-      ComboSanPham p = getFrom();
-    if (repository.add(p) != null) {
-        LoadData();
-        JOptionPane.showMessageDialog(this, "Thêm thành công");
-    } else {
-        JOptionPane.showMessageDialog(this, "Không thêm được");
+   int response = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thêm sản phẩm này không?", "Xác nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+    if (response == JOptionPane.YES_OPTION) {
+        ComboSanPham p = getFrom();
+        if (repository.add(p) != null) {
+            LoadData();
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thêm được");
+        }
     }
     }//GEN-LAST:event_btn_luuActionPerformed
 
@@ -446,6 +453,10 @@ if (selected >= 0) {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         LoadConHang();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void cbo_loaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_loaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbo_loaiActionPerformed
 public void click(){
         int index = tb_sanpham.getSelectedRow();
         txt_id.setText(tb_sanpham.getValueAt(index, 0).toString());
@@ -455,8 +466,9 @@ public void click(){
         txt_gia.setText(tb_sanpham.getValueAt(index, 4).toString());
         txt_soluong.setText(tb_sanpham.getValueAt(index, 5).toString());
         cbo_loai.setSelectedItem(tb_sanpham.getValueAt(index,6));
-
+cbo_hang.setSelectedItem(tb_sanpham.getValueAt(index,8));
         cbo_size.setSelectedItem(tb_sanpham.getValueAt(index,7));
+        cbo_mausac.setSelectedItem(tb_sanpham.getValueAt(index,9));
 }
     /**
      * @param args the command line arguments
@@ -493,11 +505,12 @@ public void click(){
         });
     }
 private void loadComboMauSac() {
-      comboMauSac.removeAllElements();
+     comboMauSac.removeAllElements();
         List<Model.MauSac> mauSacs = repository.getMausac();
         if (mauSacs != null) {
             for (Model.MauSac ms : mauSacs) {
-                comboMauSac.addElement(ms);
+                System.out.println(ms.getTen());
+                comboMauSac.addElement(ms.getTen());
             }
         }
     }
@@ -552,48 +565,69 @@ public void loadComboHang() {
         List<Model.Hang> hang = repository.getHang();
         if (hang != null) {
             for (Model.Hang h : hang) {
-                comboHang.addElement(h);
+                comboHang.addElement(h.getTen());
             }
         }
     }
 private void loadComboChatLieu() {
-      comboChatLieu.removeAllElements();
+       comboChatLieu.removeAllElements();
         List<Model.ChatLieu> hang = repository.getChatLieu();
         if (hang != null) {
             for (Model.ChatLieu cl : hang) {
-                comboChatLieu.addElement(cl);
+                comboChatLieu.addElement(cl.getTen());
             }
         }
     }
 private void loadComboKichThuoc() {
-      combokichco.removeAllElements();
+     combokichco.removeAllElements();
         List<Model.KichThuoc> hang = repository.getKichThuoc();
         if (hang != null) {
             for (Model.KichThuoc kt : hang) {
-                combokichco.addElement(kt);
+                combokichco.addElement(kt.getTen());
             }
         }
     }
  private  ComboSanPham getFrom(){
-   ComboSanPham sp = new  ComboSanPham();
-   sp.setMa(txt_masp.getText());
-    sp.setTen(txt_tensp.getText());
-    sp.setMoTa(txt_mota.getText());
-    sp.setGiaBan(new BigDecimal(txt_gia.getText()));
-    sp.setSoLuongTon(Integer.parseInt(txt_soluong.getText()));
-    
-    // Lấy giá trị từ các JComboBox
-    // Giả sử cbo_mausac, cbo_loai, cbo_hang, cbo_size chứa các đối tượng tương ứng
-    // và bạn cần lấy đối tượng đã chọn
- Integer selectedHang = (Integer) cbo_hang.getSelectedIndex();
-     Integer selectedChatLieu = (Integer) cbo_loai.getSelectedIndex();
-      Integer selectedMauSa = (Integer) cbo_mausac.getSelectedIndex();
-       Integer selectedKichThuoc = (Integer) cbo_size.getSelectedIndex();
-sp.setChatLieu(selectedChatLieu);
-sp.setKichCo(selectedKichThuoc);
-sp.setMauSac(selectedMauSa);
-sp.setThuongHieu(selectedHang);
-    return sp;
+      ComboSanPham sp = new ComboSanPham();
+        sp.setMa(txt_masp.getText());
+        sp.setTen(txt_tensp.getText());
+        sp.setMoTa(txt_mota.getText());
+        sp.setGiaBan(new BigDecimal(txt_gia.getText()));
+        sp.setSoLuongTon(Integer.parseInt(txt_soluong.getText()));
+
+        // Lấy giá trị từ các JComboBox
+        // Giả sử cbo_mausac, cbo_loai, cbo_hang, cbo_size chứa các đối tượng tương ứng
+        // và bạn cần lấy đối tượng đã chọn
+        Integer selectedMauSa = 0;
+        for (MauSac s : repository.getMausac()) {
+            if (s.getTen().equalsIgnoreCase(cbo_mausac.getSelectedItem().toString())) {
+                selectedMauSa = s.getID();
+            }
+        }
+        Integer selectedHang = 0;
+        for (Hang s : repository.getHang()) {
+            if (s.getTen().equalsIgnoreCase(cbo_hang.getSelectedItem().toString())) {
+                selectedHang = s.getID();
+            }
+        }
+        Integer selectedChatLieu = 0;
+        for (ChatLieu s : repository.getChatLieu()) {
+            if (s.getTen().equalsIgnoreCase(cbo_loai.getSelectedItem().toString())) {
+                selectedChatLieu = s.getID();
+            }
+        }
+        Integer selectedKichThuoc = 0;
+        for (KichThuoc s : repository.getKichThuoc()) {
+            if (s.getTen().equalsIgnoreCase(cbo_size.getSelectedItem().toString())) {
+                selectedKichThuoc = s.getID();
+            }
+        }
+        sp.setChatLieu(selectedChatLieu);
+        sp.setKichCo(selectedKichThuoc);
+        System.out.println(selectedChatLieu);
+        sp.setMauSac(selectedMauSa);
+        sp.setThuongHieu(selectedHang);
+        return sp;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_hang;

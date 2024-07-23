@@ -28,9 +28,5 @@ public class MauSac {
         this.ten = ten;
     }
 
-   @Override
-    public String toString() {
-        return String.valueOf(ID); // Trả về ID dưới dạng chuỗi
-    }
     
 }
