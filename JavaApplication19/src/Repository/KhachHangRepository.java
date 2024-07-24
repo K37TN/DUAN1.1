@@ -195,5 +195,67 @@ ps.setObject(9, id);
         ex.printStackTrace();
         }
         return listkh;}
+
+    @Override
+    public List<KhachHang> getNam() {
+   String sql = "SELECT [Id], [Ma], [Ten], [TenDem], [Ho], [Gioitinh], [NgaySinh], [Email], [Sdt] " +
+                 "FROM [dbo].[KhachHang] " +
+                 "WHERE Gioitinh = 0";
+
+    List<KhachHang> listSP = new ArrayList<>();
+    try (Connection con = DBcontext.getConnection(); 
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+             KhachHang khachhang = new KhachHang();
+                khachhang.setId(rs.getInt(1));
+                khachhang.setMa(rs.getString(2));
+                khachhang.setTen(rs.getString(3));
+                khachhang.setTendem(rs.getString(4));
+                khachhang.setHo(rs.getString(5));
+                khachhang.setGioitinh(rs.getInt(6));
+                khachhang.setNgaysinh(rs.getDate(7));
+                khachhang.setEmail(rs.getString(8));
+                khachhang.setSdt(rs.getString(9));
+
+            listSP.add(khachhang);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(System.out);
+    }
+    return listSP;
+} 
+
+    @Override
+    public List<KhachHang> getNu() {
+     String sql = "SELECT [Id], [Ma], [Ten], [TenDem], [Ho], [Gioitinh], [NgaySinh], [Email], [Sdt] " +
+                 "FROM [dbo].[KhachHang] " +
+                 "WHERE Gioitinh = 1";
+
+    List<KhachHang> listSP = new ArrayList<>();
+    try (Connection con = DBcontext.getConnection(); 
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+             KhachHang khachhang = new KhachHang();
+                khachhang.setId(rs.getInt(1));
+                khachhang.setMa(rs.getString(2));
+                khachhang.setTen(rs.getString(3));
+                khachhang.setTendem(rs.getString(4));
+                khachhang.setHo(rs.getString(5));
+                khachhang.setGioitinh(rs.getInt(6));
+                khachhang.setNgaysinh(rs.getDate(7));
+                khachhang.setEmail(rs.getString(8));
+                khachhang.setSdt(rs.getString(9));
+
+            listSP.add(khachhang);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(System.out);
+    }
+    return listSP;    
+    }
 }
 

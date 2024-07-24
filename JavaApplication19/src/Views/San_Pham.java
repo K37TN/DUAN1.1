@@ -113,6 +113,8 @@ void LoadData() {
         txt_id = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tb_sanpham = new javax.swing.JTable();
+        txt_timkiem = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -248,6 +250,24 @@ void LoadData() {
         });
         jScrollPane4.setViewportView(tb_sanpham);
 
+        txt_timkiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_timkiemKeyReleased(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -320,6 +340,12 @@ void LoadData() {
                         .addContainerGap()
                         .addComponent(jScrollPane4)))
                 .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txt_timkiem)
+                .addGap(70, 70, 70)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(427, 427, 427))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,8 +394,12 @@ void LoadData() {
                             .addComponent(btn_mausac))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_luu)
@@ -483,6 +513,23 @@ if (selected >= 0) {
         JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để cập nhật");
     }
     }//GEN-LAST:event_btn_updateActionPerformed
+
+    private void txt_timkiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_timkiemKeyReleased
+ String ma = txt_timkiem.getText().trim();
+    String ten = txt_timkiem.getText().trim();
+
+    List<sanPham> resultList = repository.search(ma, ten);
+    updateTable(resultList);
+    
+    }//GEN-LAST:event_txt_timkiemKeyReleased
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+       
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 public void click(){
         int index = tb_sanpham.getSelectedRow();
         txt_id.setText(tb_sanpham.getValueAt(index, 0).toString());
@@ -495,6 +542,26 @@ public void click(){
 cbo_hang.setSelectedItem(tb_sanpham.getValueAt(index,8));
         cbo_size.setSelectedItem(tb_sanpham.getValueAt(index,7));
         cbo_mausac.setSelectedItem(tb_sanpham.getValueAt(index,9));
+}
+private void updateTable(List<sanPham> resultList) {
+    DefaultTableModel model = (DefaultTableModel) tb_sanpham.getModel();
+    model.setRowCount(0);
+
+    for (sanPham sp : resultList) {
+        model.addRow(new Object[]{
+            sp.getID(),
+            sp.getMa(),
+            sp.getTen(),
+            sp.getGiaBan(),
+            sp.getMoTa(),
+            sp.getSoLuongTon(),
+            sp.getChatLieu(),
+            sp.getKichCo(),
+            sp.getThuongHieu(),
+            sp.getMauSac(),
+            sp.getSoLuongTon()> 0 ? "Còn hàng" : "Hết hàng"
+        });
+    }
 }
     /**
      * @param args the command line arguments
@@ -670,6 +737,7 @@ private void loadComboKichThuoc() {
     private javax.swing.JComboBox<String> cbo_size;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -688,6 +756,7 @@ private void loadComboKichThuoc() {
     private javax.swing.JTextPane txt_mota;
     private javax.swing.JTextField txt_soluong;
     private javax.swing.JTextField txt_tensp;
+    private javax.swing.JTextField txt_timkiem;
     // End of variables declaration//GEN-END:variables
 
  

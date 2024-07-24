@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -390,5 +391,70 @@ String sql = "UPDATE ChitietSP SET Ma = ?, Ten = ?, IdMauSac = ?, IdKC = ?, IdCL
         }
         return null;            
          }
+    @Override
+    public List<sanPham> search(String ma, String ten) {
+     List<sanPham> resultList = new ArrayList<>();
+    String sql = "SELECT " +
+            "ctsp.Id, " +
+            "ctsp.Ma, " +
+            "ctsp.Ten, " +
+            "ctsp.GiaBan, " +
+            "ctsp.MoTa, " +
+            "ctsp.SoLuongTon, " +
+            "cl.Ten AS TenChatLieu, " +
+            "kc.Ten AS TenKichCo, " +
+            "ms.Ten AS TenMauSac, " +
+            "th.Ten AS TenThuongHieu " +
+            "FROM ChitietSP ctsp " +
+            "INNER JOIN ChatLieu cl ON ctsp.IdCL = cl.Id " +
+            "INNER JOIN KichCo kc ON ctsp.IdKC = kc.Id " +
+            "INNER JOIN MauSac ms ON ctsp.IdMauSac = ms.Id " +
+            "INNER JOIN ThuongHieu th ON ctsp.IdTH = th.Id " +
+            "WHERE 1=1"; // Phần này giúp bắt đầu điều kiện WHERE một cách an toàn
 
+    if (ma != null && !ma.trim().isEmpty()) {
+        sql += " AND ctsp.Ma LIKE ?";
+    }
+    if (ten != null && !ten.trim().isEmpty()) {
+        sql += " AND ctsp.Ten LIKE ?";
+    }
+
+    try (Connection con = DBcontext.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        int paramIndex = 1;
+
+        if (ma != null && !ma.trim().isEmpty()) {
+            ps.setString(paramIndex++, "%" + ma + "%");
+        }
+        if (ten != null && !ten.trim().isEmpty()) {
+            ps.setString(paramIndex++, "%" + ten + "%");
+        }
+
+        System.out.println("Executing query: " + ps.toString()); // In câu lệnh SQL để kiểm tra
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            sanPham p = new sanPham();
+            p.setID(rs.getInt("Id"));
+            p.setMa(rs.getString("Ma"));
+            p.setTen(rs.getString("Ten"));
+            p.setGiaBan(rs.getBigDecimal("GiaBan"));
+            p.setMoTa(rs.getString("MoTa"));
+            p.setSoLuongTon(rs.getInt("SoLuongTon"));
+            p.setChatLieu(rs.getString("TenChatLieu"));
+            p.setKichCo(rs.getString("TenKichCo"));
+            p.setThuongHieu(rs.getString("TenThuongHieu"));
+            p.setMauSac(rs.getString("TenMauSac"));
+
+            resultList.add(p);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Lỗi truy vấn cơ sở dữ liệu: " + e.getMessage());
+    }
+
+    return resultList;
+    }
+    
 }

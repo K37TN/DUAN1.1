@@ -121,6 +121,11 @@ public class Khach_Hang extends javax.swing.JFrame {
         TXT_01.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         TXT_01.setForeground(new java.awt.Color(51, 51, 51));
 
+        txt_timkiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_timkiemActionPerformed(evt);
+            }
+        });
         txt_timkiem.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_timkiemKeyReleased(evt);
@@ -130,6 +135,11 @@ public class Khach_Hang extends javax.swing.JFrame {
         jLabel8.setText("Tìm kiếm");
 
         cbo_gt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbo_gt.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbo_gtItemStateChanged(evt);
+            }
+        });
         cbo_gt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbo_gtActionPerformed(evt);
@@ -486,6 +496,27 @@ if (KH.Update(id, kh) != null) {
     private void cbo_gtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_gtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbo_gtActionPerformed
+
+    private void cbo_gtItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbo_gtItemStateChanged
+    Object selectedItem = cbo_gt.getSelectedItem();
+    
+    if (selectedItem != null) {
+        String Ten = selectedItem.toString();
+        
+        if (Ten.equals("ALL")) {
+             list = KHRP.getall();
+        showtable(list);
+        } else if (Ten.equals("Nam")) {
+            LoadNam();
+        }else if (Ten.equals("Nữ")) {
+            LoadNu();
+        }
+    }
+    }//GEN-LAST:event_cbo_gtItemStateChanged
+
+    private void txt_timkiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_timkiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_timkiemActionPerformed
 private boolean validateKhachHang() {
     String sdtPattern = "(0\\d{9})"; // Biểu thức chính quy cho số điện thoại
     Pattern pattern = Pattern.compile("^[0-9]+$"); // Biểu thức chính quy cho kiểm tra số
@@ -530,6 +561,48 @@ private boolean validateKhachHang() {
     // Nếu không có lỗi xảy ra trong quá trình kiểm tra
     return true;
 }
+void LoadNam() {
+  // Cập nhật lại dữ liệu bảng
+    defaultTableModel.setRowCount(0);
+    
+    // Lấy danh sách khách hàng nam từ repository
+    List<KhachHang> listNam = repository.getNam();
+    
+    // Duyệt qua danh sách và thêm các hàng vào bảng
+    for (KhachHang kh : listNam) {
+        Object[] rowData = new Object[7];
+        rowData[0] = kh.getId();
+        rowData[1] = kh.getMa();
+        rowData[2] = kh.getHo() + " " + kh.getTendem() + " " + kh.getTen();
+        rowData[3] = kh.getGioitinh() == 0 ? "Nam" : "Nữ"; // Có thể bỏ qua, vì đây là phương thức lọc nam
+        rowData[4] = kh.getNgaysinh();
+        rowData[5] = kh.getSdt();
+        rowData[6] = kh.getEmail();
+        
+        defaultTableModel.addRow(rowData);
+    }
+    }
+void LoadNu() {
+  // Cập nhật lại dữ liệu bảng
+    defaultTableModel.setRowCount(0);
+    
+    // Lấy danh sách khách hàng nam từ repository
+    List<KhachHang> listNam = repository.getNu();
+    
+    // Duyệt qua danh sách và thêm các hàng vào bảng
+    for (KhachHang kh : listNam) {
+        Object[] rowData = new Object[7];
+        rowData[0] = kh.getId();
+        rowData[1] = kh.getMa();
+        rowData[2] = kh.getHo() + " " + kh.getTendem() + " " + kh.getTen();
+        rowData[3] = kh.getGioitinh() == 0 ? "Nam" : "Nữ"; // Có thể bỏ qua, vì đây là phương thức lọc nam
+        rowData[4] = kh.getNgaysinh();
+        rowData[5] = kh.getSdt();
+        rowData[6] = kh.getEmail();
+        
+        defaultTableModel.addRow(rowData);
+    }
+    }
     private KhachHang getFrom(){
    KhachHang kh = new KhachHang();
    kh.setMa(txt_makh.getText());
