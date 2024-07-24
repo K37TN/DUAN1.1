@@ -5,6 +5,7 @@
 package Repository;
 
 import Connection.DBcontext;
+import Model.TaiKhoan;
 import Model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -85,5 +87,25 @@ public class NhanVienRepository {
             ps.setInt(12, nv.getId());
             ps.executeUpdate();
         }
+    }
+    public TaiKhoan getbyTaiKhoan(String tk){
+        String sql = "SELECT * FROM dbo.Users WHERE TaiKhoan = '"+tk+"';";
+        List<TaiKhoan> list = new ArrayList<>();
+        try {
+            PreparedStatement ppstm = conn.prepareStatement(sql);
+            ResultSet rs = ppstm.executeQuery();
+            while (rs.next()) {                
+                list.add(new TaiKhoan(rs.getInt(1),
+                        rs.getString(8),
+                        rs.getString(9)
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (list.isEmpty()){
+            return null;
+        }
+        return list.get(0);
     }
 }
