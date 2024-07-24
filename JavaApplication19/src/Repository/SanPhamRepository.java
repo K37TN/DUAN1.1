@@ -221,8 +221,58 @@ public Integer getIdByName(String tableName, String columnName, String name) {
     return id;
 }
     @Override
-    public boolean UPDATE(int id, sanPham kh) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean UPDATE(int id, ComboSanPham p) {
+String sql = "UPDATE ChitietSP SET Ma = ?, Ten = ?, IdMauSac = ?, IdKC = ?, IdCL = ?, IdTH = ?, MoTa = ?, SoLuongTon = ?, GiaBan = ? WHERE Id = ?";
+
+    try (Connection cn = DBcontext.getConnection(); 
+         PreparedStatement ps = cn.prepareStatement(sql)) {
+
+        // Set giá trị cho các tham số của câu lệnh SQL
+        ps.setString(1, p.getMa()); // Ma phải là nvarchar
+        ps.setString(2, p.getTen()); // Ten phải là nvarchar
+
+        // Kiểm tra và set giá trị cho các tham số int với null
+        if (p.getMauSac() > 0) {
+            ps.setInt(3, p.getMauSac()); // IdMauSac phải là int
+        } else {
+            ps.setNull(3, java.sql.Types.INTEGER);
+        }
+
+        if (p.getKichCo() > 0) {
+            ps.setInt(4, p.getKichCo()); // IdKC phải là int
+        } else {
+            ps.setNull(4, java.sql.Types.INTEGER);
+        }
+
+        if (p.getChatLieu() > 0) {
+            ps.setInt(5, p.getChatLieu()); // IdCL phải là int
+        } else {
+            ps.setNull(5, java.sql.Types.INTEGER);
+        }
+
+        if (p.getThuongHieu() > 0) {
+            ps.setInt(6, p.getThuongHieu()); // IdTH phải là int
+        } else {
+            ps.setNull(6, java.sql.Types.INTEGER);
+        }
+
+        ps.setString(7, p.getMoTa()); // MoTa phải là nvarchar
+        ps.setInt(8, p.getSoLuongTon()); // SoLuongTon phải là int
+        ps.setBigDecimal(9, p.getGiaBan()); // GiaBan phải là decimal
+
+        // Set giá trị cho Id của sản phẩm cần update
+        ps.setInt(10, id);
+
+        // Thực thi câu lệnh SQL và nhận số lượng dòng ảnh hưởng
+        int rowsAffected = ps.executeUpdate();
+        
+        // Kiểm tra nếu có ít nhất một dòng bị ảnh hưởng
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        // In lỗi để kiểm tra
+        e.printStackTrace();
+        return false;
+    }       
     }
 
     @Override

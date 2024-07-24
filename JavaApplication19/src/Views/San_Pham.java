@@ -104,7 +104,7 @@ void LoadData() {
         txt_mota = new javax.swing.JTextPane();
         cbo_size = new javax.swing.JComboBox<>();
         btn_luu = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btn_update = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         btn_lammoi = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -177,7 +177,12 @@ void LoadData() {
             }
         });
 
-        jButton5.setText("Sửa");
+        btn_update.setText("Sửa");
+        btn_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_updateActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Xóa");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -253,7 +258,7 @@ void LoadData() {
                         .addContainerGap()
                         .addComponent(btn_luu)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)
+                        .addComponent(btn_update)
                         .addGap(18, 18, 18)
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -368,7 +373,7 @@ void LoadData() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_luu)
-                    .addComponent(jButton5)
+                    .addComponent(btn_update)
                     .addComponent(jButton6)
                     .addComponent(btn_lammoi)
                     .addComponent(jButton8)
@@ -457,6 +462,27 @@ if (selected >= 0) {
     private void cbo_loaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_loaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbo_loaiActionPerformed
+
+    private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
+         int selected = tb_sanpham.getSelectedRow();
+    if (selected >= 0) {
+        int id = (Integer) tb_sanpham.getValueAt(selected, 0); // Giả sử ID ở cột đầu tiên
+        int response = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn cập nhật sản phẩm này không?", "Xác nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION) {
+            ComboSanPham p = getFrom();
+            if (p != null) {
+                if (repository.UPDATE(id, p)) {
+                    LoadData();
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Không cập nhật được");
+                }
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để cập nhật");
+    }
+    }//GEN-LAST:event_btn_updateActionPerformed
 public void click(){
         int index = tb_sanpham.getSelectedRow();
         txt_id.setText(tb_sanpham.getValueAt(index, 0).toString());
@@ -637,11 +663,11 @@ private void loadComboKichThuoc() {
     private javax.swing.JButton btn_luu;
     private javax.swing.JButton btn_mausac;
     private javax.swing.JButton btn_size;
+    private javax.swing.JButton btn_update;
     private javax.swing.JComboBox<String> cbo_hang;
     private javax.swing.JComboBox<String> cbo_loai;
     private javax.swing.JComboBox<String> cbo_mausac;
     private javax.swing.JComboBox<String> cbo_size;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;

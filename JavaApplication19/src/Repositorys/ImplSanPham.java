@@ -24,7 +24,7 @@ public interface ImplSanPham {
          public List<KichThuoc> getKichThuoc();
              public Integer add(ComboSanPham p);
              public Integer delete(Integer id);
-    public boolean UPDATE(int id,sanPham kh);
+    public boolean UPDATE(int id,ComboSanPham p);
     public List<sanPham> getHetHang();
     public List<sanPham> getConHang();
 }

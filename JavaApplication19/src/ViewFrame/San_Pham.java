@@ -175,6 +175,11 @@ void LoadConHang() {
         });
 
         jButton5.setText("Sửa");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Xóa");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -343,7 +348,7 @@ void LoadConHang() {
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -527,6 +532,27 @@ void LoadConHang() {
     private void btn_hethangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hethangActionPerformed
       LoadHetHang();
     }//GEN-LAST:event_btn_hethangActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+      int selected = tb_sanpham.getSelectedRow();
+    if (selected >= 0) {
+        int id = (Integer) tb_sanpham.getValueAt(selected, 0); // Giả sử ID ở cột đầu tiên
+        int response = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn cập nhật sản phẩm này không?", "Xác nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION) {
+            ComboSanPham p = getFrom();
+            if (p != null) {
+                if (repository.UPDATE(id, p)) {
+                    LoadData();
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Không cập nhật được");
+                }
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để cập nhật");
+    }
+    }//GEN-LAST:event_jButton5ActionPerformed
 public void click(){
         int index = tb_sanpham.getSelectedRow();
         txt_id.setText(tb_sanpham.getValueAt(index, 0).toString());
