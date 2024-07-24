@@ -2,11 +2,15 @@ package poly.edu.main;
 
 import ViewFrame.Ban_Hang;
 import ViewFrame.KhachHang;
+import ViewFrame.NhanVienViewF;
 import ViewFrame.San_Pham;
 import ViewFrame.Voucher_form;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -46,7 +50,11 @@ public class main extends javax.swing.JFrame {
                 } else if (index == 7) {
                     // Hóa Đơn
                 } else if (index == 8) {
-//NhanVien
+                    try {
+                        setForm(new NhanVienViewF());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else if (index == 9) {
                       int confirm = JOptionPane.showOptionDialog(
                     null,

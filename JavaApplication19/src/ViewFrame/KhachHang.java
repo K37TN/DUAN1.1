@@ -127,6 +127,11 @@ public class KhachHang extends javax.swing.JPanel {
         jLabel8.setText("Tìm kiếm");
 
         cbo_gt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbo_gt.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbo_gtItemStateChanged(evt);
+            }
+        });
         cbo_gt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbo_gtActionPerformed(evt);
@@ -462,7 +467,66 @@ public class KhachHang extends javax.swing.JPanel {
         date_ngaysinh1.setCalendar(null);
         buttonGroup1.clearSelection();
     }//GEN-LAST:event_btn_lammoiActionPerformed
-private boolean validateKhachHang() {
+
+    private void cbo_gtItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbo_gtItemStateChanged
+       Object selectedItem = cbo_gt.getSelectedItem();
+    
+    if (selectedItem != null) {
+        String Ten = selectedItem.toString();
+        
+        if (Ten.equals("ALL")) {
+             list = KHRP.getall();
+        showtable(list);
+        } else if (Ten.equals("Nam")) {
+            LoadNam();
+        }else if (Ten.equals("Nữ")) {
+            LoadNu();
+        }
+    }
+    }//GEN-LAST:event_cbo_gtItemStateChanged
+void LoadNam() {
+  // Cập nhật lại dữ liệu bảng
+    defaultTableModel.setRowCount(0);
+    
+    // Lấy danh sách khách hàng nam từ repository
+    List<Model.KhachHang> listNam = repository.getNam();
+    
+    // Duyệt qua danh sách và thêm các hàng vào bảng
+    for (Model.KhachHang kh : listNam) {
+        Object[] rowData = new Object[7];
+        rowData[0] = kh.getId();
+        rowData[1] = kh.getMa();
+        rowData[2] = kh.getHo() + " " + kh.getTendem() + " " + kh.getTen();
+        rowData[3] = kh.getGioitinh() == 0 ? "Nam" : "Nữ"; // Có thể bỏ qua, vì đây là phương thức lọc nam
+        rowData[4] = kh.getNgaysinh();
+        rowData[5] = kh.getSdt();
+        rowData[6] = kh.getEmail();
+        
+        defaultTableModel.addRow(rowData);
+    }
+    }
+void LoadNu() {
+  // Cập nhật lại dữ liệu bảng
+    defaultTableModel.setRowCount(0);
+    
+    // Lấy danh sách khách hàng nam từ repository
+    List<Model.KhachHang> listNam = repository.getNu();
+    
+    // Duyệt qua danh sách và thêm các hàng vào bảng
+    for (Model.KhachHang kh : listNam) {
+        Object[] rowData = new Object[7];
+        rowData[0] = kh.getId();
+        rowData[1] = kh.getMa();
+        rowData[2] = kh.getHo() + " " + kh.getTendem() + " " + kh.getTen();
+        rowData[3] = kh.getGioitinh() == 0 ? "Nam" : "Nữ"; // Có thể bỏ qua, vì đây là phương thức lọc nam
+        rowData[4] = kh.getNgaysinh();
+        rowData[5] = kh.getSdt();
+        rowData[6] = kh.getEmail();
+        
+        defaultTableModel.addRow(rowData);
+    }
+    }
+    private boolean validateKhachHang() {
     String sdtPattern = "(0\\d{9})"; // Biểu thức chính quy cho số điện thoại
     Pattern pattern = Pattern.compile("^[0-9]+$"); // Biểu thức chính quy cho kiểm tra số
 

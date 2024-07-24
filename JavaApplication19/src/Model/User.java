@@ -11,83 +11,84 @@ import java.sql.Date;
  * @author FPTSHOP
  */
 public class User {
-     private int id;
-    private String Ten;
-    private String TenDem;
-    private String Ho;
-    private Date NgaySinh;
-    private Boolean GioTinh;
+        private int Id;
+    private String ten;
+    private String tenDem;
+    private String ho;
+    private java.util.Date ngaySinh;
+    private boolean gioiTinh;
     private String Sdt;
-    private String TaiKhoan;
-    private String MatKhau;
+    private int IdCV;
+    private String taiKhoan;
+    private String matKhau;
     private String Email;
-    private int TrangThai;
-    private Chucvu chucVu;
+    private boolean TrangThai;
 
     public User() {
     }
 
-    public User(int id, String Ten, String TenDem, String Ho, Date NgaySinh, Boolean GioTinh, String Sdt, String TaiKhoan, String MatKhau, String Email, int TrangThai, Chucvu chucVu) {
-        this.id = id;
-        this.Ten = Ten;
-        this.TenDem = TenDem;
-        this.Ho = Ho;
-        this.NgaySinh = NgaySinh;
-        this.GioTinh = GioTinh;
+    public User(int Id, String ten, String tenDem, String ho, java.util.Date ngaySinh, boolean gioiTinh, String Sdt, int IdCV, String taiKhoan, String matKhau, String Email, boolean TrangThai) {
+        this.Id = Id;
+        this.ten = ten;
+        this.tenDem = tenDem;
+        this.ho = ho;
+        this.ngaySinh = ngaySinh;
+        this.gioiTinh = gioiTinh;
         this.Sdt = Sdt;
-        this.TaiKhoan = TaiKhoan;
-        this.MatKhau = MatKhau;
+        this.IdCV = IdCV;
+        this.taiKhoan = taiKhoan;
+        this.matKhau = matKhau;
         this.Email = Email;
         this.TrangThai = TrangThai;
-        this.chucVu = chucVu;
     }
+     
 
     public int getId() {
-        return id;
+        return Id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
     public String getTen() {
-        return Ten;
+        return ten;
     }
 
-    public void setTen(String Ten) {
-        this.Ten = Ten;
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
     public String getTenDem() {
-        return TenDem;
+        return tenDem;
     }
 
-    public void setTenDem(String TenDem) {
-        this.TenDem = TenDem;
+    public void setTenDem(String tenDem) {
+        this.tenDem = tenDem;
     }
 
     public String getHo() {
-        return Ho;
+        return ho;
     }
 
-    public void setHo(String Ho) {
-        this.Ho = Ho;
+    public void setHo(String ho) {
+        this.ho = ho;
     }
 
-    public Date getNgaySinh() {
-        return NgaySinh;
+    public java.util.Date getNgaySinh() {
+        return ngaySinh;
     }
 
-    public void setNgaySinh(Date NgaySinh) {
-        this.NgaySinh = NgaySinh;
+    public void setNgaySinh(java.util.Date ngaySinh) {
+        this.ngaySinh = ngaySinh;
     }
 
-    public Boolean getGioTinh() {
-        return GioTinh;
+    public boolean isGioiTinh() {
+        return gioiTinh;
     }
 
-    public void setGioTinh(Boolean GioTinh) {
-        this.GioTinh = GioTinh;
+    public void setGioiTinh(boolean gioiTinh) {
+        this.gioiTinh = gioiTinh;
     }
 
     public String getSdt() {
@@ -98,20 +99,28 @@ public class User {
         this.Sdt = Sdt;
     }
 
-    public String getTaiKhoan() {
-        return TaiKhoan;
+    public int getIdCV() {
+        return IdCV;
     }
 
-    public void setTaiKhoan(String TaiKhoan) {
-        this.TaiKhoan = TaiKhoan;
+    public void setIdCV(int IdCV) {
+        this.IdCV = IdCV;
+    }
+
+    public String getTaiKhoan() {
+        return taiKhoan;
+    }
+
+    public void setTaiKhoan(String taiKhoan) {
+        this.taiKhoan = taiKhoan;
     }
 
     public String getMatKhau() {
-        return MatKhau;
+        return matKhau;
     }
 
-    public void setMatKhau(String MatKhau) {
-        this.MatKhau = MatKhau;
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
     }
 
     public String getEmail() {
@@ -122,20 +131,31 @@ public class User {
         this.Email = Email;
     }
 
-    public int getTrangThai() {
+    public boolean isTrangThai() {
+        return TrangThai;
+    }
+    public boolean getTrangThai() {
         return TrangThai;
     }
 
-    public void setTrangThai(int TrangThai) {
+    public void setTrangThai(boolean TrangThai) {
         this.TrangThai = TrangThai;
     }
+    public String getHoVaTen(){
+    return ho +" "+tenDem+""+ten;
+    }
+    public String getGioiTinh(){
+    return  isGioiTinh() ? "Nam":" Nữ";
+    }
+    public String GetTrangThai(){
+    return isTrangThai() ? "HD":"Nghỉ"; 
+            }
 
-    public Chucvu getChucVu() {
-        return chucVu;
+    @Override
+    public String toString() {
+        return "Users{" + "Id=" + Id + ", ten=" + ten + ", tenDem=" + tenDem + ", ho=" + ho + ", ngaySinh=" + ngaySinh + ", gioiTinh=" + gioiTinh + ", Sdt=" + Sdt + ", IdCV=" + IdCV + ", taiKhoan=" + taiKhoan + ", matKhau=" + matKhau + ", Email=" + Email + ", TrangThai=" + TrangThai + '}';
     }
 
-    public void setChucVu(Chucvu chucVu) {
-        this.chucVu = chucVu;
-    }
-    
+
+
 }
