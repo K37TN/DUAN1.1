@@ -5,7 +5,10 @@
 package Repository;
 
 import Connection.DBcontext;
+import Model.GioHang;
 import Model.HoaDon;
+import Model.KhachHang;
+import Model.KhachHang2;
 import Model.User;
 import Repositorys.ImplHoaDon;
 import java.sql.Connection;
@@ -71,6 +74,86 @@ String sql = "SELECT HD.Ma, HD.NgayTao, HD.TinhTrang \n" +
 
         }
         return result;
+    }
+
+    @Override
+    public List<GioHang> getListHoaDonChiTietByMaHd(String MaHD) {
+     List<GioHang> getList = new ArrayList<>();
+        try {
+            String sql = "SELECT ctsp.Ma, ctsp.Ten, hdct.Soluong, hdct.Dongia, ms.Ten, cl.Ten, kc.Ten FROM HoaDonChiTiet hdct JOIN HoaDon hd ON hd.Id = hdct.IdHD\n"
+                    + "								 JOIN ChitietSP ctsp ON hdct.IdCTSP = ctsp.Id\n"
+                    + "								 JOIN MauSac ms ON ctsp.IdMauSac = ms.Id\n"
+                    + "								 JOIN ChatLieu cl ON ctsp.IdCL = cl.Id\n"
+                    + "								 JOIN KichCo kc ON ctsp.IdKC = kc.Id\n"							
+                    + "		WHERE hd.Ma = ?;";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setString(1, MaHD);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()) {
+                GioHang ghdto = new GioHang();
+                ghdto.setMa(rs.getString(1));
+                ghdto.setTen(rs.getString(2));
+                ghdto.setSoLuong(rs.getInt(3));
+                ghdto.setDonGia(rs.getDouble(4));
+                ghdto.setMauSac(rs.getString(5));
+                ghdto.setChatLieu(rs.getString(6));
+                ghdto.setKichThuoc(rs.getString(7));
+      
+                getList.add(ghdto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getList;
+        
+    }
+
+    @Override
+    public List<HoaDon> getKhachHang(String MaHD) {
+     List<HoaDon> getList = new ArrayList<>();
+        try {
+            String sql = "SELECT kh.Ho , kh.TenDem , kh.Ten , kh.sdt FROM HoaDon hd join KhachHang kh on hd.idKH = kh.id where hd.Ma =?";
+
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setString(1, MaHD);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()) {
+
+                KhachHang2 kh = new KhachHang2();
+                kh.setTen(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
+                kh.setSdt(rs.getString(4));
+
+                HoaDon hd = new HoaDon();
+                hd.setKhachHang(kh);
+
+                getList.add(hd);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getList;    
+    }
+
+    @Override
+   public Integer updateHoaDonKhachHang(int Ma, String MaHD) {
+  int rs = 0;
+        try {
+            String sql = "UPDATE HoaDon SET idKH = ? WHERE Ma = ?";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setInt(1, Ma);
+            pr.setString(2, MaHD);
+
+            rs = pr.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return rs;        
     }
     
 }

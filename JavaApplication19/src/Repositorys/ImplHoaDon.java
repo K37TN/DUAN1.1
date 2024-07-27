@@ -4,6 +4,7 @@
  */
 package Repositorys;
 
+import Model.GioHang;
 import Model.HoaDon;
 import java.util.List;
 
@@ -14,4 +15,7 @@ import java.util.List;
 public interface ImplHoaDon {
     public List<HoaDon> getListHD(int TrangThai);
      Integer insertHoaDon(HoaDon hd);
+     public List<GioHang> getListHoaDonChiTietByMaHd(String MaHD);
+     public List<HoaDon> getKhachHang(String MaHD); 
+    public Integer updateHoaDonKhachHang(int Ma, String MaHD);
 }

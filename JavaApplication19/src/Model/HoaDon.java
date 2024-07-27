@@ -13,7 +13,7 @@ import java.sql.Date;
 public class HoaDon {
      private User user;
     private Integer id;
-    private KhachHang khachHang;
+    private KhachHang2 khachHang;
     private String Ma;
     private String Ghichu;
     private Date NgayTao;
@@ -24,7 +24,7 @@ public class HoaDon {
     public HoaDon() {
     }
 
-    public HoaDon(User user, Integer id, KhachHang khachHang, String Ma, String Ghichu, Date NgayTao, Date NgayThanhToan, int TinhTrang, Double tongTien) {
+    public HoaDon(User user, Integer id, KhachHang2 khachHang, String Ma, String Ghichu, Date NgayTao, Date NgayThanhToan, int TinhTrang, Double tongTien) {
         this.user = user;
         this.id = id;
         this.khachHang = khachHang;
@@ -52,11 +52,11 @@ public class HoaDon {
         this.id = id;
     }
 
-    public KhachHang getKhachHang() {
+    public KhachHang2 getKhachHang() {
         return khachHang;
     }
 
-    public void setKhachHang(KhachHang khachHang) {
+    public void setKhachHang(KhachHang2 khachHang) {
         this.khachHang = khachHang;
     }
 
@@ -100,9 +100,7 @@ public class HoaDon {
         this.TinhTrang = TinhTrang;
     }
 
-    public Double getTongTien() {
-        return tongTien;
-    }
+    
 
     public void setTongTien(Double tongTien) {
         this.tongTien = tongTien;

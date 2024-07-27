@@ -68,7 +68,7 @@ public class View_Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel4.setBackground(new java.awt.Color(51, 150, 207));
+        jPanel4.setBackground(new java.awt.Color(255, 102, 0));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -173,4 +173,5 @@ public class View_Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField pwp_Password;
     private javax.swing.JTextField txt_Username;
     // End of variables declaration//GEN-END:variables
+
 }

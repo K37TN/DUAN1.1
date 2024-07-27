@@ -4,6 +4,7 @@
  */
 package Service;
 
+import Model.GioHang;
 import Model.HoaDon;
 import Repository.HoaDonRepository;
 import Repositorys.ImplHoaDon;
@@ -49,5 +50,21 @@ List<HoaDon> list = hoaDonRepostory.getListHD(TrangThai);
         Integer isInsert = hoaDonRepostory.insertHoaDon(hd);
         return isInsert;    
     }
+
+    @Override
+    public List<GioHang> getListHoaDonChiTietByMaHd(String MaHD) {
+     return hoaDonRepostory.getListHoaDonChiTietByMaHd(MaHD);   
+    }
+
+    @Override
+    public List<HoaDon> getKhachHang(String MaHD) {
+    return hoaDonRepostory.getKhachHang(MaHD);   
+    }
+
+    @Override
+    public Integer updateHoaDonKhachHang(int Ma, String MaHD) {
+        return hoaDonRepostory.updateHoaDonKhachHang(Ma, MaHD);
+    }
+  
 
 }

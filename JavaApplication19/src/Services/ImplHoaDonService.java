@@ -4,6 +4,8 @@
  */
 package Services;
 
+import Model.GioHang;
+import Model.HoaDon;
 import entity.HoaDonViewModel;
 import java.util.List;
 
@@ -15,4 +17,8 @@ public interface ImplHoaDonService {
   public List<HoaDonViewModel> getListHD(int TrangThai);  
 
     public Integer saveHD(HoaDonViewModel hoaDon);
+     public List<GioHang> getListHoaDonChiTietByMaHd(String MaHD);
+     public List<HoaDon> getKhachHang(String MaHD);
+
+ public Integer updateHoaDonKhachHang(int Ma, String MaHD);
 }
