@@ -6,6 +6,8 @@ package Services;
 
 import Model.GioHang;
 import Model.HoaDon;
+import Model.HoaDonChiTiet;
+import entity.HoaDonChiTietViewModel;
 import entity.HoaDonViewModel;
 import java.util.List;
 
@@ -21,4 +23,11 @@ public interface ImplHoaDonService {
      public List<HoaDon> getKhachHang(String MaHD);
 
  public Integer updateHoaDonKhachHang(int Ma, String MaHD);
+ public Integer getIdHD(String MaHD);
+ public HoaDonChiTiet getHdctOne(int idHd, int idSp);
+ public Integer updateSOLUONGTrenGioHang(int idHD, int idSP, int SoLuong, Double dongia);
+
+  public Integer saveHDCT(HoaDonChiTietViewModel hoaDonChiTiet, String MaSP, String MaHD);
+  
+   public Integer deleteSanPham(int idHD, int idSP);
 }

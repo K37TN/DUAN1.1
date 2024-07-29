@@ -28,5 +28,6 @@ public interface ImplSanPham {
     public List<sanPham> getHetHang();
     public List<sanPham> getConHang();
     public List<sanPham> search(String ma, String ten);
-   
+   public Integer getIdSanPham(String MaSP);
+   public boolean updateSoLuongSP(String Masp, int SoLuong);
 }

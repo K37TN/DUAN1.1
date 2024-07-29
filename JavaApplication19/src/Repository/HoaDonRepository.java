@@ -7,6 +7,7 @@ package Repository;
 import Connection.DBcontext;
 import Model.GioHang;
 import Model.HoaDon;
+import Model.HoaDonChiTiet;
 import Model.KhachHang;
 import Model.KhachHang2;
 import Model.User;
@@ -154,6 +155,102 @@ String sql = "SELECT HD.Ma, HD.NgayTao, HD.TinhTrang \n" +
 
         }
         return rs;        
+    }
+
+    @Override
+    public Integer getIdHD(String MaHD) {
+    Integer idHD = 0;
+        try {
+            String sql = "select id from HoaDon where Ma = ?";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setString(1, MaHD);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()) {
+                idHD = rs.getInt(1);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return idHD;   
+    }
+
+    @Override
+    public HoaDonChiTiet getHdctOne(int idHd, int idSp) {
+ HoaDonChiTiet getList = new HoaDonChiTiet();
+        try {
+            String sql = "SELECT * FROM HoaDonChiTiet WHERE IdHD = ? AND IdCTSP = ?";
+
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setInt(1, idHd);
+            pr.setInt(2, idSp);
+            ResultSet rs = pr.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getList;        
+    }
+
+    @Override
+    public Integer updateSOLUONGTrenGioHang(int idHD, int idSP, int SoLuong, Double dongia) {
+ int rs = 0;
+        try {
+            String sql = "UPDATE HoaDonChiTiet set Soluong=?,Dongia=?,Dongiakhigiam=0 Where IdHD=? AND IdCTSP=?";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setInt(1, SoLuong);
+            pr.setDouble(2, dongia);
+            pr.setInt(3, idHD);
+            pr.setInt(4, idSP);
+            rs = pr.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return rs;      
+    }
+
+    @Override
+    public Integer insertHoaDonChiTiet(HoaDonChiTiet hdct) {
+    int result = 0;
+        try {
+            String sql = "insert into HoaDonChiTiet (IdHD ,idCTSP, Soluong , Dongia, Dongiakhigiam ) values(? , ? ,? ,?, 0)";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setInt(2, hdct.getSanPham().getID());
+            pr.setInt(1, hdct.getHoaDon().getId());
+            pr.setInt(3, hdct.getSoluong());
+            pr.setDouble(4, hdct.getDonGia());
+
+            result = pr.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return result;   
+    }
+
+    @Override
+    public Integer deleteSanPham(int idHD, int idSP) {
+       int rs = 0;
+        try {
+            String sql = "DELETE FROM HoaDonChiTiet WHERE IdHD = ? AND IdCTSP = ?";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setInt(1, idHD);
+            pr.setInt(2, idSP);
+            rs = pr.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return rs;
     }
     
 }

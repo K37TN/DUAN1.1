@@ -6,10 +6,13 @@ package Views;
 
 import Model.GioHang;
 import Model.HoaDon;
+import Model.HoaDonChiTiet;
 import Model.sanPham;
 import Repository.SanPhamRepository;
 import Repositorys.ImplSanPham;
+import Service.ChiTietSPServices;
 import Service.HoaDonServies;
+import Services.ImplChiTietSPService;
 import Services.ImplHoaDonService;
 import ViewFrame.KhachBH;
 import entity.HoaDonChiTietViewModel;
@@ -33,6 +36,7 @@ public class ViewBanHang extends javax.swing.JFrame {
 private DefaultTableModel model;
    private DefaultTableModel modelGioHang;
        private ImplHoaDonService hoaDonServiec;
+       private ImplChiTietSPService spService;
         DefaultTableModel defaultTableModel;
     DefaultTableModel defaultTableModel1;
       List<sanPham> list;
@@ -41,7 +45,7 @@ private DefaultTableModel model;
     public ViewBanHang() {
         initComponents();
         hoaDonServiec = new HoaDonServies();
-      
+      spService = new ChiTietSPServices();
         getListHoaDon();
         defaultTableModel = (DefaultTableModel) tb_sanpham.getModel();
         repository = new SanPhamRepository();
@@ -270,13 +274,13 @@ private DefaultTableModel model;
 
         tb_sanpham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã SP", "Tên SP", "Màu Sắc", "Hãng", "Chất Liệu", "Kích Cỡ", "Giá Bán", "Số Lượng"
+                "Mã SP", "Tên SP", "Màu Sắc", "Chất Liệu", "Kích Cỡ", "Giá Bán", "Số Lượng"
             }
         ));
         tb_sanpham.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -337,6 +341,11 @@ private DefaultTableModel model;
         jScrollPane1.setViewportView(tbl_giohang);
 
         jButton1.setText("Xóa");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Giỏ Hàng");
 
@@ -431,7 +440,7 @@ private DefaultTableModel model;
                 tongTien = tongTien + x.getThanhTien();
                 lbl_tongtien.setText(String.format("%.0f", tongTien));
 
-//                List<sanPhamViewModel> listSanPham = sanISamPhamServiecs.getListSanPham();
+
 
              
 
@@ -463,8 +472,69 @@ private DefaultTableModel model;
 
     private void tb_sanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_sanphamMouseClicked
         int row = tb_sanpham.getSelectedRow();
-    
+int rowHD = tbl_HoaDon.getSelectedRow();
+if (row < 0) {
+    return;
+}
+if (rowHD < 0) {
+    JOptionPane.showMessageDialog(this, "Bạn cần chọn hóa đơn để thêm sản phẩm!");
+    return;
+}
+int sanPhamId = new SanPhamRepository().getIdSanPham(tb_sanpham.getValueAt(row, 0).toString());
+int hoaDonId = new HoaDonServies().getIdHD(tbl_HoaDon.getValueAt(rowHD, 0).toString());
+HoaDonChiTiet hdct1 = hoaDonServiec.getHdctOne(hoaDonId, sanPhamId);
+        System.out.println("hdct1: " + sanPhamId);
+        System.out.println("hdct1: " + hoaDonId);
+        System.out.println("hdct1: " + hdct1.getDonGia());
+        System.out.println("row: " + row);
+if (hdct1.getDonGia() == null) {
+    // xử lý thêm sản phẩm vào hóa đơn
+} else {
+    JOptionPane.showMessageDialog(this, "SP Trung");
+}
 
+try {
+    int NhapSoLuong = Integer.parseInt(JOptionPane.showInputDialog(this, "Nhập Số Lượng!"));
+    String MaSP = tb_sanpham.getValueAt(row, 0).toString();
+    String TenSP = tb_sanpham.getValueAt(row, 1).toString();
+    int SoLuong = Integer.parseInt(tb_sanpham.getValueAt(row, 6).toString());
+    Double DonGia = Double.parseDouble(tb_sanpham.getValueAt(row, 5).toString());
+    List<GioHang> listh = hoaDonServiec.getListHoaDonChiTietByMaHd(tbl_HoaDon.getValueAt(rowHD, 0).toString());
+    
+    // kiểm tra và cập nhật giỏ hàng
+    if (SoLuong >= NhapSoLuong) {
+        for (GioHang x : listh) {
+            if (x.getMa().equals(MaSP)) {
+                // cập nhật số lượng trong giỏ hàng
+                int hoaDonChiTietEdit = hoaDonServiec.updateSOLUONGTrenGioHang(hoaDonId, sanPhamId, x.getSoLuong() + NhapSoLuong, DonGia);
+                int kq = SoLuong - NhapSoLuong;
+                spService.updateSoLuongSP(MaSP, kq);
+                 List<sanPham> list = spService.getList();
+                            list.clear();
+               getListSP();
+                getListGioHangHDCT(tbl_HoaDon.getValueAt(rowHD, 0).toString());
+                
+                if (hoaDonChiTietEdit > 0) {
+                    JOptionPane.showMessageDialog(this, "Update thành công số lượng!");
+                }
+                return;
+            }
+        }
+        // thêm sản phẩm vào giỏ hàng nếu chưa có
+        HoaDonChiTietViewModel hdct = inputHDCT(DonGia, NhapSoLuong);
+        hoaDonServiec.saveHDCT(hdct, MaSP, tbl_HoaDon.getValueAt(rowHD, 0).toString());
+        listGioHang.add(new GioHang(MaSP, TenSP, NhapSoLuong, DonGia, tb_sanpham.getValueAt(row, 2).toString(), tb_sanpham.getValueAt(row, 3).toString(), tb_sanpham.getValueAt(row, 4).toString()));
+        getListGioHang();
+        int kq = SoLuong - NhapSoLuong;
+        spService.updateSoLuongSP(MaSP, kq);
+        getListSP();
+      
+    } else if (SoLuong < NhapSoLuong) {
+        JOptionPane.showMessageDialog(this, "Sản phẩm không đủ ");
+    }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + e.getMessage());
+}
     }//GEN-LAST:event_tb_sanphamMouseClicked
 
     private void btn_khachhangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_khachhangActionPerformed
@@ -481,6 +551,38 @@ private DefaultTableModel model;
             return;
         }
     }//GEN-LAST:event_btn_khachhangActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int rowSP = tbl_giohang.getSelectedRow();
+        int rowHD = tbl_HoaDon.getSelectedRow();
+        if (rowSP < 0) {
+            JOptionPane.showMessageDialog(this, "chọn 1 sản phẩm trong giỏ hàng để xoá");
+            return;
+        }
+        if (rowHD < 0) {
+            JOptionPane.showMessageDialog(this, "chọn Hoá đơn bạn muốn xoá sản phẩm đấy");
+            return;
+        }
+        String MaSP = tbl_giohang.getValueAt(rowSP, 0).toString();
+        String MaHD = tbl_HoaDon.getValueAt(rowHD, 0).toString();
+        Integer soLuong = Integer.parseInt(tbl_giohang.getValueAt(rowSP, 2).toString());
+        Integer idSP = spService.getIdSanPham(MaSP);
+        Integer idHd = hoaDonServiec.getIdHD(MaHD);
+        Integer isDelete = hoaDonServiec.deleteSanPham(idHd, idSP);
+        List<sanPham> list = spService.getList();
+        for (sanPham x : list) {
+            if (MaSP.equals(x.getMa())) {
+                spService.updateSoLuongSP(MaSP, x.getSoLuongTon() + soLuong);
+                list.clear();
+                getListSP();
+                getListGioHangHDCT(MaHD);
+                mousecl();
+                break;
+            }
+        }
+        listGioHang.clear();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 private HoaDonViewModel inputHD() {
         HoaDonViewModel hd = new HoaDonViewModel();
         String Ma = "HD";
@@ -566,7 +668,6 @@ void LoadData() {
                 x.getMa(),
                 x.getTen(),
     x.getMauSac(),
-        x.getThuongHieu(),
          x.getChatLieu(),
          x.getKichCo(),
                 x.getGiaBan(),
@@ -667,4 +768,49 @@ void LoadData() {
     private javax.swing.JTable tbl_HoaDon;
     private javax.swing.JTable tbl_giohang;
     // End of variables declaration//GEN-END:variables
+   private void getListSP() {
+        model = (DefaultTableModel) tb_sanpham.getModel();
+        model.setRowCount(0);
+        List<sanPham> getList = spService.getList();
+        for (sanPham x : getList) {
+            model.addRow(new Object[]{
+                x.getMa(),
+                x.getTen(),
+                x.getMauSac(),
+                x.getChatLieu(),
+                x.getKichCo(),
+                String.format("%.0f", x.getGiaBan()),
+                x.getSoLuongTon(),});
+        }
+    }
+   private void mousecl() {
+        int rowHD = tbl_HoaDon.getSelectedRow();
+        int row = tbl_HoaDon.getSelectedRow();
+        if (row < 0) {
+            return;
+        }
+        listGioHang.clear();
+        String MaHD = tbl_HoaDon.getValueAt(row, 0).toString();
+        lbl_tongtien.setText(String.valueOf(0));
+       
+        lbl_tongtien.setText(String.valueOf(0));
+        getListGioHangHDCT(MaHD);
+        Double tongPT = 0.0;
+        Double tongVN = 0.0;
+        Double tongTien = 0.0;
+
+        int count = 0;
+        List<GioHang> list = hoaDonServiec.getListHoaDonChiTietByMaHd(MaHD);
+        for (GioHang x : list) {
+            tongTien = tongTien + x.getThanhTien();
+            lbl_tongtien.setText(String.format("%.0f", tongTien));
+            List<sanPham> listSanPham = spService.getList();
+
+            count++;
+        }
+        Double ThanhTien = Double.parseDouble(lbl_tongtien.getText());
+        lbl_thanhtien.setText(String.valueOf(String.format("%.0f", ThanhTien)));
+
+
+    }
 }

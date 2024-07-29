@@ -4,6 +4,7 @@
  */
 package Services;
 
+import Model.sanPham;
 import entity.ChiTietSPViewModel;
 import java.util.List;
 
@@ -13,4 +14,7 @@ import java.util.List;
  */
 public interface ImplChiTietSPService {
      public List<ChiTietSPViewModel> GetAll();
+     boolean updateSoLuongSP(String Masp, int SoLuong ) ;
+      public List<sanPham> getList();
+      public Integer getIdSanPham(String MaSP);
 }

@@ -456,5 +456,41 @@ String sql = "UPDATE ChitietSP SET Ma = ?, Ten = ?, IdMauSac = ?, IdKC = ?, IdCL
 
     return resultList;
     }
+
+    @Override
+    public Integer getIdSanPham(String MaSP) {
+ Integer idSP = 0;
+        try {
+            String sql = "select id from ChitietSP where Ma = ?";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setString(1, MaSP);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()) {
+                idSP = rs.getInt(1);
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return idSP;        
+    }
+
+    @Override
+    public boolean updateSoLuongSP(String Masp, int SoLuong) {
+  try {
+            String sql = "UPDATE ChitietSP SET SoLuongTon = ? WHERE MA = ?";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setInt(1, SoLuong);
+            pr.setString(2, Masp);
+            pr.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }       
+    }
     
 }

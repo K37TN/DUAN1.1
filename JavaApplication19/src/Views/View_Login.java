@@ -2,8 +2,10 @@
 package Views;
 
 import Model.TaiKhoan;
+import Repository.DangnhapRepository;
 import Repository.NhanVienRepository;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import poly.edu.main.main;
 //import poly.edu.model.TaiKhoan;
 //import poly.edu.service.TaiKhoan_Respository;
@@ -13,11 +15,12 @@ import poly.edu.main.main;
 
 public class View_Login extends javax.swing.JFrame {
 
-//    private final TaiKhoan_Respository tkr = new TaiKhoan_Respository();
-    private final  NhanVienRepository nvr = new NhanVienRepository();
+private DangnhapRepository dangnhapRepository  = new DangnhapRepository();
     
     public View_Login() {
         initComponents();
+        setCustomColors();
+        
         this.setLocationRelativeTo(null);
     }
     
@@ -26,21 +29,21 @@ public class View_Login extends javax.swing.JFrame {
     }
     
     void dangNhap(){
-        String tk = txt_Username.getText().trim();
-        String mk = String.valueOf(pwp_Password.getPassword()).trim();
-        TaiKhoan taikhoan = nvr.getbyTaiKhoan(tk);
-        
-        if(taikhoan == null){
-            mess("Tài khoản không tồn tại");
+          if (!checkValidate()) {
+            return;
         }
-        else if(!mk.equals(taikhoan.getMk())){
-            mess("Sai mật khẩu");
-        }
-        else {
-            
+        String username = txt_Username.getText().trim();
+        String password = new String(pwp_Password.getPassword()).trim();
+
+        if (dangnhapRepository.checkLogin(username, password)) {
+
+   JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+    new main().setVisible(true);
+        } else {
+JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
         }
     }
-    
+   
     boolean checkValidate(){
         if(txt_Username.getText().isEmpty()){
             mess("Bạn chưa nhập Username");
@@ -52,13 +55,13 @@ public class View_Login extends javax.swing.JFrame {
         }
         return true;
     }
-    @SuppressWarnings("unchecked")
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jPanelLeft = new javax.swing.JPanel();
+        jPanelRight = new javax.swing.JPanel();
+        btn_singup = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btn_SignIn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -68,34 +71,34 @@ public class View_Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel4.setBackground(new java.awt.Color(255, 102, 0));
+        jPanelLeft.setBackground(new java.awt.Color(255, 153, 153));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanelLeftLayout = new javax.swing.GroupLayout(jPanelLeft);
+        jPanelLeft.setLayout(jPanelLeftLayout);
+        jPanelLeftLayout.setHorizontalGroup(
+            jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 329, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelLeftLayout.setVerticalGroup(
+            jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 350, Short.MAX_VALUE)
         );
 
-        jPanel5.setBackground(new java.awt.Color(156, 207, 238));
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelRight.setBackground(new java.awt.Color(156, 207, 238));
+        jPanelRight.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setBackground(new java.awt.Color(156, 207, 238));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Sign Up");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, 90, 30));
+        btn_singup.setBackground(new java.awt.Color(156, 207, 238));
+        btn_singup.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        btn_singup.setForeground(new java.awt.Color(255, 255, 255));
+        btn_singup.setText("Sign Up");
+        btn_singup.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        jPanelRight.add(btn_singup, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, 90, 30));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Forget Password ?");
-        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 210, -1));
+        jPanelRight.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 210, -1));
 
         btn_SignIn.setBackground(new java.awt.Color(156, 207, 238));
         btn_SignIn.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
@@ -107,39 +110,39 @@ public class View_Login extends javax.swing.JFrame {
                 btn_SignInActionPerformed(evt);
             }
         });
-        jPanel5.add(btn_SignIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, 90, 30));
+        jPanelRight.add(btn_SignIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, 90, 30));
 
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel5.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 220, 10));
+        jPanelRight.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 220, 10));
 
         jSeparator2.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel5.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 220, -1));
+        jPanelRight.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 220, -1));
 
         txt_Username.setBackground(new java.awt.Color(156, 207, 238));
         txt_Username.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txt_Username.setForeground(new java.awt.Color(255, 255, 255));
         txt_Username.setBorder(null);
-        jPanel5.add(txt_Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 220, -1));
+        jPanelRight.add(txt_Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 220, -1));
 
         pwp_Password.setBackground(new java.awt.Color(156, 207, 238));
         pwp_Password.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         pwp_Password.setForeground(new java.awt.Color(255, 255, 255));
         pwp_Password.setBorder(null);
-        jPanel5.add(pwp_Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 220, -1));
+        jPanelRight.add(pwp_Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 220, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelLeft, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE))
+                .addComponent(jPanelRight, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+            .addComponent(jPanelLeft, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelRight, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
         );
 
         pack();
@@ -162,12 +165,37 @@ public class View_Login extends javax.swing.JFrame {
         });
     }
 
+    private void setCustomColors() {
+           jPanelLeft.setBackground(new java.awt.Color(255, 87, 34)); // Màu cam đậm
+        jPanelRight.setBackground(new java.awt.Color(255, 138, 101)); // Màu cam nhạt
+
+        // Đặt màu nền và màu chữ cho các nút
+        btn_SignIn.setBackground(new java.awt.Color(255, 87, 34)); // Màu cam đậm
+        btn_SignIn.setForeground(new java.awt.Color(255, 255, 255)); // Màu trắng
+
+        btn_singup.setBackground(new java.awt.Color(255, 87, 34)); // Màu cam đậm
+        btn_singup.setForeground(new java.awt.Color(255, 255, 255)); // Màu trắng
+
+        // Đặt màu chữ cho các JLabel
+        txt_Username.setForeground(new java.awt.Color(255, 255, 255)); // Màu trắng
+        txt_Username.setForeground(new java.awt.Color(255, 255, 255)); // Màu trắng
+        pwp_Password.setForeground(new java.awt.Color(255, 255, 255)); // Màu trắng
+        pwp_Password.setForeground(new java.awt.Color(255, 255, 255)); // Màu trắng
+
+        // Đặt màu nền và màu chữ cho các JTextField và JPasswordField
+        txt_Username.setBackground(new java.awt.Color(255, 138, 101)); // Màu cam nhạt
+        txt_Username.setForeground(new java.awt.Color(255, 255, 255)); // Màu trắng
+
+        pwp_Password.setBackground(new java.awt.Color(255, 138, 101)); // Màu cam nhạt
+        pwp_Password.setForeground(new java.awt.Color(255, 255, 255)); // Màu trắng
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_SignIn;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_singup;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanelLeft;
+    private javax.swing.JPanel jPanelRight;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPasswordField pwp_Password;

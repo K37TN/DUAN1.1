@@ -6,9 +6,14 @@ package Service;
 
 import Model.GioHang;
 import Model.HoaDon;
+import Model.HoaDonChiTiet;
+import Model.sanPham;
 import Repository.HoaDonRepository;
+import Repository.SanPhamRepository;
 import Repositorys.ImplHoaDon;
+import Repositorys.ImplSanPham;
 import Services.ImplHoaDonService;
+import entity.HoaDonChiTietViewModel;
 import entity.HoaDonViewModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +25,12 @@ import java.util.List;
 public class HoaDonServies implements ImplHoaDonService{
    private ImplHoaDon hoaDonRepostory;
    private List<HoaDonViewModel> getListHD;
+   private ImplSanPham  sanphamRepository;
 
     public HoaDonServies() {
          hoaDonRepostory = new HoaDonRepository();
+         
+         sanphamRepository = new SanPhamRepository();
          getListHD = new ArrayList<>(); 
     }
    
@@ -65,6 +73,49 @@ List<HoaDon> list = hoaDonRepostory.getListHD(TrangThai);
     public Integer updateHoaDonKhachHang(int Ma, String MaHD) {
         return hoaDonRepostory.updateHoaDonKhachHang(Ma, MaHD);
     }
+
+    @Override
+    public Integer getIdHD(String MaHD) {
+return hoaDonRepostory.getIdHD(MaHD);
+    }
+
+    @Override
+    public HoaDonChiTiet getHdctOne(int idHd, int idSp) {
+         return hoaDonRepostory.getHdctOne(idHd, idSp);
+    }
+
+    @Override
+    public Integer updateSOLUONGTrenGioHang(int idHD, int idSP, int SoLuong, Double dongia) {
+ return hoaDonRepostory.updateSOLUONGTrenGioHang(idHD, idSP, SoLuong, dongia);       
+    }
+
+    @Override
+    public Integer saveHDCT(HoaDonChiTietViewModel hoaDonChiTiet, String MaSP, String MaHD) {
+       HoaDonChiTiet hdct = new HoaDonChiTiet();
+        hdct.setSoluong(hoaDonChiTiet.getSoluong());
+        hdct.setDonGia(hoaDonChiTiet.getDonGia());
+        sanPham sp = new sanPham();
+        Integer idSP = sanphamRepository.getIdSanPham(MaSP);
+        sp.setID(idSP);
+        hdct.setSanPham(sp);
+        HoaDon hd = new HoaDon();
+        Integer idHD = hoaDonRepostory.getIdHD(MaHD);
+        System.out.println(idHD);
+        hd.setId(idHD);
+        hdct.setHoaDon(hd);
+        Integer isHDCT = hoaDonRepostory.insertHoaDonChiTiet(hdct);
+        return isHDCT;
+    
+    }
+
+    @Override
+    public Integer deleteSanPham(int idHD, int idSP) {
+       
+    return hoaDonRepostory.deleteSanPham(idHD, idSP);
+    }
+
+ 
+ 
   
 
 }
