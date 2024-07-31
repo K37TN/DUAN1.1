@@ -66,6 +66,7 @@ private DefaultTableModel model;
         tbl_HoaDon = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        btn_xoa = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -73,11 +74,11 @@ private DefaultTableModel model;
         jLabel7 = new javax.swing.JLabel();
         lbl_thanhtien = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txt_tienKhachDua = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton3 = new javax.swing.JButton();
+        txt_ghichu = new javax.swing.JTextArea();
+        btn_thanhtoan = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         lbl_tenkh = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -103,13 +104,13 @@ private DefaultTableModel model;
 
         tbl_HoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Mã HD", "Ngày Tạo", "Trạng Thái"
+                "Mã HD", "Ngày Tạo", "Trạng Thái", "Tên NV"
             }
         ));
         tbl_HoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -128,6 +129,13 @@ private DefaultTableModel model;
 
         jLabel2.setText("Hóa đơn chờ");
 
+        btn_xoa.setText("Xóa");
+        btn_xoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xoaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -140,22 +148,23 @@ private DefaultTableModel model;
                 .addGap(14, 14, 14)
                 .addComponent(jScrollPane2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addGap(14, 14, 14))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(btn_xoa))
+                .addGap(11, 11, 11))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jButton2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btn_xoa)
+                        .addGap(11, 11, 11)
+                        .addComponent(jButton2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -175,13 +184,24 @@ private DefaultTableModel model;
 
         jLabel9.setText("Tiền Khách Đưa");
 
+        txt_tienKhachDua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_tienKhachDuaActionPerformed(evt);
+            }
+        });
+
         jLabel10.setText("Ghi Chú");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane5.setViewportView(jTextArea1);
+        txt_ghichu.setColumns(20);
+        txt_ghichu.setRows(5);
+        jScrollPane5.setViewportView(txt_ghichu);
 
-        jButton3.setText("Thanh Toán");
+        btn_thanhtoan.setText("Thanh Toán");
+        btn_thanhtoan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_thanhtoanActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Tên khách hàng");
 
@@ -209,9 +229,9 @@ private DefaultTableModel model;
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel10)
                         .addComponent(jLabel9)
-                        .addComponent(jTextField2)
+                        .addComponent(txt_tienKhachDua)
                         .addComponent(jScrollPane5)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_thanhtoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel7)
@@ -258,13 +278,13 @@ private DefaultTableModel model;
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_tienKhachDua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(btn_thanhtoan)
                 .addGap(17, 17, 17))
         );
 
@@ -583,9 +603,86 @@ try {
         listGioHang.clear();
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_thanhtoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_thanhtoanActionPerformed
+        int rowHD = tbl_HoaDon.getSelectedRow();
+if (rowHD < 0) {
+    JOptionPane.showMessageDialog(this, "chọn hoá đơn bạn muốn thanh toán");
+    return;
+}
+if (lbl_tenkh.getText().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "chưa có thông tin khách hàng");
+    return;
+}
+if (txt_tienKhachDua.getText().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "tiền khách Đưa không được để trống");
+    return;
+}
+try {
+    if (Double.parseDouble(txt_tienKhachDua.getText()) < Double.parseDouble(lbl_thanhtien.getText())) {
+        JOptionPane.showMessageDialog(this, "tiền khách Đưa chưa đủ");
+        return;
+    }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "không nhập kí tự tiền khách đưa");
+    return;
+}
+HoaDonViewModel hoaDon = new HoaDonViewModel();
+hoaDon.setGhiChu(txt_ghichu.getText());
+long millis = System.currentTimeMillis();
+Date date = new Date(millis);
+hoaDon.setNgayThanhToan(date);
+hoaDon.setMa(tbl_HoaDon.getValueAt(rowHD, 0).toString());
+hoaDon.setTongTien(Double.parseDouble(lbl_thanhtien.getText()));
+hoaDonServiec.updateTrangThaiHoaDon(hoaDon);
+JOptionPane.showMessageDialog(this, "thanh toán thành công");
+List<HoaDonViewModel> getList = hoaDonServiec.getListHD(1);
+for (HoaDonViewModel hoaDonViewModel : getList) {
+    if (tbl_HoaDon.getValueAt(rowHD, 0).equals(hoaDonViewModel.getMa())) {
+        getList.remove(hoaDonViewModel);
+        getList.clear();
+        clear();
+        getListHoaDon();
+        listGioHang.clear();
+        getListGioHang();
+        break;
+    }
+}
+    }//GEN-LAST:event_btn_thanhtoanActionPerformed
+
+    private void txt_tienKhachDuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tienKhachDuaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_tienKhachDuaActionPerformed
+
+    private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
+         int selected = tbl_HoaDon.getSelectedRow();
+         // Kiểm tra xem có hàng nào được chọn không
+    if (selected == -1) {
+        JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn cần xóa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Lấy mã hóa đơn từ cột dữ liệu của hàng được chọn
+    String maHoaDon = tbl_HoaDon.getValueAt(selected, 0).toString(); // Giả sử mã hóa đơn nằm ở cột đầu tiên
+    
+    // Gọi phương thức deleteHoaDon để xóa hóa đơn
+    int result = hoaDonServiec.deleteHoaDon(maHoaDon);
+    
+    if (result > 0) {
+        JOptionPane.showMessageDialog(null, "Hóa đơn đã được xóa thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+   
+ 
+      
+     
+        
+    } else {
+        JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn với mã " + maHoaDon, "Thông báo", JOptionPane.ERROR_MESSAGE);
+    }
+
+    }//GEN-LAST:event_btn_xoaActionPerformed
 private HoaDonViewModel inputHD() {
-        HoaDonViewModel hd = new HoaDonViewModel();
-        String Ma = "HD";
+     HoaDonViewModel hd = new HoaDonViewModel();    
+    String Ma = "HD";
         Random random = new Random();
         hd.setMa(Ma + random.nextInt());
 
@@ -605,6 +702,21 @@ private String getTrangThaiHD(int TrangThai) {
 
         return null;
     }
+    private void clear() {
+        lbl_sdt.setText("");
+     
+        lbl_tongtien.setText(String.valueOf(0));
+    
+        lbl_thanhtien.setText(String.valueOf(0));
+//        lbl_diemThuong.setText(String.valueOf(0));
+        txt_tienKhachDua.setText("");
+        
+        txt_ghichu.setText("");
+        lbl_sdt.setText("");
+
+        lbl_tenkh.setText("");
+
+    }
 private void getListHoaDon() {
         model = (DefaultTableModel) tbl_HoaDon.getModel();
         model.setRowCount(0);
@@ -613,9 +725,9 @@ private void getListHoaDon() {
             model.addRow(new Object[]{
                 x.getMa(),
                 x.getNgayTao(),
-//                x.getUs().getTen(),
-                getTrangThaiHD(x.getTinhTrang())
-
+  
+                getTrangThaiHD(x.getTinhTrang()),
+ "manhndph33006"        
             });
         }
     }
@@ -734,9 +846,10 @@ void LoadData() {
     };
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_khachhang;
+    private javax.swing.JButton btn_thanhtoan;
+    private javax.swing.JButton btn_xoa;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -757,9 +870,7 @@ void LoadData() {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbl_sdt;
     private javax.swing.JLabel lbl_tenkh;
     private javax.swing.JLabel lbl_thanhtien;
@@ -767,6 +878,8 @@ void LoadData() {
     private javax.swing.JTable tb_sanpham;
     private javax.swing.JTable tbl_HoaDon;
     private javax.swing.JTable tbl_giohang;
+    private javax.swing.JTextArea txt_ghichu;
+    private javax.swing.JTextField txt_tienKhachDua;
     // End of variables declaration//GEN-END:variables
    private void getListSP() {
         model = (DefaultTableModel) tb_sanpham.getModel();

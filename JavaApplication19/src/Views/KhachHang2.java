@@ -105,17 +105,17 @@ public class KhachHang2 extends javax.swing.JFrame {
         txt_email = new javax.swing.JTextField();
         btn_chon = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tb_khachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Họ Tên Khách Hàng", "Giới Tính", "Ngày Sinh", "SĐT", "Email"
+                "ID", "Ma KH", "Họ Tên Khách Hàng", "Giới Tính", "Ngày Sinh", "SĐT", "Email"
             }
         ));
         tb_khachHang.setGridColor(new java.awt.Color(255, 255, 255));

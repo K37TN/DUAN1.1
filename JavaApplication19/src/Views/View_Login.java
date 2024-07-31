@@ -69,7 +69,7 @@ JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
         txt_Username = new javax.swing.JTextField();
         pwp_Password = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanelLeft.setBackground(new java.awt.Color(255, 153, 153));
 

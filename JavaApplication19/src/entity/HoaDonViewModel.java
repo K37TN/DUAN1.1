@@ -6,6 +6,7 @@ package entity;
 
 import Model.KhachHang;
 import Model.User;
+import Views.KhachHang2;
 import java.sql.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.sql.Date;
  * @author FPTSHOP
  */
 public class HoaDonViewModel {
-  private KhachHang kh;
+    private KhachHang kh;
     private User us;
     private String Ma;
     private Date NgayTao;
@@ -99,5 +100,4 @@ public class HoaDonViewModel {
     public void setTongTien(Double tongTien) {
         this.tongTien = tongTien;
     }
-    
 }

@@ -100,10 +100,14 @@ public class HoaDon {
         this.TinhTrang = TinhTrang;
     }
 
-    
+    public Double getTongTien() {
+        return tongTien;
+    }
 
     public void setTongTien(Double tongTien) {
         this.tongTien = tongTien;
     }
+
+   
     
 }

@@ -1,6 +1,7 @@
 package poly.edu.main;
 
 import ViewFrame.Ban_Hang;
+import ViewFrame.HoaDon;
 import ViewFrame.KhachHang;
 import ViewFrame.NhanVienViewF;
 import ViewFrame.San_Pham;
@@ -48,7 +49,7 @@ public class main extends javax.swing.JFrame {
                 } else if (index == 6) {
                     setForm(new KhachHang());
                 } else if (index == 7) {
-                    // Hóa Đơn
+                   setForm(new HoaDon());
                 } else if (index == 8) {
                     try {
                         setForm(new NhanVienViewF());

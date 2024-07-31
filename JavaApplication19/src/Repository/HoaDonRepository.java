@@ -28,8 +28,10 @@ public class HoaDonRepository implements ImplHoaDon{
     public List<HoaDon> getListHD(int TrangThai) {
           List<HoaDon> getListGD = new ArrayList<>();
         try {
-//            String sql = "SELECT HD.Ma , HD.NgayTao , NV.Ten , HD.TinhTrang , NV.TenDem ,"
-//                    + " NV.Ho FROM HoaDon HD JOIN Users NV ON HD.IdNV = NV.Id WHERE HD.TinhTrang = ?";
+//            String sql = "SELECT HD.Ma, HD.NgayTao, NV.TaiKhoan, HD.TinhTrang\n" +
+//"FROM HoaDon HD\n" +
+//"JOIN Users NV ON HD.IdNV = NV.Id\n" +
+//"WHERE HD.TinhTrang = ? AND NV.TaiKhoan = 'manhndph33006'";
 String sql = "SELECT HD.Ma, HD.NgayTao, HD.TinhTrang \n" +
 "FROM HoaDon HD \n" +
 "WHERE HD.TinhTrang = ?";
@@ -43,9 +45,8 @@ String sql = "SELECT HD.Ma, HD.NgayTao, HD.TinhTrang \n" +
 
                 hd.setMa(rs.getString(1));
                 hd.setNgayTao(rs.getDate(2));
-//                User uesr = new User();
-//                uesr.setTen(rs.getString(6) + " " + rs.getString(5) + " " + rs.getString(3));
-//                hd.setUser(uesr);
+          
+               
                 hd.setTinhTrang(rs.getInt(3));
                 getListGD.add(hd);
             }
@@ -76,7 +77,20 @@ String sql = "SELECT HD.Ma, HD.NgayTao, HD.TinhTrang \n" +
         }
         return result;
     }
-
+    @Override
+public Integer deleteHoaDon(String maHoaDon) {
+    int result = 0;
+    try {
+        String sql = "DELETE FROM HoaDon WHERE Ma = ?";
+        Connection conn = DBcontext.getConnection();
+        PreparedStatement pr = conn.prepareStatement(sql);
+        pr.setString(1, maHoaDon);
+        result = pr.executeUpdate();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return result;
+}
     @Override
     public List<GioHang> getListHoaDonChiTietByMaHd(String MaHD) {
      List<GioHang> getList = new ArrayList<>();
@@ -251,6 +265,65 @@ String sql = "SELECT HD.Ma, HD.NgayTao, HD.TinhTrang \n" +
 
         }
         return rs;
+    }
+
+    @Override
+    public Integer updateTrangThaiHoaDon(HoaDon hd) {
+         int n = 0;
+        try {
+            String sql = "update HoaDon set TinhTrang = ? , Ghichu = ? ,NgayThanhToan = ? ,tongTien = ?  where Ma = ?";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setInt(1, hd.getTinhTrang());
+            pr.setString(2, hd.getGhichu());
+            pr.setDate(3, hd.getNgayThanhToan());
+            pr.setString(5, hd.getMa());
+            pr.setDouble(4, hd.getTongTien());
+
+            n = pr.executeUpdate();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return n;
+    }
+
+    @Override
+    public List<HoaDon> GetAllHD() {
+        List<HoaDon> getListGD = new ArrayList<>();
+try {
+    String sql = "SELECT a.MA, c.HO, c.TENDEM, c.TEN, a.NGAYTAO, a.NGAYTHANHTOAN, a.TINHTRANG, a.GHICHU, a.TONGTIEN " +
+                 "FROM HOADON a " +
+                 "JOIN KHACHHANG c ON a.IDKH = c.ID WHERE TinhTrang=1";
+            
+    Connection conn = DBcontext.getConnection();
+    PreparedStatement pr = conn.prepareStatement(sql);
+    ResultSet rs = pr.executeQuery();
+
+    while (rs.next()) {
+        HoaDon hd = new HoaDon();
+
+        hd.setMa(rs.getString(1));  // Mã hóa đơn
+        hd.setNgayTao(rs.getDate(5));  // Ngày tạo
+        hd.setNgayThanhToan(rs.getDate(6));  // Ngày thanh toán
+        hd.setTinhTrang(rs.getInt(7));  // Tình trạng
+        hd.setGhichu(rs.getString(8));  // Ghi chú
+        hd.setTongTien(rs.getDouble(9));  // Tổng tiền
+        
+        // Thiết lập thông tin khách hàng
+        KhachHang2 kh = new KhachHang2();
+        // Tên khách hàng là sự kết hợp của họ, tên đệm và tên
+        kh.setTen(rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4));
+        hd.setKhachHang(kh);
+        
+        getListGD.add(hd);
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+return getListGD;
     }
     
 }

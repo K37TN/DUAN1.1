@@ -24,4 +24,7 @@ public Integer getIdHD(String MaHD);
 public Integer updateSOLUONGTrenGioHang(int idHD, int idSP, int SoLuong, Double dongia);
 public Integer insertHoaDonChiTiet(HoaDonChiTiet hdct);
 public Integer deleteSanPham(int idHD, int idSP);
+public Integer updateTrangThaiHoaDon(HoaDon hd);
+public List<HoaDon> GetAllHD();
+public Integer deleteHoaDon(String maHoaDon);
 }

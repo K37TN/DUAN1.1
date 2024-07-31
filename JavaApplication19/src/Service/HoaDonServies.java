@@ -45,7 +45,7 @@ List<HoaDon> list = hoaDonRepostory.getListHD(TrangThai);
 //            hd.setUs(hoaDon.getUser());
             getListHD.add(hd);
         }
-        return getListHD;       
+        return getListHD;          
     }
 
     @Override
@@ -113,6 +113,22 @@ return hoaDonRepostory.getIdHD(MaHD);
        
     return hoaDonRepostory.deleteSanPham(idHD, idSP);
     }
+
+    @Override
+    public Integer updateTrangThaiHoaDon(HoaDonViewModel hd) {
+      HoaDon hoaDon = new HoaDon();
+        hoaDon.setGhichu(hd.getGhiChu());
+        hoaDon.setNgayThanhToan(hd.getNgayThanhToan());
+        hoaDon.setMa(hd.getMa());
+        hoaDon.setTongTien(hd.getTongTien());
+        hoaDon.setTinhTrang(1);
+        return hoaDonRepostory.updateTrangThaiHoaDon(hoaDon);    
+    }
+
+    @Override
+    public Integer deleteHoaDon(String maHoaDon) {
+      return hoaDonRepostory.deleteHoaDon(maHoaDon);   }
+
 
  
  
