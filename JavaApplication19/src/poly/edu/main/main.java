@@ -3,6 +3,7 @@ package poly.edu.main;
 import ViewFrame.Ban_Hang;
 import ViewFrame.HoaDon;
 import ViewFrame.KhachHang;
+import ViewFrame.KhuyenMai;
 import ViewFrame.NhanVienViewF;
 import ViewFrame.San_Pham;
 import ViewFrame.Voucher_form;
@@ -45,7 +46,11 @@ public class main extends javax.swing.JFrame {
                 } else if (index == 4) {
                     setForm(new Ban_Hang());
                 } else if (index == 5) {
-                    // Đợt giảm giá
+                    try {
+                        setForm(new KhuyenMai());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else if (index == 6) {
                     setForm(new KhachHang());
                 } else if (index == 7) {

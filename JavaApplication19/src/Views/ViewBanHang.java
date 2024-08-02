@@ -670,7 +670,7 @@ for (HoaDonViewModel hoaDonViewModel : getList) {
     
     if (result > 0) {
         JOptionPane.showMessageDialog(null, "Hóa đơn đã được xóa thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-   
+   getListHoaDon();
  
       
      
