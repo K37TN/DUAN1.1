@@ -11,10 +11,12 @@ import Model.HoaDonChiTiet;
 import Model.KhachHang;
 import Model.KhachHang2;
 import Model.User;
+import Model.sanPham;
 import Repositorys.ImplHoaDon;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -325,5 +327,54 @@ try {
 
 return getListGD;
     }
+    public List<HoaDonChiTiet> GetChiTietHoaDon(String maHoaDon) throws SQLException {
+    Connection conn = DBcontext.getConnection();
+    List<HoaDonChiTiet> list = new ArrayList<>();
     
+    // Truy vấn để lấy IdHD từ Ma
+    String sqlGetId = "SELECT Id FROM HoaDon WHERE Ma = ?";
+    int idHD = -1; // Giá trị mặc định cho IdHD nếu không tìm thấy
+
+    try (PreparedStatement psGetId = conn.prepareStatement(sqlGetId)) {
+        psGetId.setString(1, maHoaDon);
+        ResultSet rsGetId = psGetId.executeQuery();
+
+        if (rsGetId.next()) {
+            idHD = rsGetId.getInt("Id");
+        } else {
+            // Không tìm thấy maHoaDon tương ứng trong bảng HoaDon
+            throw new SQLException("Không tìm thấy hóa đơn với mã: " + maHoaDon);
+        }
+    }
+
+    // Truy vấn để lấy chi tiết hóa đơn dựa trên IdHD
+    String sql = "SELECT ct.Ten, ct.GiaBan, h.Soluong, h.Dongia " +
+                 "FROM HoaDonChiTiet h " +
+                 "JOIN ChitietSP ct ON h.IdCTSP = ct.Id " +
+                 "WHERE h.IdHD = ?";
+
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, idHD); // Gán giá trị IdHD cho tham số
+        
+        ResultSet rs = ps.executeQuery();
+        
+        while (rs.next()) {
+            HoaDonChiTiet chiTiet = new HoaDonChiTiet();
+            chiTiet.setSoluong(rs.getInt("Soluong"));
+            chiTiet.setDonGia(rs.getDouble("Dongia")); // Đổi tên cột cho đúng với cấu trúc bảng
+            sanPham sp = new sanPham(); // Tạo đối tượng sanPham và thiết lập thông tin
+            sp.setTen(rs.getString("Ten"));
+            sp.setGiaBan(rs.getBigDecimal("GiaBan"));
+            
+            chiTiet.setSanPham(sp);
+            list.add(chiTiet);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw e; // Ném lại ngoại lệ để xử lý ở nơi gọi phương thức
+    }
+    
+    return list;
+}
+
 }

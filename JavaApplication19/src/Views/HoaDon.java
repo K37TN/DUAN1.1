@@ -4,11 +4,19 @@
  */
 package Views;
 
+import Model.HoaDonChiTiet;
+import Model.sanPham;
 import Repository.HoaDonRepository;
 import Service.HoaDonServies;
 import entity.HoaDonViewModel;
+import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -46,6 +54,66 @@ public class HoaDon extends javax.swing.JFrame {
     }
     
 }
+    
+     private void addSelectionListener() {
+        tbl_hoadon.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = tbl_hoadon.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Get maHoaDon from the selected row
+                        String maHoaDon = tbl_hoadon.getValueAt(selectedRow, 0).toString();
+                        lbMahoadon.setText("Hóa đơn: " + maHoaDon); // Trực tiếp đặt maHoaDon
+                        
+                        try {
+                            // Call the method with maHoaDon
+                            loadDataToTable1(maHoaDon);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(HoaDon.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+        });
+    }
+     private void loadDataToTable1(String maHoaDon) throws SQLException {
+        List<HoaDonChiTiet> listChiTiet = donRepository.GetChiTietHoaDon(maHoaDon);
+        DefaultTableModel model = (DefaultTableModel) tbHoaDonChiTiet.getModel();
+        model.setRowCount(0);
+        int stt = 1;
+
+        for (HoaDonChiTiet chiTiet : listChiTiet) {
+            sanPham sanPham = chiTiet.getSanPham();
+            if (sanPham != null) {
+                String tenSanPham = sanPham.getTen();
+                BigDecimal giaBan = sanPham.getGiaBan();
+                int soLuong = chiTiet.getSoluong();
+                BigDecimal thanhTien = giaBan.multiply(BigDecimal.valueOf(soLuong));
+                Double dongia = chiTiet.getDonGia(); 
+                Double donGiaKhiGiam = chiTiet.getDonKhiGiam(); // Lấy giá khi giảm
+
+                model.addRow(new Object[]{
+                    stt++,
+                    tenSanPham != null ? tenSanPham : "N/A",
+                    giaBan,
+                    soLuong,
+                    thanhTien
+                });
+                lbgiagoc.setText("Đơn giá: " + dongia);
+            lbgiasaukhigiam.setText("Đơn giá khi giảm: " + donGiaKhiGiam);
+
+            } else {
+                model.addRow(new Object[]{
+                    stt++,
+                    "N/A",
+                    BigDecimal.ZERO,
+                    chiTiet.getSoluong(),
+                    BigDecimal.ZERO
+                });
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,8 +125,20 @@ public class HoaDon extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_hoadon = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbHoaDonChiTiet = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        lbMahoadon = new javax.swing.JLabel();
+        lbgiagoc = new javax.swing.JLabel();
+        lbgiasaukhigiam = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
 
         tbl_hoadon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,7 +151,27 @@ public class HoaDon extends javax.swing.JFrame {
                 "Mã HD", "Tên KH", "Tổng Tiền", "Ngày Tạo", "Ngày Thanh Toán", "Trạng Thái", "Ghi Chú"
             }
         ));
+        tbl_hoadon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_hoadonMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_hoadon);
+
+        tbHoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "sản phẩm ", "giá tiền ", "số lương ", "tổng"
+            }
+        ));
+        jScrollPane3.setViewportView(tbHoaDonChiTiet);
+
+        jLabel1.setText("Hóa đơn chi tiết");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,19 +179,59 @@ public class HoaDon extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(lbMahoadon, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(lbgiagoc, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(lbgiasaukhigiam, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbgiagoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbMahoadon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbgiasaukhigiam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+      
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void tbl_hoadonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_hoadonMouseClicked
+      int selectedRow = tbl_hoadon.getSelectedRow();
+        if (selectedRow != -1) {
+            // Get maHoaDon from the selected row
+            String maHoaDon = tbl_hoadon.getValueAt(selectedRow, 0).toString();
+            lbMahoadon.setText("Hóa đơn: " + maHoaDon);
+            try {
+                loadDataToTable1(maHoaDon);
+            } catch (SQLException ex) {
+                Logger.getLogger(HoaDon.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_tbl_hoadonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -129,7 +269,13 @@ public class HoaDon extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lbMahoadon;
+    private javax.swing.JLabel lbgiagoc;
+    private javax.swing.JLabel lbgiasaukhigiam;
+    private javax.swing.JTable tbHoaDonChiTiet;
     private javax.swing.JTable tbl_hoadon;
     // End of variables declaration//GEN-END:variables
 }
