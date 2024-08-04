@@ -393,7 +393,7 @@ String sql = "UPDATE ChitietSP SET Ma = ?, Ten = ?, IdMauSac = ?, IdKC = ?, IdCL
          }
     @Override
     public List<sanPham> search(String ma, String ten) {
-     List<sanPham> resultList = new ArrayList<>();
+    List<sanPham> resultList = new ArrayList<>();
     String sql = "SELECT " +
             "ctsp.Id, " +
             "ctsp.Ma, " +
@@ -410,7 +410,7 @@ String sql = "UPDATE ChitietSP SET Ma = ?, Ten = ?, IdMauSac = ?, IdKC = ?, IdCL
             "INNER JOIN KichCo kc ON ctsp.IdKC = kc.Id " +
             "INNER JOIN MauSac ms ON ctsp.IdMauSac = ms.Id " +
             "INNER JOIN ThuongHieu th ON ctsp.IdTH = th.Id " +
-            "WHERE 1=1"; // Phần này giúp bắt đầu điều kiện WHERE một cách an toàn
+            "WHERE 1=1"; // Khởi tạo điều kiện WHERE cơ bản
 
     if (ma != null && !ma.trim().isEmpty()) {
         sql += " AND ctsp.Ma LIKE ?";

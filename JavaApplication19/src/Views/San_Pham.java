@@ -250,6 +250,11 @@ void LoadData() {
         });
         jScrollPane4.setViewportView(tb_sanpham);
 
+        txt_timkiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_timkiemActionPerformed(evt);
+            }
+        });
         txt_timkiem.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_timkiemKeyReleased(evt);
@@ -515,12 +520,13 @@ if (selected >= 0) {
     }//GEN-LAST:event_btn_updateActionPerformed
 
     private void txt_timkiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_timkiemKeyReleased
- String ma = txt_timkiem.getText().trim();
-    String ten = txt_timkiem.getText().trim();
+    String keyword = txt_timkiem.getText().trim();
 
-    List<sanPham> resultList = repository.search(ma, ten);
+    // Sử dụng cùng một từ khóa để tìm kiếm theo cả mã và tên sản phẩm
+    List<sanPham> resultList = repository.search(keyword, keyword);
+
+    // Cập nhật bảng hiển thị với danh sách sản phẩm tìm được
     updateTable(resultList);
-    
     }//GEN-LAST:event_txt_timkiemKeyReleased
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -530,6 +536,10 @@ if (selected >= 0) {
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
        
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void txt_timkiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_timkiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_timkiemActionPerformed
 public void click(){
         int index = tb_sanpham.getSelectedRow();
         txt_id.setText(tb_sanpham.getValueAt(index, 0).toString());

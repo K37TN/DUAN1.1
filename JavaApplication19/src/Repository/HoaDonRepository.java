@@ -377,4 +377,28 @@ return getListGD;
     return list;
 }
 
+    @Override
+    public Integer updateSoLuongGioHang(int SoLuong, String MaSP, String MaHD) {
+       int rs = 0;
+        try {
+            String sql = "UPDATE HoaDonChiTiet SET Soluong = ? WHERE IdHD IN (SELECT ID FROM HoaDon WHERE MA = ?) AND IdCTSP IN (SELECT ID FROM ChitietSP WHERE MA = ?)";
+            Connection conn = DBcontext.getConnection();
+            PreparedStatement pr = conn.prepareStatement(sql);
+            pr.setInt(1, SoLuong);
+            pr.setString(2, MaHD);
+            pr.setString(3, MaSP);
+            rs = pr.executeUpdate();
+            if (rs > 0) {
+                System.out.println("thành công");
+            } else {
+                System.out.println("thất bại");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return rs;
+    }
+
 }

@@ -27,4 +27,6 @@ public Integer deleteSanPham(int idHD, int idSP);
 public Integer updateTrangThaiHoaDon(HoaDon hd);
 public List<HoaDon> GetAllHD();
 public Integer deleteHoaDon(String maHoaDon);
+public Integer updateSoLuongGioHang(int SoLuong, String MaSP, String MaHD);
+
 }

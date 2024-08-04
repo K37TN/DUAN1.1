@@ -32,4 +32,5 @@ public interface ImplHoaDonService {
    public Integer deleteSanPham(int idHD, int idSP);
     Integer updateTrangThaiHoaDon(HoaDonViewModel hd);
   public Integer deleteHoaDon(String maHoaDon);
+  Integer updateSoLuongGioHang(int SoLuong, String MaSP, String MaHD);
 }

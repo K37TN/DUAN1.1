@@ -129,6 +129,12 @@ return hoaDonRepostory.getIdHD(MaHD);
     public Integer deleteHoaDon(String maHoaDon) {
       return hoaDonRepostory.deleteHoaDon(maHoaDon);   }
 
+    @Override
+    public Integer updateSoLuongGioHang(int SoLuong, String MaSP, String MaHD) {
+    return hoaDonRepostory.updateSoLuongGioHang(SoLuong, MaSP, MaHD);
+    
+    }
+
 
  
  
