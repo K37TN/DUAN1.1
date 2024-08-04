@@ -744,7 +744,7 @@ for (HoaDonViewModel hoaDonViewModel : getList) {
             return;
         }
 
-        Integer updateHoaDonKh = hoaDonServiec.updateHoaDonKhachHang(4, tbl_HoaDon.getValueAt(rowHD, 0).toString());
+        Integer updateHoaDonKh = hoaDonServiec.updateHoaDonKhachHang(12, tbl_HoaDon.getValueAt(rowHD, 0).toString());
         List<HoaDon> getList = hoaDonServiec.getKhachHang(tbl_HoaDon.getValueAt(rowHD, 0).toString());
         for (HoaDon hoaDon : getList) {
             lbl_tenkh.setText(hoaDon.getKhachHang().getTen());
