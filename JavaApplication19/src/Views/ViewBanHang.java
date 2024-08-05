@@ -525,7 +525,7 @@ HoaDonChiTiet hdct1 = hoaDonServiec.getHdctOne(hoaDonId, sanPhamId);
 if (hdct1.getDonGia() == null) {
     // xử lý thêm sản phẩm vào hóa đơn
 } else {
-    JOptionPane.showMessageDialog(this, "SP Trung");
+    JOptionPane.showMessageDialog(this, "Sản phẩm trùng");
 }
 
 try {
@@ -568,7 +568,7 @@ try {
         JOptionPane.showMessageDialog(this, "Sản phẩm không đủ ");
     }
 } catch (Exception e) {
-    JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + e.getMessage());
+    JOptionPane.showMessageDialog(this, "Đã ngừng thêm sản phẩm " + e.getMessage());
 }
     }//GEN-LAST:event_tb_sanphamMouseClicked
 
@@ -620,49 +620,60 @@ try {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_thanhtoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_thanhtoanActionPerformed
-        int rowHD = tbl_HoaDon.getSelectedRow();
+       int rowHD = tbl_HoaDon.getSelectedRow();
 if (rowHD < 0) {
-    JOptionPane.showMessageDialog(this, "chọn hoá đơn bạn muốn thanh toán");
+    JOptionPane.showMessageDialog(this, "Chọn hoá đơn bạn muốn thanh toán");
     return;
 }
 if (lbl_tenkh.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "chưa có thông tin khách hàng");
+    JOptionPane.showMessageDialog(this, "Chưa có thông tin khách hàng");
     return;
 }
 if (txt_tienKhachDua.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "tiền khách Đưa không được để trống");
+    JOptionPane.showMessageDialog(this, "Tiền khách đưa không được để trống");
     return;
 }
 try {
-    if (Double.parseDouble(txt_tienKhachDua.getText()) < Double.parseDouble(lbl_thanhtien.getText())) {
-        JOptionPane.showMessageDialog(this, "tiền khách Đưa chưa đủ");
+    if (Double.parseDouble(txt_tienKhachDua.getText()) < Double.parseDouble(lbl_tongtien.getText())) {
+        JOptionPane.showMessageDialog(this, "Tiền khách đưa chưa đủ");
         return;
     }
 } catch (Exception e) {
-    JOptionPane.showMessageDialog(this, "không nhập kí tự tiền khách đưa");
+    JOptionPane.showMessageDialog(this, "Không nhập kí tự lạ vào tiền khách đưa");
     return;
 }
-HoaDonViewModel hoaDon = new HoaDonViewModel();
-hoaDon.setGhiChu(txt_ghichu.getText());
-long millis = System.currentTimeMillis();
-Date date = new Date(millis);
-hoaDon.setNgayThanhToan(date);
-hoaDon.setMa(tbl_HoaDon.getValueAt(rowHD, 0).toString());
-hoaDon.setTongTien(Double.parseDouble(lbl_thanhtien.getText()));
-hoaDonServiec.updateTrangThaiHoaDon(hoaDon);
-JOptionPane.showMessageDialog(this, "thanh toán thành công");
-List<HoaDonViewModel> getList = hoaDonServiec.getListHD(1);
-for (HoaDonViewModel hoaDonViewModel : getList) {
-    if (tbl_HoaDon.getValueAt(rowHD, 0).equals(hoaDonViewModel.getMa())) {
-        getList.remove(hoaDonViewModel);
-        getList.clear();
-        clear();
-        getListHoaDon();
-        listGioHang.clear();
-        getListGioHang();
-        break;
+
+// Hỏi xem người dùng có muốn thay đổi thông tin trước khi thanh toán không
+int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn thay đổi thông tin trước khi thanh toán không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+if (confirm == JOptionPane.NO_OPTION) {
+    HoaDonViewModel hoaDon = new HoaDonViewModel();
+    hoaDon.setGhiChu(txt_ghichu.getText());
+    long millis = System.currentTimeMillis();
+    Date date = new Date(millis);
+    hoaDon.setNgayThanhToan(date);
+    hoaDon.setMa(tbl_HoaDon.getValueAt(rowHD, 0).toString());
+    hoaDon.setTongTien(Double.parseDouble(lbl_tongtien.getText()));
+    hoaDonServiec.updateTrangThaiHoaDon(hoaDon);
+    JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+
+    // Cập nhật danh sách hóa đơn và giỏ hàng
+    List<HoaDonViewModel> getList = hoaDonServiec.getListHD(1);
+    for (HoaDonViewModel hoaDonViewModel : getList) {
+        if (tbl_HoaDon.getValueAt(rowHD, 0).equals(hoaDonViewModel.getMa())) {
+            getList.remove(hoaDonViewModel);
+            getList.clear();
+            clear();
+            getListHoaDon();
+            listGioHang.clear();
+            getListGioHang();
+            break;
+        }
     }
+} else {
+    JOptionPane.showMessageDialog(this, "Bạn có thể thay đổi thông tin trước khi thanh toán.");
 }
+
     }//GEN-LAST:event_btn_thanhtoanActionPerformed
 
     private void txt_tienKhachDuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tienKhachDuaActionPerformed
@@ -686,7 +697,9 @@ for (HoaDonViewModel hoaDonViewModel : getList) {
     if (result > 0) {
         JOptionPane.showMessageDialog(null, "Hóa đơn đã được xóa thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
   
-     
+      List<HoaDonViewModel> getList = hoaDonServiec.getListHD(0);
+      getList.clear();
+      getListHoaDon();
  
       
      
@@ -694,7 +707,7 @@ for (HoaDonViewModel hoaDonViewModel : getList) {
     } else {
         JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn với mã " + maHoaDon, "Thông báo", JOptionPane.ERROR_MESSAGE);
     }
-   getListHoaDon();
+ 
     }//GEN-LAST:event_btn_xoaActionPerformed
 
     private void tbl_giohangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_giohangMouseClicked

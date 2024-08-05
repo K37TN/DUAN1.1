@@ -30,10 +30,6 @@ public class HoaDonRepository implements ImplHoaDon{
     public List<HoaDon> getListHD(int TrangThai) {
           List<HoaDon> getListGD = new ArrayList<>();
         try {
-//            String sql = "SELECT HD.Ma, HD.NgayTao, NV.TaiKhoan, HD.TinhTrang\n" +
-//"FROM HoaDon HD\n" +
-//"JOIN Users NV ON HD.IdNV = NV.Id\n" +
-//"WHERE HD.TinhTrang = ? AND NV.TaiKhoan = 'manhndph33006'";
 String sql = "SELECT HD.Ma, HD.NgayTao, HD.TinhTrang \n" +
 "FROM HoaDon HD \n" +
 "WHERE HD.TinhTrang = ?";

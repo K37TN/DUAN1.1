@@ -54,7 +54,6 @@ List<HoaDon> list = hoaDonRepostory.getListHD(TrangThai);
         hd.setMa(hoaDon.getMa());
         hd.setNgayTao(hoaDon.getNgayTao());
         hd.setTinhTrang(0);
-
         Integer isInsert = hoaDonRepostory.insertHoaDon(hd);
         return isInsert;    
     }

@@ -75,6 +75,7 @@ private DefaultTableModel model;
         tbl_HoaDon = new javax.swing.JTable();
         btn_taoHoaDon = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        btn_xoaHD = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -119,6 +120,9 @@ private DefaultTableModel model;
         tbl_giohang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_giohangMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tbl_giohangMouseEntered(evt);
             }
         });
         jScrollPane1.setViewportView(tbl_giohang);
@@ -193,34 +197,45 @@ private DefaultTableModel model;
 
         jLabel2.setText("Hóa đơn chờ");
 
+        btn_xoaHD.setText("Xóa");
+        btn_xoaHD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xoaHDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(533, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jScrollPane2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addGap(447, 447, 447)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_taoHoaDon)
-                .addGap(14, 14, 14))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_taoHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_xoaHD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(11, 11, 11))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(btn_taoHoaDon)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(btn_xoaHD)
+                .addGap(18, 18, 18)
+                .addComponent(btn_taoHoaDon)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -460,12 +475,12 @@ private DefaultTableModel model;
       HoaDonViewModel hoaDon = inputHD();
         Integer add = hoaDonServiec.saveHD(hoaDon);
         if (add > 0) {
-            System.out.println("thêm thành công");
+            System.out.println("Tạo Hóa Đơn Thành Công");
             List<HoaDonViewModel> list = hoaDonServiec.getListHD(1);
             list.clear();
             getListHoaDon();
         } else {
-            System.out.println("thêm thất bại");
+            System.out.println("Lỗi tạo Hóa Đơn");
         }
     }//GEN-LAST:event_btn_taoHoaDonActionPerformed
 
@@ -632,49 +647,60 @@ try {
     }//GEN-LAST:event_btn_khachhanggActionPerformed
 
     private void btn_thanhtoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_thanhtoanActionPerformed
-     int rowHD = tbl_HoaDon.getSelectedRow();
+int rowHD = tbl_HoaDon.getSelectedRow();
 if (rowHD < 0) {
-    JOptionPane.showMessageDialog(this, "chọn hoá đơn bạn muốn thanh toán");
+    JOptionPane.showMessageDialog(this, "Chọn hoá đơn bạn muốn thanh toán");
     return;
 }
 if (lbl_tenkh.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "chưa có thông tin khách hàng");
+    JOptionPane.showMessageDialog(this, "Chưa có thông tin khách hàng");
     return;
 }
 if (txt_tienKhachDua.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "tiền khách Đưa không được để trống");
+    JOptionPane.showMessageDialog(this, "Tiền khách đưa không được để trống");
     return;
 }
 try {
     if (Double.parseDouble(txt_tienKhachDua.getText()) < Double.parseDouble(lbl_tongtien.getText())) {
-        JOptionPane.showMessageDialog(this, "tiền khách Đưa chưa đủ");
+        JOptionPane.showMessageDialog(this, "Tiền khách đưa chưa đủ");
         return;
     }
 } catch (Exception e) {
-    JOptionPane.showMessageDialog(this, "không nhập kí tự tiền khách đưa");
+    JOptionPane.showMessageDialog(this, "Không nhập kí tự lạ vào tiền khách đưa");
     return;
 }
-HoaDonViewModel hoaDon = new HoaDonViewModel();
-hoaDon.setGhiChu(txt_ghichu.getText());
-long millis = System.currentTimeMillis();
-Date date = new Date(millis);
-hoaDon.setNgayThanhToan(date);
-hoaDon.setMa(tbl_HoaDon.getValueAt(rowHD, 0).toString());
-hoaDon.setTongTien(Double.parseDouble(lbl_tongtien.getText()));
-hoaDonServiec.updateTrangThaiHoaDon(hoaDon);
-JOptionPane.showMessageDialog(this, "thanh toán thành công");
-List<HoaDonViewModel> getList = hoaDonServiec.getListHD(1);
-for (HoaDonViewModel hoaDonViewModel : getList) {
-    if (tbl_HoaDon.getValueAt(rowHD, 0).equals(hoaDonViewModel.getMa())) {
-        getList.remove(hoaDonViewModel);
-        getList.clear();
-        clear();
-        getListHoaDon();
-        listGioHang.clear();
-        getListGioHang();
-        break;
+
+// Hỏi xem người dùng có muốn thay đổi thông tin trước khi thanh toán không
+int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn thay đổi thông tin trước khi thanh toán không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+if (confirm == JOptionPane.NO_OPTION) {
+    HoaDonViewModel hoaDon = new HoaDonViewModel();
+    hoaDon.setGhiChu(txt_ghichu.getText());
+    long millis = System.currentTimeMillis();
+    Date date = new Date(millis);
+    hoaDon.setNgayThanhToan(date);
+    hoaDon.setMa(tbl_HoaDon.getValueAt(rowHD, 0).toString());
+    hoaDon.setTongTien(Double.parseDouble(lbl_tongtien.getText()));
+    hoaDonServiec.updateTrangThaiHoaDon(hoaDon);
+    JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+
+    // Cập nhật danh sách hóa đơn và giỏ hàng
+    List<HoaDonViewModel> getList = hoaDonServiec.getListHD(1);
+    for (HoaDonViewModel hoaDonViewModel : getList) {
+        if (tbl_HoaDon.getValueAt(rowHD, 0).equals(hoaDonViewModel.getMa())) {
+            getList.remove(hoaDonViewModel);
+            getList.clear();
+            clear();
+            getListHoaDon();
+            listGioHang.clear();
+            getListGioHang();
+            break;
+        }
     }
+} else {
+    JOptionPane.showMessageDialog(this, "Bạn có thể thay đổi thông tin trước khi thanh toán.");
 }
+
     }//GEN-LAST:event_btn_thanhtoanActionPerformed
 
     private void txt_tienKhachDuaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txt_tienKhachDuaCaretUpdate
@@ -753,6 +779,44 @@ for (HoaDonViewModel hoaDonViewModel : getList) {
             return;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_xoaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaHDActionPerformed
+            int selected = tbl_HoaDon.getSelectedRow();
+// Kiểm tra xem có hàng nào được chọn không
+if (selected == -1) {
+    JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn cần xóa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+// Lấy mã hóa đơn từ cột dữ liệu của hàng được chọn
+String maHoaDon = tbl_HoaDon.getValueAt(selected, 0).toString(); // Giả sử mã hóa đơn nằm ở cột đầu tiên
+
+// Hỏi xem người dùng có chắc chắn muốn xóa không
+int confirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa hóa đơn với mã " + maHoaDon + " không?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+if (confirm == JOptionPane.YES_OPTION) {
+    // Gọi phương thức deleteHoaDon để xóa hóa đơn
+    int result = hoaDonServiec.deleteHoaDon(maHoaDon);
+
+    if (result > 0) {
+        JOptionPane.showMessageDialog(null, "Hóa đơn đã được xóa thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+        // Cập nhật lại danh sách hóa đơn
+        List<HoaDonViewModel> getList = hoaDonServiec.getListHD(0);
+        getList.clear();
+        getListHoaDon();
+    } else {
+        JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn với mã " + maHoaDon, "Thông báo", JOptionPane.ERROR_MESSAGE);
+    }
+} else {
+    JOptionPane.showMessageDialog(null, "Đã ngừng xóa Hóa Đơn", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+}
+
+    }//GEN-LAST:event_btn_xoaHDActionPerformed
+
+    private void tbl_giohangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_giohangMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbl_giohangMouseEntered
 private HoaDonViewModel inputHD() {
         HoaDonViewModel hd = new HoaDonViewModel();
         String Ma = "HD";
@@ -933,6 +997,7 @@ void LoadData() {
     private javax.swing.JButton btn_taoHoaDon;
     private javax.swing.JButton btn_thanhtoan;
     private javax.swing.JButton btn_xoa;
+    private javax.swing.JButton btn_xoaHD;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
