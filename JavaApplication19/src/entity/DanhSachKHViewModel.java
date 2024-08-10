@@ -4,6 +4,8 @@
  */
 package entity;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Vector;
 
 /**
@@ -120,10 +122,12 @@ public class DanhSachKHViewModel {
   
 
    
+ public Object[] toDataRow() {
+        // Định dạng đơn giá theo VND
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedDongia = currencyFormat.format(dongia);
 
-   public Object[] toDataRow() {
-        return new Object[]{id, ho + " " + tendem + " " + ten, SDT, MaHD, ngayTao, dongia, trangthai == 0 ? "chờ thanh toán" : "Đã Thanh Toán"};
-
+        return new Object[]{id, ho + " " + tendem + " " + ten, SDT, MaHD, ngayTao, formattedDongia, trangthai == 0 ? "chờ thanh toán" : "Đã Thanh Toán"};
     }
-    
+ 
 }

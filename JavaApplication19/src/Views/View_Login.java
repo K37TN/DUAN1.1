@@ -4,6 +4,9 @@ package Views;
 import Model.TaiKhoan;
 import Repository.DangnhapRepository;
 import Repository.NhanVienRepository;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import poly.edu.main.main;
@@ -20,8 +23,9 @@ private DangnhapRepository dangnhapRepository  = new DangnhapRepository();
     public View_Login() {
         initComponents();
         setCustomColors();
-        
-        this.setLocationRelativeTo(null);
+  
+    
+ 
     }
     
     void mess(String mess){
@@ -60,6 +64,7 @@ JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
     private void initComponents() {
 
         jPanelLeft = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jPanelRight = new javax.swing.JPanel();
         btn_singup = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -73,15 +78,23 @@ JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
 
         jPanelLeft.setBackground(new java.awt.Color(255, 153, 153));
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/edu/icons/—Pngtree—sneakers_3989154 (1) (1) (1).png"))); // NOI18N
+
         javax.swing.GroupLayout jPanelLeftLayout = new javax.swing.GroupLayout(jPanelLeft);
         jPanelLeft.setLayout(jPanelLeftLayout);
         jPanelLeftLayout.setHorizontalGroup(
             jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 329, Short.MAX_VALUE)
+            .addGroup(jPanelLeftLayout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(jLabel2)
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         jPanelLeftLayout.setVerticalGroup(
             jPanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 350, Short.MAX_VALUE)
+            .addGroup(jPanelLeftLayout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelRight.setBackground(new java.awt.Color(156, 207, 238));
@@ -142,7 +155,7 @@ JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelLeft, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanelRight, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+            .addComponent(jPanelRight, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
         );
 
         pack();
@@ -194,6 +207,7 @@ JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
     private javax.swing.JButton btn_SignIn;
     private javax.swing.JButton btn_singup;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanelLeft;
     private javax.swing.JPanel jPanelRight;
     private javax.swing.JSeparator jSeparator1;
