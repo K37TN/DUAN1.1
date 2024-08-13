@@ -6,6 +6,7 @@ package ViewFrame;
 
 import Model.User;
 import Repository.NhanVienRepository;
+import Views.NhanVienView;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,6 +14,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -43,11 +46,11 @@ public class NhanVienViewF extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         btnSua = new javax.swing.JButton();
         rdoNam = new javax.swing.JRadioButton();
         dateNgaySinh = new com.toedter.calendar.JDateChooser();
         jPanel4 = new javax.swing.JPanel();
-        cbbIdCV = new javax.swing.JComboBox<>();
         txtSDT = new javax.swing.JTextField();
         txtTaikhoan = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JTextField();
@@ -78,6 +81,7 @@ public class NhanVienViewF extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         txtTimkiem = new javax.swing.JTextField();
         tbnTimKiem = new javax.swing.JButton();
+        cbbIdCV = new javax.swing.JComboBox<>();
 
         btnSua.setText("sửa ");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
@@ -86,12 +90,10 @@ public class NhanVienViewF extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup1.add(rdoNam);
         rdoNam.setText("Nam");
 
         jPanel4.setLayout(new java.awt.GridLayout(0, 1, 0, 10));
-
-        cbbIdCV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
-        jPanel4.add(cbbIdCV);
         jPanel4.add(txtSDT);
         jPanel4.add(txtTaikhoan);
         jPanel4.add(txtMatKhau);
@@ -111,6 +113,7 @@ public class NhanVienViewF extends javax.swing.JPanel {
         jLabel4.setText("Ngày Sinh ");
         jPanel1.add(jLabel4);
 
+        buttonGroup1.add(RdoNu);
         RdoNu.setText("Nữ");
 
         jPanel3.setLayout(new java.awt.GridLayout(0, 1, 0, 10));
@@ -161,7 +164,7 @@ public class NhanVienViewF extends javax.swing.JPanel {
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 1, 5, 10));
 
-        jLabel7.setText("IdCV");
+        jLabel7.setText("Chức vụ");
         jPanel2.add(jLabel7);
 
         jLabel8.setText("SDT");
@@ -183,8 +186,20 @@ public class NhanVienViewF extends javax.swing.JPanel {
                 txtTimkiemActionPerformed(evt);
             }
         });
+        txtTimkiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimkiemKeyReleased(evt);
+            }
+        });
 
         tbnTimKiem.setText("Tìm  kiếm ");
+
+        cbbIdCV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý cửa hàng giày", "Nhân viên bán hàng giày" }));
+        cbbIdCV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbIdCVActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -216,17 +231,22 @@ public class NhanVienViewF extends javax.swing.JPanel {
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(rdoHoatDong)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(rdoDaNghi)))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAdd)
-                            .addComponent(btnSua)
-                            .addComponent(btnclean))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cbbIdCV, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAdd))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(rdoHoatDong)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(rdoDaNghi)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSua)
+                                    .addComponent(btnclean))))
                         .addGap(0, 15, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -255,10 +275,12 @@ public class NhanVienViewF extends javax.swing.JPanel {
                                 .addComponent(jLabel6)
                                 .addComponent(rdoNam)
                                 .addComponent(RdoNu)))
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdd)
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbbIdCV, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSua)
                         .addGap(18, 18, 18)
                         .addComponent(btnclean)))
@@ -278,43 +300,27 @@ public class NhanVienViewF extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        //   JOptionPane.showInternalConfirmDialog(rootPane, evt);
-        if (Validation()) {
-            update();
-        }
-    }//GEN-LAST:event_btnSuaActionPerformed
-
-    private void txtHoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtHoActionPerformed
-
-    private void btncleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncleanActionPerformed
-        clean();
-    }//GEN-LAST:event_btncleanActionPerformed
-
     private void tbNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbNhanVienMouseClicked
-        int index = tbNhanVien.getSelectedRow();
+   int index = tbNhanVien.getSelectedRow();
         this.ToConTro(index);
     }//GEN-LAST:event_tbNhanVienMouseClicked
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        if (Validation()) {
-            Add();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
     private void txtTimkiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimkiemActionPerformed
-         dtm.setNumRows(0);
+       dtm = (DefaultTableModel) tbNhanVien.getModel();
+        dtm.setRowCount(0);
+
         String searchText = txtTimkiem.getText().toLowerCase();
         for (User us : nv) {
-            if (us.getHo().toLowerCase().contains(searchText)
-                    || us.getTenDem().toLowerCase().contains(searchText)
-                    || us.getTen().toLowerCase().contains(searchText)
-                    || us.getEmail().toLowerCase().contains(searchText)
-                    || us.getTaiKhoan().toLowerCase().contains(searchText)
-                    || us.getSdt().toLowerCase().contains(searchText)) {
-                // Điều chỉnh kích thước của mảng rowData để phù hợp với số lượng phần tử bạn cần
+            
+        
+ 
+            if (us.getTaiKhoan().toLowerCase().contains(searchText) ||
+                us.getHo().toLowerCase().contains(searchText) ||
+                us.getTenDem().toLowerCase().contains(searchText) ||
+                us.getTen().toLowerCase().contains(searchText) ||
+                us.getSdt().contains(searchText) ||
+                us.getEmail().toLowerCase().contains(searchText)) {
+
                 Object[] rowData = new Object[10];
                 rowData[0] = us.getId();
                 rowData[1] = us.getHo() + " " + us.getTenDem() + " " + us.getTen();
@@ -326,10 +332,75 @@ public class NhanVienViewF extends javax.swing.JPanel {
                 rowData[7] = us.getMatKhau();
                 rowData[8] = us.getEmail();
                 rowData[9] = us.GetTrangThai();
+
                 dtm.addRow(rowData);
             }
-        }
+        } 
     }//GEN-LAST:event_txtTimkiemActionPerformed
+
+    private void txtHoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+       //   JOptionPane.showInternalConfirmDialog(rootPane, evt);
+        if (Validation()) {
+            try {
+                update();
+                showDataTable();
+            } catch (SQLException ex) {
+                Logger.getLogger(NhanVienView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+          if (Validation()) {
+            Add();
+            showDataTable();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btncleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncleanActionPerformed
+        clean();
+    }//GEN-LAST:event_btncleanActionPerformed
+
+    private void cbbIdCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbIdCVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbIdCVActionPerformed
+
+    private void txtTimkiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimkiemKeyReleased
+     dtm = (DefaultTableModel) tbNhanVien.getModel();
+        dtm.setRowCount(0);
+
+        String searchText = txtTimkiem.getText().toLowerCase();
+        for (User us : nv) {
+            
+        
+ 
+            if (us.getTaiKhoan().toLowerCase().contains(searchText) ||
+                us.getHo().toLowerCase().contains(searchText) ||
+                us.getTenDem().toLowerCase().contains(searchText) ||
+                us.getTen().toLowerCase().contains(searchText) ||
+                us.getSdt().contains(searchText) ||
+                us.getEmail().toLowerCase().contains(searchText)) {
+
+                Object[] rowData = new Object[10];
+                rowData[0] = us.getId();
+                rowData[1] = us.getHo() + " " + us.getTenDem() + " " + us.getTen();
+                rowData[2] = us.getNgaySinh();
+                rowData[3] = us.isGioiTinh() ? "Nam" : "Nữ";
+                rowData[4] = us.getSdt();
+                rowData[5] = us.getIdCV() == 1 ? "Quản lý cửa hàng giày" : us.getIdCV() == 2 ? "Nhân viên bán hàng giày" : "Khác";
+                rowData[6] = us.getTaiKhoan();
+                rowData[7] = us.getMatKhau();
+                rowData[8] = us.getEmail();
+                rowData[9] = us.GetTrangThai();
+
+                dtm.addRow(rowData);
+            }
+        } 
+    }//GEN-LAST:event_txtTimkiemKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -338,6 +409,7 @@ public class NhanVienViewF extends javax.swing.JPanel {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnclean;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbIdCV;
     private com.toedter.calendar.JDateChooser dateNgaySinh;
     private javax.swing.JLabel jLabel1;
@@ -370,199 +442,217 @@ public class NhanVienViewF extends javax.swing.JPanel {
     private javax.swing.JTextField txtTimkiem;
     // End of variables declaration//GEN-END:variables
 private void showDataTable() {
-        dtm.setRowCount(0);
-        for (User nv : nv) {
-            Object[] row = {
-                nv.getId(),
-                nv.getHoVaTen(),
-                nv.getNgaySinh(),
-                nv.getGioiTinh(),
-                nv.getSdt(),
-                nv.getIdCV(),
-                nv.getTaiKhoan(),
-                nv.getMatKhau(),
-                nv.getEmail(),
-                nv.GetTrangThai()};
-            dtm.addRow(row);
-        }
-
+    if (dtm == null) {
+        System.out.println("DefaultTableModel (dtm) là null.");
+        return;
     }
 
-    private void ToConTro(int index) {
+    dtm.setRowCount(0); // Xóa tất cả các hàng hiện tại
 
-        // Giả sử index là chỉ số bạn muốn truy cập
-        // An toàn để sử dụng nv
-        User nvm = nv.get(index);
-        txtTen.setText(nvm.getTen());
-        TxtTenDem.setText(nvm.getTenDem());
-        txtHo.setText(nvm.getHo());
-        txtSDT.setText(nvm.getSdt());
-        txtTaikhoan.setText(nvm.getTaiKhoan());
-        txtMatKhau.setText(nvm.getMatKhau());
-        txtEmail.setText(nvm.getEmail());
-        if (nvm.getNgaySinh() != null) {
-            dateNgaySinh.setDate(nvm.getNgaySinh());
-        } else {
-            dateNgaySinh.setDate(null); // Đặt ngày là null nếu không có giá trị
-        }
-        Object idCV = nvm.getIdCV();
-        if (idCV != null) {
-            cbbIdCV.setSelectedItem(idCV.toString());
-        } else {
-            cbbIdCV.setSelectedIndex(-1); // Nếu không có giá trị hợp lệ, đặt lựa chọn thành không
-        }
-        rdoNam.setSelected(nvm.isGioiTinh());
-        RdoNu.setSelected(!nvm.isGioiTinh());
-        rdoHoatDong.setSelected(nvm.isTrangThai());
-        rdoDaNghi.setSelected(!nvm.isTrangThai());
-        nv.add(nvm);
+    if (nv == null) {
+        System.out.println("Danh sách 'nv' là null.");
+        return;
+    }
+    if (nv.isEmpty()) {
+        System.out.println("Danh sách 'nv' không có dữ liệu.");
+        return;
     }
 
-    private boolean Validation() {
-        String ten = txtTen.getText();
-        String tenDem = TxtTenDem.getText();
-        String ho = txtHo.getText();
-        String ngaySinhStr = dateNgaySinh.getDateFormatString(); // Lỗi ở đây, không nên lấy định dạng chuỗi của ngày mà nên lấy giá trị ngày
-        String sdt = txtSDT.getText();
-        String taiKhoan = txtTaikhoan.getText();
-        String matKhau = txtMatKhau.getText();
-        String email = txtEmail.getText();
-        boolean gioiTinh = rdoNam.isSelected();
-        boolean trangThai = rdoHoatDong.isSelected();
-        String idCVStr = cbbIdCV.getSelectedItem().toString();
-
-        // Kiểm tra các trường không được để trống
-        if (ten.isEmpty() || tenDem.isEmpty() || ho.isEmpty() || sdt.isEmpty() || taiKhoan.isEmpty() || matKhau.isEmpty() || email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng không để trống bất kỳ trường nào.");
-            return false;
+    for (User nv : nv) {
+        if (nv == null) {
+            System.out.println("Đối tượng User là null.");
+            continue;
         }
-
-        // Kiểm tra ID và IdCV và sdt phải là số
-        int idCV;
+        String chucVuName;
         try {
-            idCV = Integer.parseInt(idCVStr);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "IdCV phải là số.");
-            return false;
-        }
-
-        try {
-            Integer.parseInt(sdt); // Kiểm tra số điện thoại
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại phải là số.");
-            return false;
-        }
-
-        // Kiểm tra số điện thoại
-        if (sdt.matches("^0\\d{10}$")) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại phải bắt đầu bằng 0 và có 10 số.");
-            return false;
-        }
-
-        // Kiểm tra định dạng email
-        if (!email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$")) {
-            JOptionPane.showMessageDialog(this, "Email sai định dạng.");
-            return false;
-        }
-
-        // Kiểm tra ngày sinh
-        LocalDate currentDate = getCurrentLocalDateWithoutTime();
-        Date birthDate = dateNgaySinh.getDate();
-
-        if (birthDate == null) {
-            JOptionPane.showMessageDialog(this, "Ngày sinh không được để trống.");
-            return false;
-        }
-
-        LocalDate birthLocalDate = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        if (birthLocalDate.isAfter(currentDate)) {
-            JOptionPane.showMessageDialog(this, "Ngày sinh không thể là sau ngày hiện tại.");
-            dateNgaySinh.setDate(null);
-            return false;
-        }
-        return true;
-    }
-
-    private void Add() {
-        User nv = new User();
-
-        try {
-            nv.setIdCV(Integer.parseInt(cbbIdCV.getSelectedItem().toString()));
-            nv.setTrangThai(rdoHoatDong.isSelected());
-
-            nv.setTen(txtTen.getText());
-            nv.setTenDem(TxtTenDem.getText());
-            nv.setHo(txtHo.getText());
-            nv.setSdt(txtSDT.getText());
-            nv.setTaiKhoan(txtTaikhoan.getText());
-            nv.setMatKhau(txtMatKhau.getText());
-            nv.setEmail(txtEmail.getText());
-
-            Date ngaySinh = dateNgaySinh.getDate();
-            if (ngaySinh != null) {
-                nv.setNgaySinh(ngaySinh);
-            } else {
-                JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ.");
-                return;
+            int idCV = nv.getIdCV();
+            chucVuName = nhanVienRepository.getChucVuNameById(idCV);
+            if (chucVuName == null) {
+                chucVuName = "Không tìm thấy";
             }
-
-            nv.setGioiTinh(rdoNam.isSelected());
-
-            nhanVienRepository.addUser(nv);
-            JOptionPane.showMessageDialog(this, "Thêm thành công!");
-            this.nv = nhanVienRepository.getAll();
-            showDataTable();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Có lỗi khi thêm dữ liệu.");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Lỗi cơ sở dữ liệu.");
-        } catch (Exception e) {
+            chucVuName = "Không tìm thấy";
             e.printStackTrace();
         }
+
+        Object[] row = {
+            nv.getId(),
+            nv.getHoVaTen(),
+            nv.getNgaySinh(),
+            nv.getGioiTinh() ,
+            nv.getSdt(),
+            chucVuName,
+            nv.getTaiKhoan(),
+            nv.getMatKhau(),
+            nv.getEmail(),
+            nv.getTrangThai() ? "Đang làm" : "Đã nghỉ"
+        };
+
+        dtm.addRow(row);
     }
+}
+
+
+    private void ToConTro(int index) {
+    User nvm = nv.get(index);
+    txtTen.setText(nvm.getTen());
+    TxtTenDem.setText(nvm.getTenDem());
+    txtHo.setText(nvm.getHo());
+    txtSDT.setText(nvm.getSdt());
+    txtTaikhoan.setText(nvm.getTaiKhoan());
+    txtMatKhau.setText(nvm.getMatKhau());
+    txtEmail.setText(nvm.getEmail());
+
+    if (nvm.getNgaySinh() != null) {
+        dateNgaySinh.setDate(nvm.getNgaySinh());
+    } else {
+        dateNgaySinh.setDate(null); // Đặt về null nếu không có giá trị
+    }
+
+    int idCV = nvm.getIdCV(); // Lấy idCV
+
+    try {
+        // Lấy tên chức vụ theo idCV
+        String chucVuName = nhanVienRepository.getChucVuNameById(idCV);
+
+        // Đặt combo box về tên chức vụ
+        cbbIdCV.setSelectedItem(chucVuName);
+    } catch (SQLException x) {
+        // Xử lý lỗi nếu không tìm thấy tên chức vụ
+        cbbIdCV.setSelectedIndex(-1); // Bỏ chọn mục nào đó
+    }
+
+    rdoNam.setSelected(nvm.isGioiTinh());
+    RdoNu.setSelected(!nvm.isGioiTinh());
+    rdoHoatDong.setSelected(nvm.isTrangThai());
+    rdoDaNghi.setSelected(!nvm.isTrangThai());
+}
+
+
+ private boolean Validation() {
+    String ten = txtTen.getText();
+    String tenDem = TxtTenDem.getText();
+    String ho = txtHo.getText();
+    String sdt = txtSDT.getText();
+    String taiKhoan = txtTaikhoan.getText();
+    String matKhau = txtMatKhau.getText();
+    String email = txtEmail.getText();
+    boolean gioiTinh = rdoNam.isSelected();
+    boolean trangThai = rdoHoatDong.isSelected();
+
+    // Kiểm tra các trường không được để trống
+    if (ten.isEmpty() || tenDem.isEmpty() || ho.isEmpty() || sdt.isEmpty() || taiKhoan.isEmpty() || matKhau.isEmpty() || email.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng không để trống bất kỳ trường nào.");
+        return false;
+    }
+
+    // Kiểm tra số điện thoại
+    if (sdt.matches("^0\\d{10}$")) {
+        JOptionPane.showMessageDialog(this, "Số điện thoại phải bắt đầu bằng 0 và có 11 số.");
+        return false;
+    }
+
+    // Kiểm tra định dạng email
+    if (!email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$")) {
+        JOptionPane.showMessageDialog(this, "Email sai định dạng.");
+        return false;
+    }
+
+    // Kiểm tra ngày sinh
+    LocalDate currentDate = LocalDate.now();
+    Date birthDate = dateNgaySinh.getDate();
+
+    if (birthDate == null) {
+        JOptionPane.showMessageDialog(this, "Ngày sinh không được để trống.");
+        return false;
+    }
+
+    LocalDate birthLocalDate = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+    if (birthLocalDate.isAfter(currentDate)) {
+        JOptionPane.showMessageDialog(this, "Ngày sinh không thể là sau ngày hiện tại.");
+        dateNgaySinh.setDate(null);
+        return false;
+    }
+
+    return true;
+}
+
+
+
+private void Add() {
+    User nv = new User();
+    
+    try {
+        // Giả sử cbbIdCV chứa tên chức vụ, hãy chuyển đổi tên chức vụ thành idCV
+        String tenChucVu = cbbIdCV.getSelectedItem().toString();
+        int idCV = nhanVienRepository.getIdCVByName(tenChucVu); // Lấy idCV từ tên chức vụ
+        nv.setIdCV(idCV);
+        
+        nv.setTrangThai(rdoHoatDong.isSelected());
+        nv.setTen(txtTen.getText());
+        nv.setTenDem(TxtTenDem.getText());
+        nv.setHo(txtHo.getText());
+        nv.setSdt(txtSDT.getText());
+        nv.setTaiKhoan(txtTaikhoan.getText());
+        nv.setMatKhau(txtMatKhau.getText());
+        nv.setEmail(txtEmail.getText());
+        nv.setNgaySinh(dateNgaySinh.getDate());
+
+        // Gọi phương thức để thêm nhân viên vào cơ sở dữ liệu
+        nhanVienRepository.addUser(nv);
+        
+        JOptionPane.showMessageDialog(this, "Thêm thành công.");
+       this.nv = nhanVienRepository.getAll();
+        showDataTable(); // Cập nhật lại bảng dữ liệu
+        clean(); // Xóa dữ liệu khỏi các trường nhập
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi thêm nhân viên: " + e.getMessage());
+    }
+}
+
 
     private LocalDate getCurrentLocalDateWithoutTime() {
         LocalDateTime now = LocalDateTime.now();
         return now.toLocalDate();
     }
 
-    private void update() {
-        int index = tbNhanVien.getSelectedRow();
-        User nvus = nv.get(index);
-
-        nvus.setTen(txtTen.getText());
-        nvus.setTenDem(TxtTenDem.getText());
-        nvus.setHo(txtHo.getText());
-        nvus.setSdt(txtSDT.getText());
-        nvus.setTaiKhoan(txtTaikhoan.getText());
-        nvus.setMatKhau(txtMatKhau.getText());
-        nvus.setEmail(txtEmail.getText());
-        nvus.setGioiTinh(rdoNam.isSelected());
-
-        Date ngaySinh = dateNgaySinh.getDate();
-        if (ngaySinh != null) {
-            nvus.setNgaySinh(new java.sql.Date(ngaySinh.getTime())); // Đảm bảo ngày sinh là java.sql.Date
-        }
-
-        nvus.setTrangThai(rdoHoatDong.isSelected()); // Giả sử TrangThai là int (0 hoặc 1)
-
-        // Kiểm tra và cập nhật IdCV
-        if (cbbIdCV.getSelectedItem() != null) {
-            nvus.setIdCV(Integer.parseInt(cbbIdCV.getSelectedItem().toString())); // Đảm bảo IdCV là int
-        }
-
-        try {
-            nhanVienRepository.update(nvus);
-            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
-            this.nv = nhanVienRepository.getAll();
-            showDataTable();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Lỗi cơ sở dữ liệu.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+  private void update() throws SQLException {
+    User nv = new User();
+    
+    // Lấy thông tin từ bảng để cập nhật
+    int selectedRow = tbNhanVien.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Chưa chọn nhân viên để sửa.");
+        return;
     }
+    
+    int id = (int) tbNhanVien.getValueAt(selectedRow, 0);
+    nv.setId(id); // Cập nhật ID nhân viên hiện tại
+    
+    String tenChucVu = cbbIdCV.getSelectedItem().toString();
+    int idCV = nhanVienRepository.getIdCVByName(tenChucVu);
+    nv.setIdCV(idCV);
+    
+    nv.setTrangThai(rdoHoatDong.isSelected());
+    nv.setTen(txtTen.getText());
+    nv.setTenDem(TxtTenDem.getText());
+    nv.setHo(txtHo.getText());
+    nv.setSdt(txtSDT.getText());
+    nv.setTaiKhoan(txtTaikhoan.getText());
+    nv.setMatKhau(txtMatKhau.getText());
+    nv.setEmail(txtEmail.getText());
+    nv.setNgaySinh(dateNgaySinh.getDate());
+
+    // Gọi phương thức để cập nhật thông tin nhân viên trong cơ sở dữ liệu
+    nhanVienRepository.update(nv);
+    
+    JOptionPane.showMessageDialog(this, "Sửa thành công.");
+     this.nv = nhanVienRepository.getAll();
+    showDataTable(); // Cập nhật lại bảng dữ liệu
+    clean(); // Xóa dữ liệu khỏi các trường nhập
+}
+
 
     private void clean() {
         txtTen.setText("");

@@ -190,7 +190,7 @@ public class KichCo extends javax.swing.JFrame {
  int selected = tb_bang.getSelectedRow();
 if (selected >= 0) {
     int id = (Integer) tb_bang.getValueAt(selected, 0); // Giả sử ID ở cột đầu tiên
-    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sản phẩm này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa thuộc tính này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
 
     if (confirm == JOptionPane.YES_OPTION) {
         try {
@@ -198,10 +198,10 @@ if (selected >= 0) {
                 JOptionPane.showMessageDialog(this, "Xóa thành công");
                 filltable(); // Tải lại dữ liệu
             } else {
-                JOptionPane.showMessageDialog(this, "Không xóa được sản phẩm");
+                JOptionPane.showMessageDialog(this, "Không xóa được thuộc tính");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm");
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa thuộc tính");
             e.printStackTrace();
         }
     }}

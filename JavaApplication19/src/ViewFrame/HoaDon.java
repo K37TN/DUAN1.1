@@ -39,7 +39,7 @@ public class HoaDon extends javax.swing.JPanel {
                     if (selectedRow != -1) {
                         // Get maHoaDon from the selected row
                         String maHoaDon = tbl_hoadon.getValueAt(selectedRow, 0).toString();
-                        lbMahoadon.setText("Hóa đơn: " + maHoaDon); // Trực tiếp đặt maHoaDon
+                   
                         
                         try {
                             // Call the method with maHoaDon
@@ -75,8 +75,7 @@ public class HoaDon extends javax.swing.JPanel {
                     soLuong,
                     thanhTien
                 });
-                lbgiagoc.setText("Đơn giá: " + dongia);
-            lbgiasaukhigiam.setText("Đơn giá khi giảm: " + donGiaKhiGiam);
+
 
             } else {
                 model.addRow(new Object[]{
@@ -124,8 +123,8 @@ public class HoaDon extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbHoaDonChiTiet = new javax.swing.JTable();
         lbMahoadon = new javax.swing.JLabel();
-        lbgiagoc = new javax.swing.JLabel();
-        lbgiasaukhigiam = new javax.swing.JLabel();
+        txt_timkiem = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Hóa Đơn"));
 
@@ -162,6 +161,14 @@ public class HoaDon extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(tbHoaDonChiTiet);
 
+        txt_timkiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_timkiemKeyReleased(evt);
+            }
+        });
+
+        jLabel1.setText("Tìm Kiếm");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,11 +180,10 @@ public class HoaDon extends javax.swing.JPanel {
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbMahoadon, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(132, 132, 132)
+                        .addComponent(jLabel1)
                         .addGap(47, 47, 47)
-                        .addComponent(lbgiagoc, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbgiasaukhigiam, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)))
+                        .addComponent(txt_timkiem)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -187,14 +193,13 @@ public class HoaDon extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbMahoadon, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbMahoadon, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                        .addGap(10, 10, 10))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lbgiasaukhigiam, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                            .addComponent(lbgiagoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))))
+                .addGap(10, 10, 10)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -214,15 +219,61 @@ public class HoaDon extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tbl_hoadonMouseClicked
 
+    private void txt_timkiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_timkiemKeyReleased
+       txt_timkiem.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+    @Override
+    public void insertUpdate(javax.swing.event.DocumentEvent e) {
+        searchAndFilter();
+    }
+
+    @Override
+    public void removeUpdate(javax.swing.event.DocumentEvent e) {
+        searchAndFilter();
+    }
+
+    @Override
+    public void changedUpdate(javax.swing.event.DocumentEvent e) {
+        searchAndFilter();
+    }
+
+    private void searchAndFilter() {
+        String keyword = txt_timkiem.getText().trim().toLowerCase();
+        List<Model.HoaDon> listHoaDon = donRepository.GetAllHD();
+        DefaultTableModel model = (DefaultTableModel) tbl_hoadon.getModel();
+        model.setRowCount(0); // Xóa các hàng hiện tại
+
+        // Khởi tạo DecimalFormat để định dạng tiền tệ
+        DecimalFormat currencyFormat = new DecimalFormat("#,###");
+
+        for (Model.HoaDon hd : listHoaDon) {
+            String maHoaDon = hd.getMa().toLowerCase();
+            String tenKhachHang = hd.getKhachHang() != null ? hd.getKhachHang().getTen().toLowerCase() : "";
+
+            // Kiểm tra nếu mã hóa đơn hoặc tên khách hàng chứa từ khóa tìm kiếm
+            if (maHoaDon.contains(keyword) || tenKhachHang.contains(keyword)) {
+                model.addRow(new Object[]{
+                    hd.getMa(), // Mã hóa đơn
+                    hd.getKhachHang() != null ? hd.getKhachHang().getTen() : "Chưa có thông tin", // Tên khách hàng (kiểm tra null)
+                    currencyFormat.format(hd.getTongTien()), // Tổng tiền định dạng
+                    hd.getNgayTao(), // Ngày tạo
+                    hd.getNgayThanhToan(), // Ngày thanh toán
+                    hd.getTinhTrang() == 0 ? "Chưa thanh toán" : "Đã thanh toán", // Trạng thái
+                    hd.getGhichu() != null ? hd.getGhichu() : "Không có" ,// Ghi chú (kiểm tra null),
+                });
+            }
+        }
+    }
+});
+    }//GEN-LAST:event_txt_timkiemKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lbMahoadon;
-    private javax.swing.JLabel lbgiagoc;
-    private javax.swing.JLabel lbgiasaukhigiam;
     private javax.swing.JTable tbHoaDonChiTiet;
     private javax.swing.JTable tbl_hoadon;
+    private javax.swing.JTextField txt_timkiem;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,15 +31,22 @@ DefaultTableModel model = new DefaultTableModel();
     list = repo.getAll();
         showtable(list);
     }
- public void showtable(List<Model.Voucher> list){
-     model = (DefaultTableModel) tblVoucher.getModel();
-        model.setRowCount(0);
-      List<Voucher> gg = repo.getAll();
-        for (Voucher p : gg) {
-            model.addRow(new Object[]{p.getId(), p.getMavc(), p.getSoLuongGiam(), p.getDkGiam(),p.getTrangThai()==0?"Đang hoạt động":"Đã ngừng",
-                 p.getNgaybd(), p.getNgaykt()});
-        }
+public void showtable(List<Voucher> list) {
+    model = (DefaultTableModel) tblVoucher.getModel();
+    model.setRowCount(0); // Xóa dữ liệu hiện tại trên bảng
 
+    // Sử dụng danh sách `list` được truyền vào thay vì lấy toàn bộ từ repo.getAll()
+    for (Voucher p : list) {
+        model.addRow(new Object[]{
+            p.getId(), 
+            p.getMavc(), 
+            p.getSoLuongGiam(), 
+            p.getDkGiam(), 
+            p.getTrangThai() == 0 ? "Đang hoạt động" : "Đã ngừng", 
+            p.getNgaybd(), 
+            p.getNgaykt()
+        });
+    }
 }
    
 
@@ -110,9 +117,10 @@ DefaultTableModel model = new DefaultTableModel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVoucher = new javax.swing.JTable();
         txt_id = new javax.swing.JLabel();
+        txt_timkiem = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("QUẢN LÝ VOUCHER");
+        jLabel1.setText("jLabel1");
 
         jLabel2.setText("Mã voucher:");
 
@@ -281,9 +289,17 @@ DefaultTableModel model = new DefaultTableModel();
                             .addComponent(btnSua)
                             .addComponent(btnThem))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        txt_timkiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_timkiemKeyReleased(evt);
+            }
+        });
+
+        jLabel8.setText("Tìm kiếm");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -291,10 +307,12 @@ DefaultTableModel model = new DefaultTableModel();
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(214, 214, 214)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(428, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(491, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -306,48 +324,103 @@ DefaultTableModel model = new DefaultTableModel();
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(491, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8))
+                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(494, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(44, 44, 44)
+                    .addGap(53, 53, 53)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // Lấy dữ liệu từ các trường nhập liệu
-        String maVoucher = txtMaVoucher.getText();
-        int soLuongGiam = Integer.parseInt(txtSLGiam.getText());
-        int dieuKienGiam = Integer.parseInt(txtDKGiam.getText());
-        Date ngayBatDau = txtd_ngaybatdau.getDate();
-        Date ngayKetThuc = txt_ngayketthuc.getDate();
-        int trangThai = rdoHoatDong.isSelected() ? 0 : 1;
+    // Lấy dữ liệu từ các trường nhập liệu
+    String maVoucher = txtMaVoucher.getText().trim();
+    String soLuongGiamStr = txtSLGiam.getText().trim();
+    String dieuKienGiamStr = txtDKGiam.getText().trim();
+    Date ngayBatDau = txtd_ngaybatdau.getDate();
+    Date ngayKetThuc = txt_ngayketthuc.getDate();
+    int trangThai = rdoHoatDong.isSelected() ? 0 : 1;
 
-        // Tạo đối tượng Voucher mới
-        Voucher newVoucher = new Voucher();
-        newVoucher.setMavc(maVoucher);
-        newVoucher.setSoLuongGiam(soLuongGiam);
-        newVoucher.setDkGiam(dieuKienGiam);
-        newVoucher.setTrangThai(trangThai);
-        newVoucher.setNgaybd(ngayBatDau);
-        newVoucher.setNgaykt(ngayKetThuc);
+    // Validate các trường nhập liệu
+    if (maVoucher.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã voucher không được để trống");
+        return;
+    }
 
-        try {
-            // Thêm Voucher mới vào cơ sở dữ liệu
-            if (repo.add(newVoucher) > 0) { // Nếu thêm thành công
-                JOptionPane.showMessageDialog(this, "Thêm thành công");
-                list = repo.getAll(); // Lấy lại danh sách Voucher
-                showtable(list); // Hiển thị lại bảng
-            } else {
-                JOptionPane.showMessageDialog(this, "Không thêm được sản phẩm");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi khi thêm sản phẩm");
-            e.printStackTrace();
+    if (soLuongGiamStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Số lượng giảm không được để trống");
+        return;
+    }
+
+    if (!soLuongGiamStr.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "Số lượng giảm phải là số nguyên dương");
+        return;
+    }
+
+    int soLuongGiam = Integer.parseInt(soLuongGiamStr);
+    if (soLuongGiam <= 0) {
+        JOptionPane.showMessageDialog(this, "Số lượng giảm phải lớn hơn 0");
+        return;
+    }
+
+    if (dieuKienGiamStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Điều kiện giảm không được để trống");
+        return;
+    }
+
+    if (!dieuKienGiamStr.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "Điều kiện giảm phải là số nguyên dương");
+        return;
+    }
+
+    int dieuKienGiam = Integer.parseInt(dieuKienGiamStr);
+    if (dieuKienGiam <= 0) {
+        JOptionPane.showMessageDialog(this, "Điều kiện giảm phải lớn hơn 0");
+        return;
+    }
+
+    if (ngayBatDau == null) {
+        JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được để trống");
+        return;
+    }
+
+    if (ngayKetThuc == null) {
+        JOptionPane.showMessageDialog(this, "Ngày kết thúc không được để trống");
+        return;
+    }
+
+    if (ngayBatDau.after(ngayKetThuc)) {
+        JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được sau ngày kết thúc");
+        return;
+    }
+
+    // Tạo đối tượng Voucher mới
+    Voucher newVoucher = new Voucher();
+    newVoucher.setMavc(maVoucher);
+    newVoucher.setSoLuongGiam(soLuongGiam);
+    newVoucher.setDkGiam(dieuKienGiam);
+    newVoucher.setTrangThai(trangThai);
+    newVoucher.setNgaybd(ngayBatDau);
+    newVoucher.setNgaykt(ngayKetThuc);
+
+    try {
+        // Thêm Voucher mới vào cơ sở dữ liệu
+        if (repo.add(newVoucher) > 0) { // Nếu thêm thành công
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+            list = repo.getAll(); // Lấy lại danh sách Voucher
+            showtable(list); // Hiển thị lại bảng
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thêm được voucher");
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi thêm voucher");
+        e.printStackTrace();
+    }
 
     }//GEN-LAST:event_btnThemActionPerformed
 
@@ -410,6 +483,27 @@ DefaultTableModel model = new DefaultTableModel();
 
     }//GEN-LAST:event_tblVoucherMouseClicked
 
+    private void txt_timkiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_timkiemKeyReleased
+      String searchText = txt_timkiem.getText().trim();
+    
+    // Tạo instance của repository
+    VoucherRepository repo = new VoucherRepository();
+    List<Voucher> list;
+
+    if (searchText.isEmpty()) {
+        // Nếu trường tìm kiếm trống, lấy toàn bộ dữ liệu
+        list = repo.getAll();
+    } else {
+        // Thực hiện tìm kiếm với từ khóa
+        Date ngayBatDau = txtd_ngaybatdau.getDate();
+        Date ngayKetThuc = txt_ngayketthuc.getDate();
+        list = repo.searchVoucher(searchText, ngayBatDau, ngayKetThuc);
+    }
+
+    // Hiển thị lại bảng với dữ liệu
+    showtable(list);
+    }//GEN-LAST:event_txt_timkiemKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReset;
@@ -424,6 +518,7 @@ DefaultTableModel model = new DefaultTableModel();
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton rdoHoatDong;
@@ -434,6 +529,7 @@ DefaultTableModel model = new DefaultTableModel();
     private javax.swing.JTextField txtSLGiam;
     private javax.swing.JLabel txt_id;
     private com.toedter.calendar.JDateChooser txt_ngayketthuc;
+    private javax.swing.JTextField txt_timkiem;
     private com.toedter.calendar.JDateChooser txtd_ngaybatdau;
     // End of variables declaration//GEN-END:variables
 }

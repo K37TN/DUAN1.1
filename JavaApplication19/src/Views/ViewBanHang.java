@@ -464,8 +464,7 @@ private DefaultTableModel model;
             lbl_tenkh.setText("");
             lbl_sdt.setText("");
           
-            Double tongPT = 0.0;
-            Double tongVN = 0.0;
+          
             Double tongTien = 0.0;
   
             int count = 0;
@@ -518,7 +517,7 @@ if (rowHD < 0) {
 int sanPhamId = new SanPhamRepository().getIdSanPham(tb_sanpham.getValueAt(row, 0).toString());
 int hoaDonId = new HoaDonServies().getIdHD(tbl_HoaDon.getValueAt(rowHD, 0).toString());
 HoaDonChiTiet hdct1 = hoaDonServiec.getHdctOne(hoaDonId, sanPhamId);
-        System.out.println("hdct1: " + sanPhamId);
+        System.out.println("hdctsp: " + sanPhamId);
         System.out.println("hdct1: " + hoaDonId);
         System.out.println("hdct1: " + hdct1.getDonGia());
         System.out.println("row: " + row);

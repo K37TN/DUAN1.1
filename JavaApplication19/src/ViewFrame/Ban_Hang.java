@@ -81,7 +81,7 @@ private DefaultTableModel model;
         jScrollPane4 = new javax.swing.JScrollPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         tb_sanpham = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        txt_timkiem = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -262,6 +262,12 @@ private DefaultTableModel model;
 
         jScrollPane4.setViewportView(jScrollPane3);
 
+        txt_timkiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_timkiemKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -269,12 +275,12 @@ private DefaultTableModel model;
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(72, 72, 72)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
+                        .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -283,7 +289,7 @@ private DefaultTableModel model;
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43))
@@ -817,7 +823,38 @@ if (confirm == JOptionPane.YES_OPTION) {
     private void tbl_giohangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_giohangMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_tbl_giohangMouseEntered
-private HoaDonViewModel inputHD() {
+
+    private void txt_timkiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_timkiemKeyReleased
+         String keyword = txt_timkiem.getText().trim();
+
+    // Sử dụng cùng một từ khóa để tìm kiếm theo cả mã và tên sản phẩm
+    List<sanPham> resultList = repository.search(keyword, keyword);
+
+    // Cập nhật bảng hiển thị với danh sách sản phẩm tìm được
+    updateTable(resultList);
+    }//GEN-LAST:event_txt_timkiemKeyReleased
+private void updateTable(List<sanPham> resultList) {
+    DefaultTableModel model = (DefaultTableModel) tb_sanpham.getModel();
+    model.setRowCount(0);
+
+    for (sanPham sp : resultList) {
+        model.addRow(new Object[]{
+            sp.getID(),
+            sp.getMa(),
+            sp.getTen(),
+            sp.getGiaBan(),
+            sp.getMoTa(),
+            sp.getSoLuongTon(),
+            sp.getChatLieu(),
+            sp.getKichCo(),
+            sp.getThuongHieu(),
+            sp.getMauSac(),
+            sp.getSoLuongTon()> 0 ? "Còn hàng" : "Hết hàng"
+        });
+    }
+}
+    
+    private HoaDonViewModel inputHD() {
         HoaDonViewModel hd = new HoaDonViewModel();
         String Ma = "HD";
         Random random = new Random();
@@ -1019,7 +1056,6 @@ void LoadData() {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbl_sdt;
     private javax.swing.JLabel lbl_tenkh;
     private javax.swing.JLabel lbl_thanhtien;
@@ -1030,5 +1066,6 @@ void LoadData() {
     private javax.swing.JTable tbl_giohang;
     private javax.swing.JTextArea txt_ghichu;
     private javax.swing.JTextField txt_tienKhachDua;
+    private javax.swing.JTextField txt_timkiem;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,12 +6,14 @@ package ViewFrame;
 
 import Model.Users2;
 import Repository.KhuyenMai2Repository;
+import entity.ComboItem;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,6 +32,8 @@ public class KhuyenMai extends javax.swing.JPanel {
         initComponents();
            dtm = (DefaultTableModel) tblKM.getModel();
         km = khuyenMaiRepository.getAll();
+
+
         showDataTable();
     }
 
@@ -42,6 +46,7 @@ public class KhuyenMai extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         txtTimKiem = new javax.swing.JTextField();
         btnTimKiem = new javax.swing.JButton();
         txtTen = new javax.swing.JTextField();
@@ -84,8 +89,10 @@ public class KhuyenMai extends javax.swing.JPanel {
 
         jLabel7.setText("Hình thức giảm");
 
+        buttonGroup1.add(rdPhanTram);
         rdPhanTram.setText("%");
 
+        buttonGroup1.add(rdVND);
         rdVND.setText("VND");
 
         jLabel3.setText("Ngày Bắt Đầu");
@@ -97,6 +104,7 @@ public class KhuyenMai extends javax.swing.JPanel {
         jLabel8.setText("Trạng Thái");
 
         cbbTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1" }));
+        cbbTrangThai.setToolTipText("");
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -257,6 +265,7 @@ public class KhuyenMai extends javax.swing.JPanel {
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         // TODO add your handling code here:
         clean();
+        showDataTable();
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void tblKMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKMMouseClicked
@@ -266,20 +275,31 @@ public class KhuyenMai extends javax.swing.JPanel {
     }//GEN-LAST:event_tblKMMouseClicked
 
  private void showDataTable() {
-        dtm.setRowCount(0);
-        for (Users2 km : km) {
-            Object[] row = {
-                km.getID(),
-                km.getTenKM(),
-                km.getNgayBatDau(),
-                km.getNgayKetThuc(),
-                km.getGiaTriGiam(),
-                km.getHinhThucKM(),
-                km.getTrangthai()};
-                
-            dtm.addRow(row);
+      dtm.setRowCount(0); // Xóa dữ liệu hiện tại trên bảng
+
+    for (Users2 km : km) {
+        // Xác định trạng thái
+        String trangThai;
+        if (km.getTrangthai() == 0) {
+            trangThai = "Đang hoạt động";
+        } else {
+            trangThai = "Ngừng hoạt động";
         }
 
+        // Tạo hàng dữ liệu cho bảng
+        Object[] row = {
+            km.getID(),
+            km.getTenKM(),
+            km.getNgayBatDau(),
+            km.getNgayKetThuc(),
+            km.getGiaTriGiam(),
+            km.getHinhThucKM(),
+            trangThai // Thay thế trạng thái với giá trị đúng
+        };
+        
+        // Thêm hàng vào bảng
+        dtm.addRow(row);
+    }
     }
      
      private void ToConTro(int index) {
@@ -538,6 +558,7 @@ public class KhuyenMai extends javax.swing.JPanel {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbTrangThai;
     private com.toedter.calendar.JDateChooser dateBD;
     private com.toedter.calendar.JDateChooser dateKT;

@@ -26,11 +26,23 @@ public class NhanVienRepository {
         conn = DBcontext.getConnection();
     }
 
+   public String getChucVuNameById(int idCV) throws SQLException {
+        String sql = "SELECT ten FROM chucvu WHERE id = ?";
+        try ( PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idCV);
+            try ( ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("ten");
+                }
+            }
+        }
+        return null;
+    }
+
     public ArrayList<User> getAll() throws SQLException {
         ArrayList<User> nvrepo = new ArrayList<>();
         String query = "SELECT * FROM Users";
-        try (Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery(query)) {
+        try ( Statement stm = conn.createStatement();  ResultSet rs = stm.executeQuery(query)) {
             while (rs.next()) {
                 User nv = new User();
                 nv.setId(rs.getInt("Id"));
@@ -51,24 +63,36 @@ public class NhanVienRepository {
         return nvrepo;
     }
 
-    public void addUser(User nv) throws SQLException {
-        String sql = "INSERT INTO Users (Ten, TenDem, Ho, NgaySinh, GioiTinh, Sdt, IdCV, TaiKhoan, MatKhau, Email, TrangThai) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, nv.getTen());
-            pstmt.setString(2, nv.getTenDem());
-            pstmt.setString(3, nv.getHo());
-            pstmt.setDate(4, new java.sql.Date(nv.getNgaySinh().getTime()));
-            pstmt.setBoolean(5, nv.isGioiTinh());
-            pstmt.setString(6, nv.getSdt());
-            pstmt.setInt(7, nv.getIdCV());
-            pstmt.setString(8, nv.getTaiKhoan());
-            pstmt.setString(9, nv.getMatKhau());
-            pstmt.setString(10, nv.getEmail());
-            pstmt.setBoolean(11, nv.isTrangThai());
-            pstmt.executeUpdate();
+    public int getIdCVByName(String tenCV) throws SQLException {
+        String sql = "SELECT id FROM ChucVu WHERE ten = ?";
+        try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, tenCV);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            } else {
+                throw new SQLException("Chức vụ không tồn tại.");
+            }
         }
     }
+
+   public void addUser(User user) throws SQLException {
+    String sql = "INSERT INTO Users (ten, tenDem, ho, ngaySinh, gioiTinh, sdt, idCV, taiKhoan, matKhau, email, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, user.getTen());
+        pstmt.setString(2, user.getTenDem());
+        pstmt.setString(3, user.getHo());
+        pstmt.setDate(4, new java.sql.Date(user.getNgaySinh().getTime()));
+        pstmt.setBoolean(5, user.isGioiTinh());
+        pstmt.setString(6, user.getSdt());
+        pstmt.setInt(7, user.getIdCV());
+        pstmt.setString(8, user.getTaiKhoan());
+        pstmt.setString(9, user.getMatKhau());
+        pstmt.setString(10, user.getEmail());
+        pstmt.setBoolean(11, user.isTrangThai());
+        pstmt.executeUpdate();
+    }
+}
 
     public void update(User nv) throws SQLException {
         String query = "UPDATE Users SET Ten = ?, TenDem = ?, Ho = ?, NgaySinh = ?, GioiTinh = ?, Sdt = ?, IdCV = ?, TaiKhoan = ?, MatKhau = ?, Email = ?, TrangThai = ? WHERE Id = ?";
@@ -88,13 +112,16 @@ public class NhanVienRepository {
             ps.executeUpdate();
         }
     }
-    public TaiKhoan getbyTaiKhoan(String tk){
-        String sql = "SELECT * FROM dbo.Users WHERE TaiKhoan = '"+tk+"';";
+
+
+
+    public TaiKhoan getbyTaiKhoan(String tk) {
+        String sql = "SELECT * FROM dbo.Users WHERE TaiKhoan = '" + tk + "';";
         List<TaiKhoan> list = new ArrayList<>();
         try {
             PreparedStatement ppstm = conn.prepareStatement(sql);
             ResultSet rs = ppstm.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 list.add(new TaiKhoan(rs.getInt(1),
                         rs.getString(8),
                         rs.getString(9)
@@ -103,7 +130,7 @@ public class NhanVienRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return null;
         }
         return list.get(0);

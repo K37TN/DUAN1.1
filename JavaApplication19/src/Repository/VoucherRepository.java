@@ -105,4 +105,53 @@ public Integer update(Voucher voucher) {
 
     return rowsAffected;
 }
+public List<Voucher> searchVoucher(String maVoucher, Date ngayBatDau, Date ngayKetThuc) {
+    List<Voucher> listSP = new ArrayList<>();
+    StringBuilder sql = new StringBuilder("SELECT * FROM Voucher WHERE 1=1");
+
+    // Xây dựng câu lệnh SQL động
+    if (maVoucher != null && !maVoucher.isEmpty()) {
+        sql.append(" AND MaVoucher LIKE ?");
+    }
+    if (ngayBatDau != null) {
+        sql.append(" AND ngayBatDau >= ?");
+    }
+    if (ngayKetThuc != null) {
+        sql.append(" AND ngayKetThuc <= ?");
+    }
+
+    try (Connection con = DBcontext.getConnection(); 
+         PreparedStatement ps = con.prepareStatement(sql.toString())) {
+
+        int paramIndex = 1;
+
+        // Gán giá trị cho các tham số
+        if (maVoucher != null && !maVoucher.isEmpty()) {
+            ps.setString(paramIndex++, "%" + maVoucher + "%");
+        }
+        if (ngayBatDau != null) {
+            ps.setDate(paramIndex++, new java.sql.Date(ngayBatDau.getTime()));
+        }
+        if (ngayKetThuc != null) {
+            ps.setDate(paramIndex++, new java.sql.Date(ngayKetThuc.getTime()));
+        }
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Voucher p = new Voucher();
+            p.setId(rs.getInt("Id"));
+            p.setMavc(rs.getString("MaVoucher"));
+            p.setSoLuongGiam(rs.getInt("soLuongGiam"));
+            p.setDkGiam(rs.getInt("dieuKienGiam"));
+            p.setTrangThai(rs.getInt("trangThai"));
+            p.setNgaybd(rs.getDate("ngayBatDau"));
+            p.setNgaykt(rs.getDate("ngayKetThuc"));
+            listSP.add(p);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(System.out);
+    }
+
+    return listSP;
+}
 }

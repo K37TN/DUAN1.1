@@ -393,7 +393,7 @@ String sql = "UPDATE ChitietSP SET Ma = ?, Ten = ?, IdMauSac = ?, IdKC = ?, IdCL
          }
     @Override
     public List<sanPham> search(String ma, String ten) {
-    List<sanPham> resultList = new ArrayList<>();
+     List<sanPham> resultList = new ArrayList<>();
     String sql = "SELECT " +
             "ctsp.Id, " +
             "ctsp.Ma, " +
@@ -410,28 +410,12 @@ String sql = "UPDATE ChitietSP SET Ma = ?, Ten = ?, IdMauSac = ?, IdKC = ?, IdCL
             "INNER JOIN KichCo kc ON ctsp.IdKC = kc.Id " +
             "INNER JOIN MauSac ms ON ctsp.IdMauSac = ms.Id " +
             "INNER JOIN ThuongHieu th ON ctsp.IdTH = th.Id " +
-            "WHERE 1=1"; // Khởi tạo điều kiện WHERE cơ bản
-
-    if (ma != null && !ma.trim().isEmpty()) {
-        sql += " AND ctsp.Ma LIKE ?";
-    }
-    if (ten != null && !ten.trim().isEmpty()) {
-        sql += " AND ctsp.Ten LIKE ?";
-    }
+            "WHERE LOWER(ctsp.Ten) LIKE ?"; // Tìm kiếm theo tên sản phẩm
 
     try (Connection con = DBcontext.getConnection();
          PreparedStatement ps = con.prepareStatement(sql)) {
 
-        int paramIndex = 1;
-
-        if (ma != null && !ma.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + ma + "%");
-        }
-        if (ten != null && !ten.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + ten + "%");
-        }
-
-        System.out.println("Executing query: " + ps.toString()); // In câu lệnh SQL để kiểm tra
+        ps.setString(1, "%" + ten.toLowerCase() + "%");
 
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {

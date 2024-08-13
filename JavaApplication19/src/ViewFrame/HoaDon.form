@@ -23,11 +23,10 @@
                   <Component id="jScrollPane2" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lbMahoadon" min="-2" pref="164" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                      <Component id="lbgiagoc" min="-2" pref="135" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="lbgiasaukhigiam" min="-2" pref="168" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                      <Component id="txt_timkiem" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -41,18 +40,16 @@
               <Component id="jScrollPane1" min="-2" pref="183" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lbMahoadon" pref="27" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="lbMahoadon" pref="27" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lbgiasaukhigiam" pref="31" max="32767" attributes="0"/>
-                          <Component id="lbgiagoc" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txt_timkiem" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="184" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -125,9 +122,15 @@
     </Container>
     <Component class="javax.swing.JLabel" name="lbMahoadon">
     </Component>
-    <Component class="javax.swing.JLabel" name="lbgiagoc">
+    <Component class="javax.swing.JTextField" name="txt_timkiem">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_timkiemKeyReleased"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lbgiasaukhigiam">
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="T&#xec;m Ki&#x1ebf;m"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

@@ -17,6 +17,7 @@ import Views.KichCo;
 import Views.MauSacView;
 import Views.ThuongHieu;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -52,28 +53,34 @@ public class San_Pham extends javax.swing.JPanel {
          cbo_size.setModel((DefaultComboBoxModel) combokichco);
         loadComboKichThuoc();
         LoadData();
+
+
     }
+    
 void LoadData() {
-        defaultTableModel.setRowCount(0);
-        
-        for (sanPham x : repository.getAll()) {
-            defaultTableModel.addRow(new Object[]{
-                x.getID(),
-                x.getMa(),
-                x.getTen(),
-                 x.getMoTa(),
-                x.getGiaBan(),
-              
-                x.getSoLuongTon(),
-               x.getChatLieu(),
-               x.getKichCo(),
-               x.getThuongHieu(),
-               x.getMauSac(),
-      x.getSoLuongTon() > 0 ? "Còn hàng" : "Hết hàng",
-                  
-            });
-          
-        }
+   // Lấy danh sách tất cả sản phẩm từ repository
+    List<sanPham> productList = repository.getAll();
+
+    // Cập nhật bảng dữ liệu
+    defaultTableModel.setRowCount(0);
+    for (sanPham x : productList) {
+        defaultTableModel.addRow(new Object[]{
+            x.getID(),
+            x.getMa(),
+            x.getTen(),
+            x.getMoTa(),
+            x.getGiaBan(),
+            x.getSoLuongTon(),
+            x.getChatLieu(),
+            x.getKichCo(),
+            x.getThuongHieu(),
+            x.getMauSac(),
+            x.getSoLuongTon() > 0 ? "Còn hàng" : "Hết hàng",
+        });
+    }
+
+    // Cập nhật tổng số sản phẩm
+    txt_tongsp.setText("Tổng số sản phẩm là : " + productList.size());
     }
 void LoadHetHang() {
         defaultTableModel.setRowCount(0);
@@ -162,6 +169,7 @@ void LoadConHang() {
         txt_mota = new javax.swing.JTextPane();
         jLabel11 = new javax.swing.JLabel();
         txt_timkiem = new javax.swing.JTextField();
+        txt_tongsp = new javax.swing.JLabel();
 
         cbo_size.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -326,23 +334,15 @@ void LoadConHang() {
                                             .addComponent(cbo_loai, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(btn_hang)
-                                                    .addComponent(btn_mausac))
-                                                .addGap(133, 133, 133))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(btn_loai)
-                                                .addGap(133, 133, 133))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txt_gia, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(133, 133, 133))))
+                                            .addComponent(btn_hang)
+                                            .addComponent(btn_mausac)
+                                            .addComponent(btn_loai)))
+                                    .addComponent(txt_gia, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(84, 84, 84)))
+                                .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -352,13 +352,14 @@ void LoadConHang() {
                                     .addComponent(jLabel6))
                                 .addGap(52, 52, 52)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txt_soluong)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cbo_size, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_size))))
+                                        .addComponent(btn_size))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txt_soluong, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                                        .addComponent(txt_tongsp, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -380,7 +381,7 @@ void LoadConHang() {
                 .addComponent(btn_conhang, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_hethang)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,12 +428,18 @@ void LoadConHang() {
                             .addComponent(jLabel9)
                             .addComponent(cbo_mausac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btn_mausac))))
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(txt_timkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_tongsp, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_luu)
@@ -489,6 +496,10 @@ void LoadConHang() {
         txt_mota.setText("");
         txt_soluong.setText("");
         txt_tensp.setText("");
+        loadComboChatLieu();
+        loadComboMauSac();
+        loadComboKichThuoc();
+        loadComboHang();
         LoadData();
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
@@ -757,5 +768,6 @@ cbo_hang.setSelectedItem(tb_sanpham.getValueAt(index,8));
     private javax.swing.JTextField txt_soluong;
     private javax.swing.JTextField txt_tensp;
     private javax.swing.JTextField txt_timkiem;
+    private javax.swing.JLabel txt_tongsp;
     // End of variables declaration//GEN-END:variables
 }
